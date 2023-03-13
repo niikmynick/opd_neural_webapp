@@ -23,6 +23,12 @@ body {
     width: 45px;
     height: 45px;
 }
+.icon_back_stat {
+    transform: rotate(180deg);
+    margin-right: 188vh;
+    width: 45px;
+    height: 45px;
+}
 .bg_img {
     width: 100%;
     background-image: url("/public/img/bg_img.jpg");
