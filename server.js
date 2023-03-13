@@ -43,16 +43,15 @@ app.post('/registration', urlencodeParser, function(req, res) {
     });
     res.render('main');
 });
+let usersData = JSON.parse(fs.readFileSync(`usersData/usersData.json`, 'utf8'))
+let flag = false
+let user_id;
+let k;
 // user login
 app.post('/login', urlencodeParser, function(req, res) {
     if(!req.body) return res.sendStatus(400);
     const { user_email } = req.body;
     const { user_password } = req.body;
-
-    let usersData = JSON.parse(fs.readFileSync(`usersData/usersData.json`, 'utf8'))
-    let flag = false
-    let user_id;
-    let k;
 
     for (let i=0 ; i < usersData.user.length ; i++)
     {
@@ -75,16 +74,16 @@ app.post('/login', urlencodeParser, function(req, res) {
 
 
 // files initialization
-let jsObjectSkills = JSON.parse(fs.readFileSync('skills.json', 'utf8').toString())
-let jsObjectStat = JSON.parse(fs.readFileSync('stat.json', 'utf8').toString())
+let jsObjectSkills = JSON.parse(fs.readFileSync('statistic/skills.json', 'utf8').toString())
+let jsObjectStat = JSON.parse(fs.readFileSync('statistic/stat.json', 'utf8').toString())
 
 // saving user choice
 app.post('/add', urlencodeParser, function(req, res) {
     if(!req.body) return res.sendStatus(400)
     // general stat file init
-    let skillsList = JSON.parse(fs.readFileSync('stat.json', 'utf8').toString())
+    let skillsList = JSON.parse(fs.readFileSync('statistic/stat.json', 'utf8').toString())
     // user stat file init
-    let userSkillsList = JSON.parse(fs.readFileSync(`users/u${id}.json`, 'utf8').toString())
+    let userSkillsList = JSON.parse(fs.readFileSync(`users/u${user_id}.json`, 'utf8').toString())
 
     let count = 0;
 
@@ -113,11 +112,11 @@ app.post('/add', urlencodeParser, function(req, res) {
     }
 
     // writing statistics to the file
-    fs.writeFileSync('stat.json', JSON.stringify(skillsList), function(error) {
+    fs.writeFileSync('statistic/stat.json', JSON.stringify(skillsList), function(error) {
         if(error) throw error
         console.log("Асинхронная запись файла завершена.")
     })
-    res.render('stat')
+    res.render('lab1/lab_1')
 })
 
 // result keepers init
