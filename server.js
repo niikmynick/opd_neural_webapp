@@ -17,6 +17,63 @@ app.listen(port, host, function (){
 })
 
 
+
+// user registration
+app.post('/registration', urlencodeParser, function(req, res) {
+    if(!req.body) return res.sendStatus(400);
+    console.log(req.body);
+    let id = Date.now().toString()
+    let user = {"id": id}
+    let jsonData = fs.readFileSync('usersData/usersData.json' , 'utf8');
+    let all = jsonData.substring(0, jsonData.length-2) + ', ' + JSON.stringify(user) + "]";
+    fs.writeFileSync('usersData/usersData.json', all, function(error) {
+        if(error) throw error;
+        console.log(`User ${name} with id = ${id} registered successfully`);
+    });
+    let userData = fs.readFileSync('usersData/usersData.json' , 'utf8');
+    let gift = userData.substring(0, userData.length-2) + ', ' + JSON.stringify(req.body).replace("{","") + "]}";
+    fs.writeFileSync('usersData/usersData.json', gift, function(error) {
+        if(error) throw error;
+        console.log(`User ${name} with id = ${id} registered successfully`);
+    });
+    let blankUser = fs.readFileSync(`users/blankUser.json`, 'utf8').toString();
+    fs.writeFileSync(`users/u${id}.json`, blankUser, function(error) {
+        if(error) throw error;
+        console.log(`User ${name} with id = ${id} registered successfully`);
+    });
+    res.render('main');
+});
+// user login
+app.post('/login', urlencodeParser, function(req, res) {
+    if(!req.body) return res.sendStatus(400);
+    const { user_email } = req.body;
+    const { user_password } = req.body;
+
+    let usersData = JSON.parse(fs.readFileSync(`usersData/usersData.json`, 'utf8'))
+    let flag = false
+    let user_id;
+    let k;
+
+    for (let i=0 ; i < usersData.user.length ; i++)
+    {
+        if (usersData.user[i]["email"] === user_email) {
+            flag = true;
+            user_id = usersData.user[i]["id"];
+            k = i;
+            console.log(user_id)
+        }
+    }
+    if (flag && (user_password === usersData.user[k]["password"])){
+        console.log("Успешная авторизация")
+    } else {
+        console.log("Неверный пароль")
+    }
+    res.render('main')
+});
+
+
+
+
 // files initialization
 let jsObjectSkills = JSON.parse(fs.readFileSync('skills.json', 'utf8').toString())
 let jsObjectStat = JSON.parse(fs.readFileSync('stat.json', 'utf8').toString())
@@ -85,40 +142,6 @@ dataScience.sort((a, b) => a[1] - b[1]).reverse()
 frontEnd.sort((a, b) => a[1] - b[1]).reverse()
 sysAdmin.sort((a, b) => a[1] - b[1]).reverse()
 
-
-
-// user registration
-app.post('/registration', urlencodeParser, function(req, res) {
-    if(!req.body) return res.sendStatus(400);
-    console.log(req.body);
-    let id = Date.now().toString()
-    let user = {"id": id}
-    let jsonData = fs.readFileSync('usersData/usersData.json' , 'utf8');
-    let all = jsonData.substring(0, jsonData.length-1) + ', ' + JSON.stringify(user) + "]";
-    fs.writeFileSync('usersData/usersData.json', all, function(error) {
-        if(error) throw error;
-        console.log(`User ${name} with id = ${id} registered successfully`);
-    });
-    let userData = fs.readFileSync('usersData/usersData.json' , 'utf8');
-    let gift = userData.substring(0, userData.length-2) + ', ' + JSON.stringify(req.body).replace("{","") + "]";
-    fs.writeFileSync('usersData/usersData.json', gift, function(error) {
-        if(error) throw error;
-        console.log(`User ${name} with id = ${id} registered successfully`);
-    });
-    let blankUser = fs.readFileSync(`users/blankUser.json`, 'utf8').toString();
-    fs.writeFileSync(`users/u${id}.json`, blankUser, function(error) {
-        if(error) throw error;
-        console.log(`User ${name} with id = ${id} registered successfully`);
-    });
-    res.render('main');
-});
-// user login
-app.post('/login', urlencodeParser, function(req, res) {
-    const { email } = req.query;
-    const { password } = req.query;
-    console.log(email + password);
-    res.render('main')
-});
 
 
 
