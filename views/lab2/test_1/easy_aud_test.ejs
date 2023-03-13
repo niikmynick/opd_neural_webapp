@@ -7,18 +7,21 @@
     <title>Document</title>
 </head>
 <body>
-<div class="bg_img">
+<div id="bg" class="bg_img">
     <div class="top">
+        <a href="/test_1">
+            <img class="icon_back" src="public/img/back.png">
+        </a>
         <a href="/login">
-            <img class="icon_top" src="public/img/menu.png">
+            <img class="icon_menu" src="public/img/menu.png">
         </a>
     </div>
     <div class="tester">
-        <div id='Instruction' class="instruction">Этот тест считывает скорость реакции на звуковой сигнал. Ваша цель - нажать на круг как только прозвучит звуковой сигнал.</div>
-        <button id='Start_button' class="start_button" name="start" onclick="easy_aud_test()">Начать Тест</button>
+        <div id='Instruction' class="instruction text_instruction">Этот тест считывает скорость реакции на звуковой сигнал. Ваша цель - нажать на круг как только прозвучит звуковой сигнал.</div>
+        <button id='Start_button' class="start_button" name="start" onclick="easy_aud_test()">Начать</button>
         <div id='Circle' class="circle" onclick="end_easy_aud_test()"></div>
         <div id='Result' class="result"></div>
-        <a href="/easy_aud_test" class="restart_button" id='Retry'>Начать Заново</a>
+        <a href="/easy_aud_test" class="restart_button" id='Retry'>Заново</a>
     </div>
 </div>
 <script>
@@ -27,6 +30,7 @@
     function test_init() {
         document.getElementById('Instruction').style.display = 'none';
         document.getElementById('Start_button').style.display = 'none';
+        document.getElementById('bg').style.background = 'black';
     }
 
     function easy_aud_test() {
