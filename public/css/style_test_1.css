@@ -1,0 +1,104 @@
+body {
+    margin: 0;
+    background-color: black;
+}
+.top {
+    display: block;
+    position: relative;
+    background-color: black;
+    filter: invert(15%);
+    width: 100%;
+    height: 50px;
+    text-align: right;
+    padding-top: 5px;
+    z-index: 1;
+}
+.icon_top {
+    margin-right: 10px;
+    width: 40px;
+    height: 40px;
+}
+.bg_img {
+    width: 100%;
+    background-image: url("/public/img/bg_img.jpg");
+    background-position: center;
+    background-size: cover;
+}
+.tester {
+    cursor: crosshair;
+    height: 90vh;
+}
+
+.instruction {
+    position: relative;
+    top: 1vh;
+    color: white;
+    font-size: 20pt;
+    font-family: 'Montserrat',Arial,sans-serif;
+    text-align: center;
+}
+.choosing_instruction {
+    display: none;
+    position: relative;
+    top: 1vh;
+    color: white;
+    font-size: 20pt;
+    font-family: 'Montserrat',Arial,sans-serif;
+    text-align: center;
+}
+.start_button {
+    width: 10vw;
+    background-color: #080808;
+    box-shadow: 1px 1px 2px 1px #888888;
+    color: #aaaaaa;
+    border: 2px solid #222222;
+    border-radius: 10px;
+    font-size: 24px;
+    font-family: 'Montserrat',Arial,sans-serif;
+    transition-duration: 200ms;
+    position: relative;
+    top: 70vh;
+    left: 45vw;
+}
+.start_button:hover {
+    background-color: #202020;
+    box-shadow: 2px 2px 4px 2px #aaaaaa;
+}
+.start_button:active {
+    background-color: #404040;
+}
+.circle {
+    display: none;
+    height: 20vh;
+    width: 20vh;
+    background-color: midnightblue;
+    border-radius: 50%;
+    position: relative;
+    top: 60vh;
+    left: 90vh;
+}
+.result {
+    display: none;
+    position: relative;
+    top: 30vh;
+    color: white;
+    font-size: 20pt;
+    font-family: 'Montserrat',Arial,sans-serif;
+    text-align: center;
+}
+.restart_button {
+    display: none;
+    width: 10vw;
+    background-color: #080808;
+    box-shadow: 1px 1px 2px 1px #888888;
+    color: #aaaaaa;
+    border: 2px solid #222222;
+    border-radius: 10px;
+    font-size: 24px;
+    font-family: 'Montserrat',Arial,sans-serif;
+    text-align: center;
+    transition-duration: 200ms;
+    position: relative;
+    top: 70vh;
+    left: 45vw;
+}

@@ -1,0 +1,242 @@
+body {
+    margin: 0px;
+    background-color: black;
+}
+.top {
+    display: block;
+    position: relative;
+    background-color: black;
+    filter: invert(15%);
+    width: 100%;
+    height: 50px;
+    text-align: right;
+    padding-top: 5px;
+    z-index: 1;
+}
+.icon_top {
+    margin-right: 10px;
+    width: 40px;
+    height: 40px;
+}
+.bg_img {
+    width: 100%;
+    background-image: url("/public/img/bg_img.jpg");
+    background-position: center;
+    background-size: cover;
+}
+a, u {
+    text-decoration: none;
+}
+
+
+.choice {
+    height: 900px;
+}
+.title_text {
+    text-align: center;
+    height: 55px;
+    color: #ffffff;
+    font-size: 44px;
+    font-family: 'Montserrat',Arial,sans-serif;
+    line-height: 1.25;
+    font-weight: 700;
+}
+
+
+
+.boxes {
+    display: flex;
+    height: 500px;
+}
+.box {
+    display: block;
+    position: relative;
+    margin-top: 40px;
+    width: 320px;
+    height: 420px;
+    margin-left: 40px;
+    z-index: 1;
+}
+.box::before {
+    content: "";
+    background: linear-gradient(to bottom, black, white);
+    background-size: cover;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    position: absolute;
+    border-radius: 20px;
+    opacity: 0.3;
+}
+.text_box {
+    margin-left: 20px;
+    width: 280px;
+    height: 60px;
+}
+.box_title {
+    color: white;
+    font-size: 20pt;
+    font-family: 'Montserrat',Arial,sans-serif;
+}
+.box_text {
+    margin-left: 20px;
+    width: 280px;
+    text-align: justify;
+    padding-top: 130px;
+    font-size: 12pt;
+    font-family: 'Montserrat',Arial,sans-serif;
+    position: relative;
+    color: white;
+}
+.box:hover {
+    background-image:url('https://static.tildacdn.com/tild3166-3564-4335-b831-333134626666/4_card_hover.svg');
+    border-radius: 20px;
+}
+
+
+.list_1 {
+    width: 640px;
+    height: 250px;
+    display: block;
+    position: relative;
+    z-index: 1;
+    margin: 0 auto;
+}
+.list_2 {
+    width: 640px;
+    height: 400px;
+    display: block;
+    position: relative;
+    z-index: 1;
+    margin: 0 auto;
+}
+.list_2::before {
+    content: "";
+    background-color: white;
+    background-size: cover;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    position: absolute;
+    border-radius: 20px;
+    opacity: 0.3;
+}
+.list_1::before {
+    content: "";
+    background: white;
+    background-size: cover;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    position: absolute;
+    border-radius: 20px;
+    opacity: 0.3;
+}
+.list_button {
+
+}
+
+
+.expert {
+    color: white;
+    margin-top: 15px;
+    padding-left: 20px;
+}
+.text {
+    color: white;
+    font-family: Roboto,Arial,sans-serif;
+    font-size: 11pt;
+    text-align: justify;
+    line-height: 20px;
+    padding-top: 20px;
+    padding-left: 20px;
+    padding-right: 20px;
+}
+.prokrutka {
+    color: white;
+    padding-top: 20px;
+    padding-left: 20px;
+    width: 620px;
+    height: 380px;
+    display: block;
+    position: relative;
+    overflow: auto;
+}
+.sent {
+    margin-top: 20px;
+    position: relative;
+    left: 29%;
+    font-family: 'docs-Roboto', Helvetica, Arial, sans-serif;
+    font-size: 12pt;
+    color: white;
+    background-color: grey;
+    width: 120px;
+    height: 40px;
+    border: 0px;
+    border-radius: 20px;
+    padding: 10px 15px;
+}
+.sent:hover {
+    background-image:url('https://static.tildacdn.com/tild3166-3564-4335-b831-333134626666/4_card_hover.svg');
+}
+
+.container {
+    display: block;
+    position: relative;
+    padding-left: 20px;
+    margin-bottom: 12px;
+    cursor: pointer;
+    font-family: Roboto,Arial,sans-serif;
+    font-size: 11pt;
+    user-select: none;
+}
+
+.container input {
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+    height: 0;
+    width: 0;
+}
+
+.checkmark {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 15px;
+    width: 15px;
+    background-color: #eee;
+}
+
+.container:hover input ~ .checkmark {
+    background-color: #ccc;
+}
+
+.container input:checked ~ .checkmark {
+    background-color: black;
+}
+
+.checkmark:after {
+    content: "";
+    position: absolute;
+    display: none;
+}
+
+.container input:checked ~ .checkmark:after {
+    display: block;
+}
+
+.container .checkmark:after {
+    left: 5.5px;
+    top: 3px;
+    width: 2px;
+    height: 4px;
+    border: solid white;
+    border-width: 0 3px 3px 0;
+    -webkit-transform: rotate(45deg);
+    -ms-transform: rotate(45deg);
+    transform: rotate(45deg);
+}

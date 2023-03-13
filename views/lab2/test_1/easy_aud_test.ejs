@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/public/css/style_test_1.css">
+    <title>Document</title>
+</head>
+<body>
+<div class="bg_img">
+    <div class="top">
+        <a href="/login">
+            <img class="icon_top" src="public/img/menu.png">
+        </a>
+    </div>
+    <div class="tester">
+        <div id='Instruction' class="instruction">Этот тест считывает скорость реакции на звуковой сигнал. Ваша цель - нажать на круг как только прозвучит звуковой сигнал.</div>
+        <button id='Start_button' class="start_button" name="start" onclick="easy_aud_test()">Начать Тест</button>
+        <div id='Circle' class="circle" onclick="end_easy_aud_test()"></div>
+        <div id='Result' class="result"></div>
+        <a href="/easy_aud_test" class="restart_button" id='Retry'>Начать Заново</a>
+    </div>
+</div>
+<script>
+    let start_time;
+    const audio = new Audio("/public/audio/audiosignal.mp3");
+    function test_init() {
+        document.getElementById('Instruction').style.display = 'none';
+        document.getElementById('Start_button').style.display = 'none';
+    }
+
+    function easy_aud_test() {
+        test_init();
+        let rand_time = (Math.random() * 5000) + 1000;
+        document.getElementById('Circle').style.display = 'block';
+        setTimeout(function(){
+            audio.play();
+            start_time = Date.now();
+            }, rand_time);
+    }
+
+    function end_easy_aud_test() {
+        let end_time = Date.now() - start_time;
+        if (isNaN(end_time)) {
+            document.getElementById('Result').style.display = 'block';
+            document.getElementById('Circle').style.display = 'none';
+            document.getElementById('Result').innerHTML = 'Не спешите!';
+            document.getElementById('Retry').style.display = 'block';
+        } else {
+            end_time = end_time / 1000
+            document.getElementById('Result').style.display = 'block';
+            document.getElementById('Circle').style.display = 'none';
+            document.getElementById('Result').innerHTML = 'Ваше время реакции: ' + end_time.toString() + 's';
+            document.getElementById('Retry').style.display = 'block';
+        }
+    }
+</script>
+</body>
+</html>
