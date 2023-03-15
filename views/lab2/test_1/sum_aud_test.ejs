@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/public/css/style_test_1.css">
+    <title>Document</title>
+</head>
+<body>
+<div id="bg" class="bg_img">
+    <div class="top">
+        <a href="/test_1">
+            <img class="icon_back" src="public/img/back.png">
+        </a>
+        <a href="/login">
+            <img class="icon_menu" src="public/img/menu.png">
+        </a>
+    </div>
+    <div class="tester">
+        <div id='Instruction' class="instruction text_instruction">
+            Этот тест считывает скорость сложения чисел в уме и определение результата как четное или нечётное число.
+        </div>
+        <button id='Start_button' class="start_button" name="start" onclick="sum_aud_test()">Начать</button>
+        <button id="Even" class="number_button" onclick="end_sum_aud_test(0)">Чёт</button>
+        <button id="Odd" class="number_button" onclick="end_sum_aud_test(1)">Нечёт</button>
+        <div id='Result' class="result"></div>
+        <a href="/sum_aud_test" class="restart_button" id='Retry'>Заново</a>
+    </div>
+</div>
+<script>
+    let start_time;
+    let num1 = Math.floor(Math.random() * 10);
+    let num2 = Math.floor(Math.random() * 10);
+    let audiosMap = new Map();
+    audiosMap.set(1, new Audio("/public/audio/1_One.mp3"))
+    audiosMap.set(2, new Audio("/public/audio/2_Two.mp3"))
+    audiosMap.set(3, new Audio("/public/audio/3_Three.mp3"))
+    audiosMap.set(4, new Audio("/public/audio/4_Four.mp3"))
+    audiosMap.set(5, new Audio("/public/audio/5_Five.mp3"))
+    audiosMap.set(6, new Audio("/public/audio/6_Six.mp3"))
+    audiosMap.set(7, new Audio("/public/audio/7_Seven.mp3"))
+    audiosMap.set(8, new Audio("/public/audio/8_Eight.mp3"))
+    audiosMap.set(9, new Audio("/public/audio/9_Nine.mp3"))
+    let sum = (num1 + num2) % 2;
+    let chosenAudio1 = audiosMap.get(num1);
+    let chosenAudio2 = audiosMap.get(num2);
+    function test_init() {
+        document.getElementById('Instruction').style.display = 'none';
+        document.getElementById('Start_button').style.display = 'none';
+        document.getElementById('bg').style.background = 'black';
+    }
+    function sum_aud_test() {
+        test_init();
+        document.getElementById('Even').style.display = 'inline-block';
+        document.getElementById('Odd').style.display = 'inline-block';
+        chosenAudio1.play()
+        chosenAudio1.onended = function() {
+            chosenAudio2.play()
+        }
+        start_time = Date.now();
+    }
+    function end_sum_aud_test(answer) {
+        let end_time = Date.now() - start_time;
+        if (isNaN(end_time)) {
+            document.getElementById('Result').style.display = 'block';
+            document.getElementById('Even').style.display = 'none';
+            document.getElementById('Odd').style.display = 'none';
+            document.getElementById('Result').innerHTML = 'Не спешите!';
+            document.getElementById('Retry').style.display = 'block';
+        } else if (sum === answer) {
+            end_time = end_time / 1000
+            document.getElementById('Result').style.display = 'block';
+            document.getElementById('Even').style.display = 'none';
+            document.getElementById('Odd').style.display = 'none';
+            document.getElementById('Result').innerHTML = 'Ваше время реакции: ' + end_time.toString() + 's';
+            document.getElementById('Retry').style.display = 'block';
+        } else {
+            document.getElementById('Result').style.display = 'block';
+            document.getElementById('Even').style.display = 'none';
+            document.getElementById('Odd').style.display = 'none';
+            document.getElementById('Result').innerHTML = 'Вы выбрали неверный ответ';
+            document.getElementById('Retry').style.display = 'block';
+        }
+    }
+</script>
+</body>
+</html>

@@ -148,37 +148,31 @@ sysAdmin.sort((a, b) => a[1] - b[1]).reverse()
 app.get('/', function (req, res) {
     res.render('main');
 });
+
+// register of all pages
+let pagesMap = new Map();
+pagesMap.set('main', 'main')
+pagesMap.set('login', 'authorization/login')
+pagesMap.set('reg', 'authorization/reg')
+pagesMap.set('lab1', 'lab1/lab_1')
+pagesMap.set('fronted', 'lab1/fronted')
+pagesMap.set('data', 'lab1/data')
+pagesMap.set('sysadmin', 'lab1/sysadmin')
+pagesMap.set('stat', 'lab1/stat')
+pagesMap.set('lab2', 'lab2/lab_2')
+pagesMap.set('test_1', 'lab2/test_1')
+pagesMap.set('easy_aud_test', 'lab2/test_1/easy_aud_test')
+pagesMap.set('easy_eye_test', 'lab2/test_1/easy_eye_test')
+pagesMap.set('hard_eye_test', 'lab2/test_1/hard_eye_test')
+pagesMap.set('sum_aud_test', 'lab2/test_1/sum_aud_test')
+pagesMap.set('sum_eye_test', 'lab2/test_1/sum_eye_test')
+
 // switching pages
 app.get('/:name', function(req, res) {
-    if(req.params.name === 'main') {
-        res.render('main');
-    } else if(req.params.name === 'login') {
-        res.render('authorization/login');
-    } else if(req.params.name === 'reg') {
-        res.render('authorization/reg');
-    } else if(req.params.name === 'lab1') {
-        res.render('lab1/lab_1');
-    } else if(req.params.name === 'fronted') {
-        res.render('lab1/fronted');
-    } else if(req.params.name === 'data') {
-        res.render('lab1/data');
-    } else if(req.params.name === 'sysadmin') {
-        res.render('lab1/sysadmin');
-    } else if(req.params.name === 'stat') {
-        res.render('lab1/stat', {dataScience: dataScience, frontEnd: frontEnd, sysAdmin: sysAdmin});
-    } else if(req.params.name === 'lab2') {
-        res.render('lab2/lab_2');
-    } else if(req.params.name === 'test_1') {
-        res.render('lab2/test_1');
-    }  else if(req.params.name === 'easy_aud_test') {
-        res.render('lab2/test_1/easy_aud_test');
-    } else if(req.params.name === 'easy_eye_test') {
-        res.render('lab2/test_1/easy_eye_test');
-    } else if(req.params.name === 'hard_aud_test') {
-        res.render('lab2/test_1/hard_aud_test');
-    } else if(req.params.name === 'hard_eye_test') {
-        res.render('lab2/test_1/hard_eye_test');
-    } else {
+    let page = pagesMap.get(req.params.name)
+    if (page === undefined){
         res.sendFile(__dirname + '/404.html');
+    } else {
+        res.render(page)
     }
 });

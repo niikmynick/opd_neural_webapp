@@ -88,9 +88,9 @@
 
         let size = circleSizeList[Math.floor(Math.random()*circleSizeList.length)];
         let color = circleColorList[Math.floor(Math.random()*circleColorList.length)];
-        let top = (Math.random()* 10 - 12).toString() + 'vh';
-        let left = ((Math.random() * 140) + 5).toString() + 'vh';
-        document.getElementById(element).style.display = 'block';
+        let top = (Math.random()* 40).toString() + 'vh';
+        let left = (Math.random() * 40).toString() + 'vw';
+        document.getElementById(element).style.display = 'inline-block';
         document.getElementById(element).style.height = size;
         document.getElementById(element).style.width = size;
         document.getElementById(element).style.top = top;
@@ -108,6 +108,7 @@
         document.getElementById('Circle1').style.height = circleSize;
         document.getElementById('Circle1').style.width = circleSize;
         document.getElementById('Circle1').style.backgroundColor = circleColor;
+        document.getElementById('Circle1').style.zIndex = '2';
 
         random_circle('Circle2');
         random_circle('Circle3');

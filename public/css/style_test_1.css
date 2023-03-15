@@ -92,7 +92,7 @@ a, u {
     position: relative;
     width: 500px;
     height: 40px;
-    z-index: 1;
+    z-index: 3;
 }
 .choosing_instruction::before {
     content: "";
@@ -140,10 +140,12 @@ a, u {
     height: 20vh;
     width: 20vh;
     background-color: midnightblue;
+    border: 4px solid #888888;
     border-radius: 50%;
     position: relative;
     top: 40vh;
     left: 90vh;
+    z-index: 1;
 }
 .result {
     display: none;
@@ -176,5 +178,30 @@ a, u {
     box-shadow: 2px 2px 4px 2px #aaaaaa;
 }
 .restart_button:active {
+    background-color: #404040;
+}
+
+.number_button {
+    display: none;
+    width: 18vw;
+    height: 32vh;
+    margin-left: 5vw;
+    position: relative;
+    background: linear-gradient(to bottom, black, #444444);
+    box-shadow: 1px 1px 2px 1px #888888;
+    color: #aaaaaa;
+    border: 2px solid #222222;
+    border-radius: 10px;
+    font-size: 32px;
+    font-family: 'Montserrat',Arial,sans-serif;
+    transition-duration: 200ms;
+    top: 50vh;
+    left: 24vw;
+}
+.number_button:hover {
+    background-color: #202020;
+    box-shadow: 2px 2px 4px 2px #aaaaaa;
+}
+.number_button:active {
     background-color: #404040;
 }

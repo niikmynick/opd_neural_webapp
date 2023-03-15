@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/public/css/style_test_1.css">
+    <title>Document</title>
+</head>
+<body>
+<div id="bg" class="bg_img">
+    <div class="top">
+        <a href="/test_1">
+            <img class="icon_back" src="public/img/back.png">
+        </a>
+        <a href="/login">
+            <img class="icon_menu" src="public/img/menu.png">
+        </a>
+    </div>
+    <div class="tester">
+        <div id='Instruction' class="instruction text_instruction">
+            Этот тест считывает скорость сложения чисел в уме и определение результата как четное или нечётное число.
+        </div>
+        <button id='Start_button' class="start_button" name="start" onclick="sum_eye_test()">Начать</button>
+        <div id="Calc" class="choosing_instruction text_choosing_instruction"></div>
+        <button id="Even" class="number_button" onclick="end_sum_eye_test(0)">Чёт</button>
+        <button id="Odd" class="number_button" onclick="end_sum_eye_test(1)">Нечёт</button>
+        <div id='Result' class="result"></div>
+        <a href="/sum_eye_test" class="restart_button" id='Retry'>Заново</a>
+    </div>
+</div>
+<script>
+    let start_time;
+    let num1 = Math.floor(Math.random() * 100);
+    let num2 = Math.floor(Math.random() * 100);
+    let sum = (num1 + num2) % 2;
+    console.log(num1)
+    console.log(num2)
+    console.log(sum)
+    function test_init() {
+        document.getElementById('Instruction').style.display = 'none';
+        document.getElementById('Start_button').style.display = 'none';
+        document.getElementById('bg').style.background = 'black';
+    }
+    function sum_eye_test() {
+        test_init();
+        document.getElementById('Calc').style.display = 'block';
+        document.getElementById('Calc').innerHTML = num1 + '+' + num2;
+        document.getElementById('Even').style.display = 'inline-block';
+        document.getElementById('Odd').style.display = 'inline-block';
+        start_time = Date.now();
+    }
+    function end_sum_eye_test(answer) {
+        let end_time = Date.now() - start_time;
+        if (isNaN(end_time)) {
+            document.getElementById('Result').style.display = 'block';
+            document.getElementById('Even').style.display = 'none';
+            document.getElementById('Odd').style.display = 'none';
+            document.getElementById('Result').innerHTML = 'Не спешите!';
+            document.getElementById('Retry').style.display = 'block';
+        } else if (sum === answer) {
+            end_time = end_time / 1000
+            document.getElementById('Result').style.display = 'block';
+            document.getElementById('Even').style.display = 'none';
+            document.getElementById('Odd').style.display = 'none';
+            document.getElementById('Result').innerHTML = 'Ваше время реакции: ' + end_time.toString() + 's';
+            document.getElementById('Retry').style.display = 'block';
+        } else {
+            document.getElementById('Result').style.display = 'block';
+            document.getElementById('Even').style.display = 'none';
+            document.getElementById('Odd').style.display = 'none';
+            document.getElementById('Result').innerHTML = 'Вы выбрали неверный ответ';
+            document.getElementById('Retry').style.display = 'block';
+        }
+    }
+</script>
+</body>
+</html>
