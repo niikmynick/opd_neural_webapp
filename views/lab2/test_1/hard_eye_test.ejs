@@ -21,58 +21,78 @@
 
         <div class="tester">
             <div id='Instruction' class="instruction text_instruction">Этот тест считывает скорость реакции на световой сигнал и бдительность. Ваша цель - нажать на круг того цвета и размера которые будут указаны.</div>
-            <button id='Start_button' class="start_button" name="start" onclick="hard_eye_test()">Начать</button>
+            <div id='Iteration' class="iteration"></div>
+            <button id='Start_button' class="start_button" name="start" onclick="start_test()">Начать</button>
             <div id="Choosing_instruction" class="choosing_instruction text_choosing_instruction"></div>
-            <div id='Circle1' class="circle" onclick="correct_end_hard_eye_test()"></div>
-            <div id='Circle2' class="circle" onclick="incorrect_end_hard_eye_test()"></div>
-            <div id='Circle3' class="circle" onclick="incorrect_end_hard_eye_test()"></div>
-            <div id='Circle4' class="circle" onclick="incorrect_end_hard_eye_test()"></div>
+            <div id='Circle1' class="circle" onclick="correct_end_test()"></div>
+            <div id='Circle2' class="circle" onclick="incorrect_end_test()"></div>
+            <div id='Circle3' class="circle" onclick="incorrect_end_test()"></div>
+            <div id='Circle4' class="circle" onclick="incorrect_end_test()"></div>
             <div id='Result' class="result"></div>
+            <button id='Next' class="restart_button" name="next" onclick="start_test()">Следующая попытка</button>
+            <div id='Final Result' class="result"></div>
             <a href="/hard_eye_test" class="restart_button" id='Retry'>Заново</a>
         </div>
     </div>
 </div>
 <script>
     let start_time;
+    let iteration = 0;
+    let end_time;
     const sizeList = ["Маленький", "Средний", "Большой"];
     const colorList = ["Красный", "Зелёный", "Синий", "Жёлтый", "Белый"];
-    let size_ru = sizeList[Math.floor(Math.random()*sizeList.length)];
-    let color_ru = colorList[Math.floor(Math.random()*colorList.length)];
+    let size_ru;
+    let color_ru;
     let circleSize;
     let circleColor;
-    switch (size_ru) {
-        case 'Маленький':
-            circleSize = '10vh'
-            break;
-        case 'Средний':
-            circleSize = '20vh'
-            break;
-        case 'Большой':
-            circleSize = '40vh'
-            break;
-    }
-    switch (color_ru) {
-        case 'Красный':
-            circleColor = 'red'
-            break;
-        case 'Зелёный':
-            circleColor = 'green'
-            break;
-        case 'Синий':
-            circleColor = 'blue'
-            break;
-        case 'Жёлтый':
-            circleColor = 'yellow'
-            break;
-        case 'Белый':
-            circleColor = 'white'
-            break;
-    }
+
+    //Результаты
+    let correctTests = 0;
+    const resultList = []
 
     function test_init() {
+        iteration++;
+        end_time = 0;
+        start_time = NaN;
+
+        size_ru = sizeList[Math.floor(Math.random()*sizeList.length)];
+        color_ru = colorList[Math.floor(Math.random()*colorList.length)];
+        switch (size_ru) {
+            case 'Маленький':
+                circleSize = '10vh'
+                break;
+            case 'Средний':
+                circleSize = '20vh'
+                break;
+            case 'Большой':
+                circleSize = '40vh'
+                break;
+        }
+        switch (color_ru) {
+            case 'Красный':
+                circleColor = 'red'
+                break;
+            case 'Зелёный':
+                circleColor = 'green'
+                break;
+            case 'Синий':
+                circleColor = 'blue'
+                break;
+            case 'Жёлтый':
+                circleColor = 'yellow'
+                break;
+            case 'Белый':
+                circleColor = 'white'
+                break;
+        }
+
+        document.getElementById('Result').style.display = 'none';
+        document.getElementById('Next').style.display = 'none';
         document.getElementById('Instruction').style.display = 'none';
         document.getElementById('Start_button').style.display = 'none';
         document.getElementById('bg').style.background = 'black';
+        document.getElementById('Iteration').style.display = 'block';
+        document.getElementById('Iteration').innerHTML = 'Попытка: ' + iteration +'/5';
     }
     function random_circle(element) {
         let circleSizeList = ["10vh", "20vh", "40vh"];
@@ -98,7 +118,7 @@
         document.getElementById(element).style.backgroundColor = color;
     }
 
-    function hard_eye_test() {
+    function start_test() {
         test_init();
 
         document.getElementById('Choosing_instruction').style.display = 'block';
@@ -117,30 +137,40 @@
         start_time = Date.now();
     }
 
-    function correct_end_hard_eye_test() {
+    function correct_end_test() {
         let end_time = Date.now() - start_time;
+        document.getElementById('Result').style.display = 'block';
+        document.getElementById('Choosing_instruction').style.display = 'none';
+        document.getElementById('Circle1').style.display = 'none';
+        document.getElementById('Circle2').style.display = 'none';
+        document.getElementById('Circle3').style.display = 'none';
+        document.getElementById('Circle4').style.display = 'none';
         if (isNaN(end_time)) {
-            document.getElementById('Result').style.display = 'block';
-            document.getElementById('Choosing_instruction').style.display = 'none';
-            document.getElementById('Circle1').style.display = 'none';
-            document.getElementById('Circle2').style.display = 'none';
-            document.getElementById('Circle3').style.display = 'none';
-            document.getElementById('Circle4').style.display = 'none';
             document.getElementById('Result').innerHTML = 'Не спешите!';
-            document.getElementById('Retry').style.display = 'block';
         } else {
             end_time = end_time / 1000
-            document.getElementById('Result').style.display = 'block';
-            document.getElementById('Choosing_instruction').style.display = 'none';
-            document.getElementById('Circle1').style.display = 'none';
-            document.getElementById('Circle2').style.display = 'none';
-            document.getElementById('Circle3').style.display = 'none';
-            document.getElementById('Circle4').style.display = 'none';
+            resultList.push(end_time);
             document.getElementById('Result').innerHTML = 'Ваше время реакции: ' + end_time.toString() + 's';
+            correctTests++;
+
+        }
+        if (iteration === 5) {
+            let averageTime = 0;
+            for (let i = 0; i < resultList.length; i++) {
+                if (isNaN(resultList[i])) {
+                    continue;
+                }
+                averageTime += resultList[i];
+            }
+            averageTime /= correctTests;
+            document.getElementById('Final Result').style.display = 'block'
+            document.getElementById('Final Result').innerHTML = 'Среднее время: ' + averageTime + '\nКоличество правильных ответов: ' + correctTests + '/5'
             document.getElementById('Retry').style.display = 'block';
+        } else {
+            document.getElementById('Next').style.display = 'block';
         }
     }
-    function incorrect_end_hard_eye_test() {
+    function incorrect_end_test() {
         document.getElementById('Result').style.display = 'block';
         document.getElementById('Choosing_instruction').style.display = 'none';
         document.getElementById('Circle1').style.display = 'none';
@@ -148,7 +178,11 @@
         document.getElementById('Circle3').style.display = 'none';
         document.getElementById('Circle4').style.display = 'none';
         document.getElementById('Result').innerHTML = 'Вы выбрали неправильный круг';
-        document.getElementById('Retry').style.display = 'block';
+        if (iteration === 5) {
+            document.getElementById('Retry').style.display = 'block';
+        } else {
+            document.getElementById('Next').style.display = 'block';
+        }
     }
 </script>
 </body>
