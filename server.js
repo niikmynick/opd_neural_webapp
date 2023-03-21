@@ -172,6 +172,8 @@ app.get('/:name', function(req, res) {
     let page = pagesMap.get(req.params.name)
     if (page === undefined){
         res.sendFile(__dirname + '/404.html');
+    } else if(req.params.name === 'stat') {
+        res.render(page, {dataScience: dataScience, frontEnd: frontEnd, sysAdmin: sysAdmin});
     } else {
         res.render(page)
     }
