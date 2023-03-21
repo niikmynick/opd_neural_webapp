@@ -18,19 +18,27 @@
     </div>
     <div class="tester">
         <div id='Instruction' class="instruction text_instruction">Этот тест считывает скорость реакции на звуковой сигнал. Ваша цель - нажать на круг как только прозвучит звуковой сигнал.</div>
+        <div id='Iteration' class="iteration">sdfsdfsfsd</div>
         <button id='Start_button' class="start_button" name="start" onclick="easy_aud_test()">Начать</button>
         <div id='Circle' class="circle" onclick="end_easy_aud_test()"></div>
         <div id='Result' class="result"></div>
+        <button id='Next' class="restart_button" name="next" onclick="easy_aud_test()">Следующая попытка</button>
         <a href="/easy_aud_test" class="restart_button" id='Retry'>Заново</a>
     </div>
 </div>
 <script>
     let start_time;
+    let iteration = 0;
     const audio = new Audio("/public/audio/audiosignal.mp3");
     function test_init() {
+        iteration++;
+        document.getElementById('Result').style.display = 'none';
+        document.getElementById('Next').style.display = 'none';
         document.getElementById('Instruction').style.display = 'none';
         document.getElementById('Start_button').style.display = 'none';
         document.getElementById('bg').style.background = 'black';
+        document.getElementById('Iteration').style.display = 'block';
+        document.getElementById('Iteration').innerHTML = 'Попытка: ' + iteration +'/5';
     }
 
     function easy_aud_test() {
@@ -49,13 +57,16 @@
             document.getElementById('Result').style.display = 'block';
             document.getElementById('Circle').style.display = 'none';
             document.getElementById('Result').innerHTML = 'Не спешите!';
-            document.getElementById('Retry').style.display = 'block';
         } else {
             end_time = end_time / 1000
             document.getElementById('Result').style.display = 'block';
             document.getElementById('Circle').style.display = 'none';
             document.getElementById('Result').innerHTML = 'Ваше время реакции: ' + end_time.toString() + 's';
+        }
+        if (iteration === 5) {
             document.getElementById('Retry').style.display = 'block';
+        } else {
+            document.getElementById('Next').style.display = 'block';
         }
     }
 </script>

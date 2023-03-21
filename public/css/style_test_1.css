@@ -205,3 +205,13 @@ a, u {
 .number_button:active {
     background-color: #404040;
 }
+.iteration {
+    display: none;
+    margin-left: 80vw;
+    padding-top: 10px;
+    position: relative;
+    color: white;
+    font-size: 20pt;
+    font-family: 'Montserrat',Arial,sans-serif;
+    text-align: center;
+}

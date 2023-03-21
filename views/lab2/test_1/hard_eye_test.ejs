@@ -35,7 +35,7 @@
 <script>
     let start_time;
     const sizeList = ["Маленький", "Средний", "Большой"];
-    const colorList = ["Красный", "Зелённый", "Синий", "Жёлтый", "Белый"];
+    const colorList = ["Красный", "Зелёный", "Синий", "Жёлтый", "Белый"];
     let size_ru = sizeList[Math.floor(Math.random()*sizeList.length)];
     let color_ru = colorList[Math.floor(Math.random()*colorList.length)];
     let circleSize;
@@ -55,7 +55,7 @@
         case 'Красный':
             circleColor = 'red'
             break;
-        case 'Зелённый':
+        case 'Зелёный':
             circleColor = 'green'
             break;
         case 'Синий':
@@ -89,7 +89,7 @@
         let size = circleSizeList[Math.floor(Math.random()*circleSizeList.length)];
         let color = circleColorList[Math.floor(Math.random()*circleColorList.length)];
         let top = (Math.random()* 40).toString() + 'vh';
-        let left = (Math.random() * 40).toString() + 'vw';
+        let left = (Math.random() * 30).toString() + 'vw';
         document.getElementById(element).style.display = 'inline-block';
         document.getElementById(element).style.height = size;
         document.getElementById(element).style.width = size;
