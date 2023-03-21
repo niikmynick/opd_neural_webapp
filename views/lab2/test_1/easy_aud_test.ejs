@@ -18,45 +18,40 @@
     </div>
     <div class="tester">
         <div id='Instruction' class="instruction text_instruction">Этот тест считывает скорость реакции на звуковой сигнал. Ваша цель - нажать на круг как только прозвучит звуковой сигнал.</div>
-        <button id='Start_button' class="start_button" name="start" onclick="easy_aud_test()">Начать</button>
-        <div id='Circle' class="circle" onclick="end_easy_aud_test()"></div>
+        <button id='Start_button' class="start_button" name="start" onclick="start_test()">Начать</button>
+        <div id='Circle' class="circle" onclick="end_test()"></div>
         <div id='Result' class="result"></div>
         <a href="/easy_aud_test" class="restart_button" id='Retry'>Заново</a>
     </div>
 </div>
 <script>
+
     let start_time;
     const audio = new Audio("/public/audio/audiosignal.mp3");
+
     function test_init() {
-        document.getElementById('Instruction').style.display = 'none';
-        document.getElementById('Start_button').style.display = 'none';
-        document.getElementById('bg').style.background = 'black';
+            document.getElementById('Instruction').style.display = 'none';
+            document.getElementById('Start_button').style.display = 'none';
+            document.getElementById('bg').style.background = 'black';
     }
 
-    function easy_aud_test() {
-        test_init();
-        let rand_time = (Math.random() * 5000) + 1000;
-        document.getElementById('Circle').style.display = 'block';
-        setTimeout(function(){
-            audio.play();
-            start_time = Date.now();
-            }, rand_time);
+    function start_test() {
+            test_init();
+            let rand_time = (Math.random() * 5000) + 1000;
+            document.getElementById('Circle').style.display = 'block';
+            setTimeout(function(){
+                audio.play();
+                start_time = Date.now();
+                }, rand_time);
     }
 
-    function end_easy_aud_test() {
+    function end_test() {
         let end_time = Date.now() - start_time;
         if (isNaN(end_time)) {
             document.getElementById('Result').style.display = 'block';
             document.getElementById('Circle').style.display = 'none';
             document.getElementById('Result').innerHTML = 'Не спешите!';
             document.getElementById('Retry').style.display = 'block';
-        } else {
-            end_time = end_time / 1000
-            document.getElementById('Result').style.display = 'block';
-            document.getElementById('Circle').style.display = 'none';
-            document.getElementById('Result').innerHTML = 'Ваше время реакции: ' + end_time.toString() + 's';
-            document.getElementById('Retry').style.display = 'block';
-        }
     }
 </script>
 </body>
