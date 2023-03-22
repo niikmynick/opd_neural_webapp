@@ -127,7 +127,7 @@ app.post('/add', urlencodeParser, function(req, res) {
         if(error) throw error
         console.log("Асинхронная запись файла завершена.")
     })
-    res.render('lab1/lab_1')
+    res.render('lab1/mark')
 })
 
 // result keepers init
@@ -164,7 +164,8 @@ pagesMap.set('main', 'main')
 pagesMap.set('login', 'authorization/login')
 pagesMap.set('reg', 'authorization/reg')
 pagesMap.set('lab1', 'lab1/lab_1')
-pagesMap.set('desc_frontend', 'lab1/frontend/desc_frontend' )
+pagesMap.set('desc_frontend', 'lab1/frontend/desc_frontend')
+pagesMap.set('mark', 'lab1/mark')
 pagesMap.set('frontend', 'lab1/frontend/frontend')
 pagesMap.set('data', 'lab1/data')
 pagesMap.set('sysadmin', 'lab1/sysadmin')
