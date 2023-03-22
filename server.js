@@ -46,6 +46,8 @@ app.post('/registration', urlencodeParser, function(req, res) {
 let usersData = JSON.parse(fs.readFileSync(`usersData/usersData.json`, 'utf8'))
 let user_id;
 let k;
+let authoriseFlag = false;
+
 // user login
 app.post('/login', urlencodeParser, function(req, res) {
     if(!req.body) return res.sendStatus(400);
@@ -59,6 +61,7 @@ app.post('/login', urlencodeParser, function(req, res) {
             if (user_password === usersData.user[k]["password"]){
                 user_id = usersData.user[i]["id"];
                 console.log("Успешная авторизация")
+                authoriseFlag = true
                 console.log(user_id)
             } else {
                 console.log("Неверный пароль")
@@ -69,12 +72,13 @@ app.post('/login', urlencodeParser, function(req, res) {
     res.render('main')
 });
 
-
-
-
 // files initialization
 let jsObjectSkills = JSON.parse(fs.readFileSync('statistic/skills.json', 'utf8').toString())
 let jsObjectStat = JSON.parse(fs.readFileSync('statistic/stat.json', 'utf8').toString())
+
+let personDS = []
+let personFE = []
+let personSA = []
 
 // saving user choice
 app.post('/add', urlencodeParser, function(req, res) {
@@ -98,12 +102,15 @@ app.post('/add', urlencodeParser, function(req, res) {
         }
 
         if (i.startsWith('f')) {
+            personFE.push(jsObjectSkills[i.slice(1)])
             skillsList['frontend'][jsObjectSkills[i.slice(1)]] += count
             userSkillsList['frontend'][jsObjectSkills[i.slice(1)]] += 1
         } else if (i.startsWith('a')) {
+            personSA.push(jsObjectSkills[i.slice(1)])
             skillsList['sysadmin'][jsObjectSkills[i.slice(1)]] += count
             userSkillsList['sysadmin'][jsObjectSkills[i.slice(1)]] += 1
         } else if (i.startsWith('d')){
+            personDS.push(jsObjectSkills[i.slice(1)])
             skillsList['data_scientist'][jsObjectSkills[i.slice(1)]] += count
             userSkillsList['data_scientist'][jsObjectSkills[i.slice(1)]] += 1
         }
@@ -135,13 +142,11 @@ for (let profession in jsObjectStat) {
         }
     }
 }
+
 // sorting lists by values
 dataScience.sort((a, b) => a[1] - b[1]).reverse()
 frontEnd.sort((a, b) => a[1] - b[1]).reverse()
 sysAdmin.sort((a, b) => a[1] - b[1]).reverse()
-
-
-
 
 // load main page
 app.get('/', function (req, res) {
@@ -161,6 +166,7 @@ pagesMap.set('stat', 'lab1/stat')
 pagesMap.set('lab2', 'lab2/lab_2')
 pagesMap.set('test_1', 'lab2/test_1')
 pagesMap.set('easy_aud_test', 'lab2/test_1/easy_aud_test')
+pagesMap.set('easy_aud_stat', 'lab2/test_1/stat')
 pagesMap.set('easy_eye_test', 'lab2/test_1/easy_eye_test')
 pagesMap.set('hard_eye_test', 'lab2/test_1/hard_eye_test')
 pagesMap.set('sum_aud_test', 'lab2/test_1/sum_aud_test')
@@ -172,7 +178,25 @@ app.get('/:name', function(req, res) {
     if (page === undefined){
         res.sendFile(__dirname + '/404.html');
     } else if(req.params.name === 'stat') {
-        res.render(page, {dataScience: dataScience, frontEnd: frontEnd, sysAdmin: sysAdmin});
+        res.render(page, {dataScience: dataScience, frontEnd: frontEnd, sysAdmin: sysAdmin, DS: personDS, FE: personFE, SA:personSA});
+    } else if(req.params.name === 'frontend') {
+        if (authoriseFlag) {
+            res.render(page)
+        } else {
+            res.render('authorization/login')
+        }
+    } else if(req.params.name === 'data') {
+        if (authoriseFlag) {
+            res.render(page)
+        } else {
+            res.render('authorization/login')
+        }
+    } else if(req.params.name === 'sysadmin') {
+        if (authoriseFlag) {
+            res.render(page)
+        } else {
+            res.render('authorization/login')
+        }
     } else {
         res.render(page)
     }
