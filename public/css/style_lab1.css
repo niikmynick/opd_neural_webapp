@@ -140,6 +140,26 @@ a, u {
     border-radius: 20px;
     opacity: 0.3;
 }
+.list_11 {
+    width: 640px;
+    height: 325px;
+    display: block;
+    position: relative;
+    z-index: 1;
+    margin: 0 auto;
+}
+.list_11::before {
+    content: "";
+    background: white;
+    background-size: cover;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    position: absolute;
+    border-radius: 20px;
+    opacity: 0.3;
+}
 .list_button {
 
 }
