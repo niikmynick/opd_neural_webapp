@@ -127,7 +127,12 @@ app.post('/add', urlencodeParser, function(req, res) {
         if(error) throw error
         console.log("Асинхронная запись файла завершена.")
     })
-    res.render('lab1/mark')
+    res.render('lab1/mark', {DS: personDS, FE: personFE, SA:personSA})
+})
+
+app.post('/mark', urlencodeParser, function(req, res) {
+    if (!req.body) return res.sendStatus(400)
+    res.render('main')
 })
 
 // result keepers init
@@ -188,6 +193,8 @@ app.get('/:name', function(req, res) {
         res.render(page, {dataScience: dataScience, frontEnd: frontEnd, sysAdmin: sysAdmin, DS: personDS, FE: personFE, SA:personSA});
     } else if(req.params.name === 'desc_frontend') {
         res.render(page, {frontEnd: frontEnd});
+    } else if(req.params.name === 'mark') {
+        res.render(page, {FE: personFE});
     } else if(req.params.name === 'frontend') {
         if (authoriseFlag) {
             res.render(page)
