@@ -76,7 +76,7 @@
                 </div>
             </div>
             <p class="title_text">
-                Экспертная статистика
+                Ваш выбор
             </p>
             <div class="list">
                 <div class="list_3">
@@ -85,13 +85,11 @@
                         <tr class="table">
                             <td>№</td>
                             <td>Профессиональное качество</td>
-                            <td>Популярность</td>
                         </tr>
                         <% for(let i=0; i<5; i++) { %>
                             <tr>
                                 <td><%= (i+1) %></td>
-                                <td class="td_1"><%= frontEnd[i][0] %></td>
-                                <td><%= frontEnd[i][1] %></td>
+                                <td class="td_1"><%= FE[i] %></td>
                             </tr>
                         <% } %>
                     </table>
@@ -102,13 +100,11 @@
                         <tr class="table">
                             <td>№</td>
                             <td>Профессиональное качество</td>
-                            <td>Популярность</td>
                         </tr>
                         <% for(let i=0; i<5; i++) { %>
                             <tr>
                                 <td><%= (i+1) %></td>
-                                <td class="td_1"><%= dataScience[i][0] %></td>
-                                <td><%= dataScience[i][1] %></td>
+                                <td class="td_1"><%= DS[i] %></td>
                             </tr>
                         <% } %>
                     </table>
@@ -121,13 +117,11 @@
                         <tr class="table">
                             <td>№</td>
                             <td>Профессиональное качество</td>
-                            <td>Популярность</td>
                         </tr>
                         <% for(let i=0; i<5; i++) { %>
                             <tr>
                                 <td><%= (i+1) %></td>
-                                <td class="td_1"><%= sysAdmin[i][0] %></td>
-                                <td><%= sysAdmin[i][1] %></td>
+                                <td class="td_1"><%= SA[i] %></td>
                             </tr>
                         <% } %>
                     </table>

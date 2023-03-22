@@ -44,9 +44,10 @@ app.post('/registration', urlencodeParser, function(req, res) {
     res.render('main');
 });
 let usersData = JSON.parse(fs.readFileSync(`usersData/usersData.json`, 'utf8'))
-let flag = false
 let user_id;
 let k;
+let authoriseFlag = false;
+
 // user login
 app.post('/login', urlencodeParser, function(req, res) {
     if(!req.body) return res.sendStatus(400);
@@ -56,26 +57,28 @@ app.post('/login', urlencodeParser, function(req, res) {
     for (let i=0 ; i < usersData.user.length ; i++)
     {
         if (usersData.user[i]["email"] === user_email) {
-            flag = true;
-            user_id = usersData.user[i]["id"];
             k = i;
-            console.log(user_id)
+            if (user_password === usersData.user[k]["password"]){
+                user_id = usersData.user[i]["id"];
+                console.log("Успешная авторизация")
+                authoriseFlag = true
+                console.log(user_id)
+            } else {
+                console.log("Неверный пароль")
+            }
         }
     }
-    if (flag && (user_password === usersData.user[k]["password"])){
-        console.log("Успешная авторизация")
-    } else {
-        console.log("Неверный пароль")
-    }
+
     res.render('main')
 });
-
-
-
 
 // files initialization
 let jsObjectSkills = JSON.parse(fs.readFileSync('statistic/skills.json', 'utf8').toString())
 let jsObjectStat = JSON.parse(fs.readFileSync('statistic/stat.json', 'utf8').toString())
+
+let personDS = []
+let personFE = []
+let personSA = []
 
 // saving user choice
 app.post('/add', urlencodeParser, function(req, res) {
@@ -99,12 +102,15 @@ app.post('/add', urlencodeParser, function(req, res) {
         }
 
         if (i.startsWith('f')) {
+            personFE.push(jsObjectSkills[i.slice(1)])
             skillsList['frontend'][jsObjectSkills[i.slice(1)]] += count
             userSkillsList['frontend'][jsObjectSkills[i.slice(1)]] += 1
         } else if (i.startsWith('a')) {
+            personSA.push(jsObjectSkills[i.slice(1)])
             skillsList['sysadmin'][jsObjectSkills[i.slice(1)]] += count
             userSkillsList['sysadmin'][jsObjectSkills[i.slice(1)]] += 1
         } else if (i.startsWith('d')){
+            personDS.push(jsObjectSkills[i.slice(1)])
             skillsList['data_scientist'][jsObjectSkills[i.slice(1)]] += count
             userSkillsList['data_scientist'][jsObjectSkills[i.slice(1)]] += 1
         }
@@ -136,65 +142,62 @@ for (let profession in jsObjectStat) {
         }
     }
 }
+
 // sorting lists by values
 dataScience.sort((a, b) => a[1] - b[1]).reverse()
 frontEnd.sort((a, b) => a[1] - b[1]).reverse()
 sysAdmin.sort((a, b) => a[1] - b[1]).reverse()
 
-
-
-
 // load main page
 app.get('/', function (req, res) {
     res.render('main');
 });
+
+// register of all pages
+let pagesMap = new Map();
+pagesMap.set('main', 'main')
+pagesMap.set('login', 'authorization/login')
+pagesMap.set('reg', 'authorization/reg')
+pagesMap.set('lab1', 'lab1/lab_1')
+pagesMap.set('fronted', 'lab1/fronted')
+pagesMap.set('data', 'lab1/data')
+pagesMap.set('sysadmin', 'lab1/sysadmin')
+pagesMap.set('stat', 'lab1/stat')
+pagesMap.set('lab2', 'lab2/lab_2')
+pagesMap.set('test_1', 'lab2/test_1')
+pagesMap.set('easy_aud_test', 'lab2/test_1/easy_aud_test')
+pagesMap.set('easy_aud_stat', 'lab2/test_1/stat')
+pagesMap.set('easy_eye_test', 'lab2/test_1/easy_eye_test')
+pagesMap.set('hard_eye_test', 'lab2/test_1/hard_eye_test')
+pagesMap.set('sum_aud_test', 'lab2/test_1/sum_aud_test')
+pagesMap.set('sum_eye_test', 'lab2/test_1/sum_eye_test')
+
 // switching pages
 app.get('/:name', function(req, res) {
-    if(req.params.name === 'main') {
-        res.render('main');
-    } else if(req.params.name === 'login') {
-        if (flag === true){
-            res.render('main');
-        }
-        res.render('authorization/login');
-    } else if(req.params.name === 'reg') {
-        res.render('authorization/reg');
-    } else if(req.params.name === 'lab1') {
-        res.render('lab1/lab_1');
-    } else if(req.params.name === 'fronted') {
-        if (flag === true){
-            res.render('lab1/fronted');
-        }
-        res.render('authorization/login');
-    } else if(req.params.name === 'data') {
-        if (flag === true){
-            res.render('lab1/data');
-        }
-        res.render('authorization/login');
-    } else if(req.params.name === 'sysadmin') {
-        if (flag === true){
-            res.render('lab1/sysadmin');
-        }
-        res.render('authorization/login');
-    } else if(req.params.name === 'stat') {
-        res.render('lab1/stat', {dataScience: dataScience, frontEnd: frontEnd, sysAdmin: sysAdmin});
-    } else if(req.params.name === 'lab2') {
-        res.render('lab2/lab_2');
-    } else if(req.params.name === 'test_1') {
-        res.render('lab2/test_1');
-    }  else if(req.params.name === 'easy_aud_test') {
-        res.render('lab2/test_1/easy_aud_test');
-    } else if(req.params.name === 'easy_eye_test') {
-        res.render('lab2/test_1/easy_eye_test');
-    } else if(req.params.name === 'hard_aud_test') {
-        res.render('lab2/test_1/hard_aud_test');
-    } else if(req.params.name === 'hard_eye_test') {
-        res.render('lab2/test_1/hard_eye_test');
-    } else if(req.params.name === 'sum_aud_test') {
-        res.render('lab2/test_1/sum_aud_test');
-    } else if(req.params.name === 'sum_eye_test') {
-        res.render('lab2/test_1/sum_eye_test');
-    } else {
+    let page = pagesMap.get(req.params.name)
+    if (page === undefined){
         res.sendFile(__dirname + '/404.html');
+    } else if(req.params.name === 'stat') {
+        res.render(page, {dataScience: dataScience, frontEnd: frontEnd, sysAdmin: sysAdmin, DS: personDS, FE: personFE, SA:personSA});
+    } else if(req.params.name === 'frontend') {
+        if (authoriseFlag) {
+            res.render(page)
+        } else {
+            res.render('authorization/login')
+        }
+    } else if(req.params.name === 'data') {
+        if (authoriseFlag) {
+            res.render(page)
+        } else {
+            res.render('authorization/login')
+        }
+    } else if(req.params.name === 'sysadmin') {
+        if (authoriseFlag) {
+            res.render(page)
+        } else {
+            res.render('authorization/login')
+        }
+    } else {
+        res.render(page)
     }
 });
