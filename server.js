@@ -164,8 +164,8 @@ pagesMap.set('main', 'main')
 pagesMap.set('login', 'authorization/login')
 pagesMap.set('reg', 'authorization/reg')
 pagesMap.set('lab1', 'lab1/lab_1')
-pagesMap.set('desc_fronted', 'lab1/desc_fronted' )
-pagesMap.set('fronted', 'lab1/fronted')
+pagesMap.set('desc_frontend', 'lab1/frontend/desc_fronted' )
+pagesMap.set('frontend', 'lab1/frontend/fronted')
 pagesMap.set('data', 'lab1/data')
 pagesMap.set('sysadmin', 'lab1/sysadmin')
 pagesMap.set('stat', 'lab1/stat')
@@ -185,7 +185,7 @@ app.get('/:name', function(req, res) {
         res.sendFile(__dirname + '/404.html');
     } else if(req.params.name === 'stat') {
         res.render(page, {dataScience: dataScience, frontEnd: frontEnd, sysAdmin: sysAdmin, DS: personDS, FE: personFE, SA:personSA});
-    } else if(req.params.name === 'fronted') {
+    } else if(req.params.name === 'frontend') {
         if (authoriseFlag) {
             res.render(page)
         } else {
