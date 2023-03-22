@@ -44,7 +44,6 @@ app.post('/registration', urlencodeParser, function(req, res) {
     res.render('main');
 });
 let usersData = JSON.parse(fs.readFileSync(`usersData/usersData.json`, 'utf8'))
-let flag = false
 let user_id;
 let k;
 // user login
@@ -56,17 +55,17 @@ app.post('/login', urlencodeParser, function(req, res) {
     for (let i=0 ; i < usersData.user.length ; i++)
     {
         if (usersData.user[i]["email"] === user_email) {
-            flag = true;
-            user_id = usersData.user[i]["id"];
             k = i;
-            console.log(user_id)
+            if (user_password === usersData.user[k]["password"]){
+                user_id = usersData.user[i]["id"];
+                console.log("Успешная авторизация")
+                console.log(user_id)
+            } else {
+                console.log("Неверный пароль")
+            }
         }
     }
-    if (flag && (user_password === usersData.user[k]["password"])){
-        console.log("Успешная авторизация")
-    } else {
-        console.log("Неверный пароль")
-    }
+
     res.render('main')
 });
 
