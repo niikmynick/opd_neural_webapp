@@ -179,7 +179,7 @@ app.get('/:name', function(req, res) {
         res.sendFile(__dirname + '/404.html');
     } else if(req.params.name === 'stat') {
         res.render(page, {dataScience: dataScience, frontEnd: frontEnd, sysAdmin: sysAdmin, DS: personDS, FE: personFE, SA:personSA});
-    } else if(req.params.name === 'frontend') {
+    } else if(req.params.name === 'fronted') {
         if (authoriseFlag) {
             res.render(page)
         } else {
@@ -196,6 +196,12 @@ app.get('/:name', function(req, res) {
             res.render(page)
         } else {
             res.render('authorization/login')
+        }
+    } else if(req.params.name === 'login') {
+        if (authoriseFlag) {
+            res.render('main')
+        } else {
+            res.render(page)
         }
     } else {
         res.render(page)
