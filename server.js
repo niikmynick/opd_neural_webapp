@@ -165,12 +165,14 @@ pagesMap.set('sysadmin', 'lab1/sysadmin')
 pagesMap.set('stat', 'lab1/stat')
 pagesMap.set('lab2', 'lab2/lab_2')
 pagesMap.set('test_1', 'lab2/test_1')
+pagesMap.set('test_2', 'lab2/test_2')
 pagesMap.set('easy_aud_test', 'lab2/test_1/easy_aud_test')
 pagesMap.set('easy_aud_stat', 'lab2/test_1/stat')
 pagesMap.set('easy_eye_test', 'lab2/test_1/easy_eye_test')
 pagesMap.set('hard_eye_test', 'lab2/test_1/hard_eye_test')
 pagesMap.set('sum_aud_test', 'lab2/test_1/sum_aud_test')
 pagesMap.set('sum_eye_test', 'lab2/test_1/sum_eye_test')
+pagesMap.set('todo', 'lab2/test_2/TODO')
 
 // switching pages
 app.get('/:name', function(req, res) {
