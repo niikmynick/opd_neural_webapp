@@ -103,16 +103,16 @@ app.post('/add', urlencodeParser, function(req, res) {
 
         if (i.startsWith('f')) {
             personFE.push(jsObjectSkills[i.slice(1)])
-            skillsList['frontend'][jsObjectSkills[i.slice(1)]] += count
-            userSkillsList['frontend'][jsObjectSkills[i.slice(1)]] += 1
+            skillsList['frontend'][jsObjectSkills[i.slice(1) - 1]] += count
+            userSkillsList['frontend'][jsObjectSkills[i.slice(1) - 1]] += 1
         } else if (i.startsWith('a')) {
             personSA.push(jsObjectSkills[i.slice(1)])
-            skillsList['sysadmin'][jsObjectSkills[i.slice(1)]] += count
-            userSkillsList['sysadmin'][jsObjectSkills[i.slice(1)]] += 1
+            skillsList['sysadmin'][jsObjectSkills[i.slice(1) - 1]] += count
+            userSkillsList['sysadmin'][jsObjectSkills[i.slice(1) - 1]] += 1
         } else if (i.startsWith('d')){
             personDS.push(jsObjectSkills[i.slice(1)])
-            skillsList['data_scientist'][jsObjectSkills[i.slice(1)]] += count
-            userSkillsList['data_scientist'][jsObjectSkills[i.slice(1)]] += 1
+            skillsList['data_scientist'][jsObjectSkills[i.slice(1) - 1]] += count
+            userSkillsList['data_scientist'][jsObjectSkills[i.slice(1) - 1]] += 1
         }
 
     }
@@ -122,7 +122,17 @@ app.post('/add', urlencodeParser, function(req, res) {
         if(error) throw error
         console.log("Асинхронная запись файла завершена.")
     })
-    res.render('lab1/lab_1')
+
+    fs.writeFileSync(`users/u${user_id}.json`, JSON.stringify(userSkillsList), function(error) {
+        if(error) throw error
+        console.log("Асинхронная запись файла завершена.")
+    })
+    res.render('lab1/mark', {DS: personDS, FE: personFE, SA:personSA})
+})
+
+app.post('/mark', urlencodeParser, function(req, res) {
+    if (!req.body) return res.sendStatus(400)
+    res.render('main')
 })
 
 // result keepers init
@@ -159,7 +169,9 @@ pagesMap.set('main', 'main')
 pagesMap.set('login', 'authorization/login')
 pagesMap.set('reg', 'authorization/reg')
 pagesMap.set('lab1', 'lab1/lab_1')
-pagesMap.set('fronted', 'lab1/fronted')
+pagesMap.set('desc_frontend', 'lab1/frontend/desc_frontend')
+pagesMap.set('mark', 'lab1/mark')
+pagesMap.set('frontend', 'lab1/frontend/frontend')
 pagesMap.set('data', 'lab1/data')
 pagesMap.set('sysadmin', 'lab1/sysadmin')
 pagesMap.set('stat', 'lab1/stat')
@@ -181,7 +193,11 @@ app.get('/:name', function(req, res) {
         res.sendFile(__dirname + '/404.html');
     } else if(req.params.name === 'stat') {
         res.render(page, {dataScience: dataScience, frontEnd: frontEnd, sysAdmin: sysAdmin, DS: personDS, FE: personFE, SA:personSA});
-    } else if(req.params.name === 'fronted') {
+    } else if(req.params.name === 'desc_frontend') {
+        res.render(page, {frontEnd: frontEnd});
+    } else if(req.params.name === 'mark') {
+        res.render(page, {FE: personFE});
+    } else if(req.params.name === 'frontend') {
         if (authoriseFlag) {
             res.render(page)
         } else {

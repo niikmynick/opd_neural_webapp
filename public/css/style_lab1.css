@@ -140,6 +140,26 @@ a, u {
     border-radius: 20px;
     opacity: 0.3;
 }
+.list_11 {
+    width: 640px;
+    height: 325px;
+    display: block;
+    position: relative;
+    z-index: 1;
+    margin: 0 auto;
+}
+.list_11::before {
+    content: "";
+    background: white;
+    background-size: cover;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    position: absolute;
+    border-radius: 20px;
+    opacity: 0.3;
+}
 .list_button {
 
 }
@@ -178,7 +198,7 @@ a, u {
     font-size: 12pt;
     color: white;
     background-color: grey;
-    width: 120px;
+    width: 150px;
     height: 40px;
     border: 0px;
     border-radius: 20px;
@@ -244,4 +264,27 @@ a, u {
     -webkit-transform: rotate(45deg);
     -ms-transform: rotate(45deg);
     transform: rotate(45deg);
+}
+.table_1 {
+    margin: 0 auto;
+    margin-top: 10px;
+    width: 600px;
+    height: 160px;
+}
+table, tr, td {
+    color: white;
+    border-collapse: collapse;
+    border: 1px solid white;
+}
+tr:first-child td {
+    font-weight: bold;
+    font-size: 14px;
+}
+td {
+    text-align: center;
+    font-size: 14px;
+}
+.td_1{
+    text-align: left;
+    font-size: 14px;
 }
