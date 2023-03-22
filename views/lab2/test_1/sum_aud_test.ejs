@@ -10,10 +10,10 @@
 <div id="bg" class="bg_img">
     <div class="top">
         <a href="/test_1">
-            <img class="icon_back" src="public/img/back.png">
+            <img class="icon_back" src="/public/img/back.png">
         </a>
         <a href="/login">
-            <img class="icon_menu" src="public/img/menu.png">
+            <img class="icon_menu" src="/public/img/menu.png">
         </a>
     </div>
     <div class="tester">
@@ -22,10 +22,9 @@
         </div>
         <div id='Iteration' class="iteration"></div>
         <button id='Start_button' class="start_button" name="start" onclick="start_test()">Начать</button>
-        <button id="Even" class="number_button" onclick="finish_test(0)">Чёт</button>
-        <button id="Odd" class="number_button" onclick="finish_test(1)">Нечёт</button>
+        <button id="Even" class="number_button" onclick="onAnswer(0)">Чёт Кнопка F</button>
+        <button id="Odd" class="number_button" onclick="onAnswer(1)">Нечёт Кнопка J</button>
         <div id='Result' class="result"></div>
-        <button id='Next' class="restart_button" name="next" onclick="start_test()">Следующая попытка</button>
         <div id='Final Result' class="result"></div>
         <a href="/sum_aud_test" class="restart_button" id='Retry'>Заново</a>
     </div>
@@ -34,10 +33,34 @@
     let start_time;
     let iteration = 0;
     let end_time;
+    let maxIteration = 5;
 
     //Результаты
     let correctTests = 0;
-    const resultList = []
+    const resultList = [];
+
+    //Keydown on f
+    document.addEventListener('keydown', function(event) {
+        if (event.key === "f" || event.code === 'KeyF' && iteration <= maxIteration) {
+            onAnswer(0);
+        }
+    });
+
+    //Keydown on j
+    document.addEventListener('keydown', function(event) {
+        if (event.key === "j" || event.code === 'KeyJ' && iteration <= maxIteration) {
+            onAnswer(1);
+        }
+    });
+
+    function onAnswer(num) {
+        finish_test(num);
+        if (iteration !== maxIteration) {
+            start_test();
+        } else {
+            iteration++;
+        }
+    }
 
     let num1;
     let num2;
@@ -54,22 +77,19 @@
     let sum;
     let chosenAudio1;
     let chosenAudio2;
-    function test_init() {
+
+    function start_test() {
         iteration++;
         end_time = 0;
         start_time = NaN;
-        document.getElementById('Result').style.display = 'none';
-        document.getElementById('Next').style.display = 'none';
         document.getElementById('Instruction').style.display = 'none';
         document.getElementById('Start_button').style.display = 'none';
         document.getElementById('bg').style.background = 'black';
         document.getElementById('Iteration').style.display = 'block';
-        document.getElementById('Iteration').innerHTML = 'Попытка: ' + iteration +'/5';
-    }
-    function start_test() {
-        test_init();
-        num1 = Math.floor(Math.random() * 10) + 1;
-        num2 = Math.floor(Math.random() * 10) + 1;
+        document.getElementById('Iteration').innerHTML = 'Попытка: ' + iteration + '/' + maxIteration;
+
+        num1 = Math.floor(Math.random() * 9) + 1;
+        num2 = Math.floor(Math.random() * 9) + 1;
         sum = (num1 + num2) % 2;
 
         chosenAudio1 = audiosMap.get(num1);
@@ -78,11 +98,7 @@
         document.getElementById('Odd').style.display = 'inline-block';
         chosenAudio1.play()
         console.log(num1)
-        chosenAudio1.onended = function() {
-            chosenAudio2.play()
-            console.log(num2)
-        }
-        start_time = Date.now();
+        setTimeout(function(){chosenAudio2.play();console.log(num2);start_time = Date.now();}, 600)
     }
     function finish_test(answer) {
         let end_time = Date.now() - start_time;
@@ -100,7 +116,7 @@
         } else {
             document.getElementById('Result').innerHTML = 'Вы выбрали неверный ответ';
         }
-        if (iteration === 5) {
+        if (iteration === maxIteration) {
             let averageTime = 0;
             for (let i = 0; i < resultList.length; i++) {
                 if (isNaN(resultList[i])) {
@@ -109,11 +125,9 @@
                 averageTime += resultList[i];
             }
             averageTime /= correctTests;
-            document.getElementById('Final Result').style.display = 'block'
-            document.getElementById('Final Result').innerHTML = 'Среднее время: ' + averageTime + '\nКоличество правильных ответов: ' + correctTests + '/5'
+            document.getElementById('Final Result').style.display = 'block';
+            document.getElementById('Final Result').innerHTML = 'Среднее время: ' + averageTime.toFixed(3) + '\nКоличество правильных ответов: ' + correctTests + '/' + maxIteration;
             document.getElementById('Retry').style.display = 'block';
-        } else {
-            document.getElementById('Next').style.display = 'block';
         }
     }
 </script>

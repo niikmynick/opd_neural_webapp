@@ -10,10 +10,10 @@
 <div id="bg" class="bg_img">
     <div class="top">
         <a href="/test_1">
-            <img class="icon_back" src="public/img/back.png">
+            <img class="icon_back" src="/public/img/back.png">
         </a>
         <a href="/login">
-            <img class="icon_menu" src="public/img/menu.png">
+            <img class="icon_menu" src="/public/img/menu.png">
         </a>
     </div>
     <div class="choosing_instruction"></div>
@@ -23,13 +23,13 @@
             <div id='Instruction' class="instruction text_instruction">Этот тест считывает скорость реакции на световой сигнал и бдительность. Ваша цель - нажать на круг того цвета и размера которые будут указаны.</div>
             <div id='Iteration' class="iteration"></div>
             <button id='Start_button' class="start_button" name="start" onclick="start_test()">Начать</button>
-            <div id="Choosing_instruction" class="choosing_instruction text_choosing_instruction"></div>
-            <div id='Circle1' class="circle" onclick="correct_end_test()"></div>
-            <div id='Circle2' class="circle" onclick="incorrect_end_test()"></div>
-            <div id='Circle3' class="circle" onclick="incorrect_end_test()"></div>
-            <div id='Circle4' class="circle" onclick="incorrect_end_test()"></div>
             <div id='Result' class="result"></div>
-            <button id='Next' class="restart_button" name="next" onclick="start_test()">Следующая попытка</button>
+            <div id="Choosing_instruction" class="choosing_instruction text_choosing_instruction"></div>
+            <div id='Circle1' class="circle" onclick="onAnswer(true)"></div>
+            <div id='Circle2' class="circle" onclick="onAnswer(false)"></div>
+            <div id='Circle3' class="circle" onclick="onAnswer(false)"></div>
+            <div id='Circle4' class="circle" onclick="onAnswer(false)"></div>
+
             <div id='Final Result' class="result"></div>
             <a href="/hard_eye_test" class="restart_button" id='Retry'>Заново</a>
         </div>
@@ -38,6 +38,7 @@
 <script>
     let start_time;
     let iteration = 0;
+    let maxIteration = 5;
     let end_time;
     const sizeList = ["Маленький", "Средний", "Большой"];
     const colorList = ["Красный", "Зелёный", "Синий", "Жёлтый", "Белый"];
@@ -48,9 +49,46 @@
 
     //Результаты
     let correctTests = 0;
-    const resultList = []
+    const resultList = [];
 
-    function test_init() {
+    function random_circle(element) {
+        let circleSizeList = ["10vh", "20vh", "40vh"];
+        let circleColorList = ["red", "green", "blue", "yellow", "white"];
+        let indexSize = circleSizeList.indexOf(circleSize);
+        if (indexSize > -1) { // only splice array when item is found
+            circleSizeList.splice(indexSize, 1); // 2nd parameter means remove one item only
+        }
+        let indexColor = circleColorList.indexOf(circleColor);
+        if (indexColor > -1) { // only splice array when item is found
+            circleColorList.splice(indexColor, 1); // 2nd parameter means remove one item only
+        }
+
+        let size = circleSizeList[Math.floor(Math.random()*circleSizeList.length)];
+        let color = circleColorList[Math.floor(Math.random()*circleColorList.length)];
+        let top = (Math.random()* 40).toString() + 'vh';
+        let left = (Math.random() * 30).toString() + 'vw';
+        document.getElementById(element).style.display = 'inline-block';
+        document.getElementById(element).style.height = size;
+        document.getElementById(element).style.width = size;
+        document.getElementById(element).style.top = top;
+        document.getElementById(element).style.left = left;
+        document.getElementById(element).style.backgroundColor = color;
+    }
+
+    function onAnswer(Correct) {
+        if (Correct) {
+            correct_end_test();
+        } else {
+            incorrect_end_test();
+        }
+        if (iteration !== maxIteration) {
+            start_test();
+        } else {
+            iteration++;
+        }
+    }
+
+    function start_test() {
         iteration++;
         end_time = 0;
         start_time = NaN;
@@ -85,41 +123,11 @@
                 circleColor = 'white'
                 break;
         }
-
-        document.getElementById('Result').style.display = 'none';
-        document.getElementById('Next').style.display = 'none';
         document.getElementById('Instruction').style.display = 'none';
         document.getElementById('Start_button').style.display = 'none';
         document.getElementById('bg').style.background = 'black';
         document.getElementById('Iteration').style.display = 'block';
-        document.getElementById('Iteration').innerHTML = 'Попытка: ' + iteration +'/5';
-    }
-    function random_circle(element) {
-        let circleSizeList = ["10vh", "20vh", "40vh"];
-        let circleColorList = ["red", "green", "blue", "yellow", "white"];
-        let indexSize = circleSizeList.indexOf(circleSize);
-        if (indexSize > -1) { // only splice array when item is found
-            circleSizeList.splice(indexSize, 1); // 2nd parameter means remove one item only
-        }
-        let indexColor = circleColorList.indexOf(circleColor);
-        if (indexColor > -1) { // only splice array when item is found
-            circleColorList.splice(indexColor, 1); // 2nd parameter means remove one item only
-        }
-
-        let size = circleSizeList[Math.floor(Math.random()*circleSizeList.length)];
-        let color = circleColorList[Math.floor(Math.random()*circleColorList.length)];
-        let top = (Math.random()* 40).toString() + 'vh';
-        let left = (Math.random() * 30).toString() + 'vw';
-        document.getElementById(element).style.display = 'inline-block';
-        document.getElementById(element).style.height = size;
-        document.getElementById(element).style.width = size;
-        document.getElementById(element).style.top = top;
-        document.getElementById(element).style.left = left;
-        document.getElementById(element).style.backgroundColor = color;
-    }
-
-    function start_test() {
-        test_init();
+        document.getElementById('Iteration').innerHTML = 'Попытка: ' + iteration + '/' + maxIteration;
 
         document.getElementById('Choosing_instruction').style.display = 'block';
         document.getElementById('Choosing_instruction').innerHTML = 'Нажмите ' + color_ru + ' ' + size_ru + ' круг';
@@ -164,10 +172,8 @@
             }
             averageTime /= correctTests;
             document.getElementById('Final Result').style.display = 'block'
-            document.getElementById('Final Result').innerHTML = 'Среднее время: ' + averageTime + '\nКоличество правильных ответов: ' + correctTests + '/5'
+            document.getElementById('Final Result').innerHTML = 'Среднее время: ' + averageTime.toFixed(3) + '\nКоличество правильных ответов: ' + correctTests + '/' + maxIteration;
             document.getElementById('Retry').style.display = 'block';
-        } else {
-            document.getElementById('Next').style.display = 'block';
         }
     }
     function incorrect_end_test() {
@@ -180,8 +186,6 @@
         document.getElementById('Result').innerHTML = 'Вы выбрали неправильный круг';
         if (iteration === 5) {
             document.getElementById('Retry').style.display = 'block';
-        } else {
-            document.getElementById('Next').style.display = 'block';
         }
     }
 </script>
