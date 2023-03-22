@@ -103,22 +103,27 @@ app.post('/add', urlencodeParser, function(req, res) {
 
         if (i.startsWith('f')) {
             personFE.push(jsObjectSkills[i.slice(1)])
-            skillsList['frontend'][jsObjectSkills[i.slice(1)]] += count
-            userSkillsList['frontend'][jsObjectSkills[i.slice(1)]] += 1
+            skillsList['frontend'][jsObjectSkills[i.slice(1) - 1]] += count
+            userSkillsList['frontend'][jsObjectSkills[i.slice(1) - 1]] += 1
         } else if (i.startsWith('a')) {
             personSA.push(jsObjectSkills[i.slice(1)])
-            skillsList['sysadmin'][jsObjectSkills[i.slice(1)]] += count
-            userSkillsList['sysadmin'][jsObjectSkills[i.slice(1)]] += 1
+            skillsList['sysadmin'][jsObjectSkills[i.slice(1) - 1]] += count
+            userSkillsList['sysadmin'][jsObjectSkills[i.slice(1) - 1]] += 1
         } else if (i.startsWith('d')){
             personDS.push(jsObjectSkills[i.slice(1)])
-            skillsList['data_scientist'][jsObjectSkills[i.slice(1)]] += count
-            userSkillsList['data_scientist'][jsObjectSkills[i.slice(1)]] += 1
+            skillsList['data_scientist'][jsObjectSkills[i.slice(1) - 1]] += count
+            userSkillsList['data_scientist'][jsObjectSkills[i.slice(1) - 1]] += 1
         }
 
     }
 
     // writing statistics to the file
     fs.writeFileSync('statistic/stat.json', JSON.stringify(skillsList), function(error) {
+        if(error) throw error
+        console.log("Асинхронная запись файла завершена.")
+    })
+
+    fs.writeFileSync(`users/u${user_id}.json`, JSON.stringify(userSkillsList), function(error) {
         if(error) throw error
         console.log("Асинхронная запись файла завершена.")
     })
