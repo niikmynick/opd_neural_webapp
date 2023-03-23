@@ -75,12 +75,8 @@
         document.getElementById(element).style.backgroundColor = color;
     }
 
-    function onAnswer(Correct) {
-        if (Correct) {
-            correct_end_test();
-        } else {
-            incorrect_end_test();
-        }
+    function onAnswer(correct) {
+        finish_test(correct);
         if (iteration !== maxIteration) {
             start_test();
         } else {
@@ -144,8 +140,7 @@
 
         start_time = Date.now();
     }
-
-    function correct_end_test() {
+    function finish_test(correct) {
         let end_time = Date.now() - start_time;
         document.getElementById('Result').style.display = 'block';
         document.getElementById('Choosing_instruction').style.display = 'none';
@@ -153,16 +148,20 @@
         document.getElementById('Circle2').style.display = 'none';
         document.getElementById('Circle3').style.display = 'none';
         document.getElementById('Circle4').style.display = 'none';
-        if (isNaN(end_time)) {
-            document.getElementById('Result').innerHTML = 'Не спешите!';
+        if (correct) {
+            if (isNaN(end_time)) {
+                document.getElementById('Result').innerHTML = 'Не спешите!';
+            } else {
+                end_time = end_time / 1000
+                resultList.push(end_time);
+                document.getElementById('Result').innerHTML = 'Ваше время реакции: ' + end_time.toString() + 's';
+                correctTests++;
+            }
         } else {
-            end_time = end_time / 1000
-            resultList.push(end_time);
-            document.getElementById('Result').innerHTML = 'Ваше время реакции: ' + end_time.toString() + 's';
-            correctTests++;
-
+            document.getElementById('Result').innerHTML = 'Вы выбрали неправильный круг';
         }
-        if (iteration === 5) {
+
+        if (iteration === maxIteration) {
             let averageTime = 0;
             for (let i = 0; i < resultList.length; i++) {
                 if (isNaN(resultList[i])) {
@@ -171,23 +170,13 @@
                 averageTime += resultList[i];
             }
             averageTime /= correctTests;
+            let percentageOfCorrectAnswers = correctTests / maxIteration * 100;
             document.getElementById('Final Result').style.display = 'block'
-            document.getElementById('Final Result').innerHTML = 'Среднее время: ' + averageTime.toFixed(3) + '\nКоличество правильных ответов: ' + correctTests + '/' + maxIteration;
+            document.getElementById('Final Result').innerHTML = 'Среднее время: ' + averageTime.toFixed(3) + '\nКоличество правильных ответов: ' + percentageOfCorrectAnswers.toFixed(2) + "%";
             document.getElementById('Retry').style.display = 'block';
         }
     }
-    function incorrect_end_test() {
-        document.getElementById('Result').style.display = 'block';
-        document.getElementById('Choosing_instruction').style.display = 'none';
-        document.getElementById('Circle1').style.display = 'none';
-        document.getElementById('Circle2').style.display = 'none';
-        document.getElementById('Circle3').style.display = 'none';
-        document.getElementById('Circle4').style.display = 'none';
-        document.getElementById('Result').innerHTML = 'Вы выбрали неправильный круг';
-        if (iteration === 5) {
-            document.getElementById('Retry').style.display = 'block';
-        }
-    }
+
 </script>
 </body>
 </html>
