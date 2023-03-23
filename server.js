@@ -45,6 +45,7 @@ app.post('/registration', urlencodeParser, function(req, res) {
 });
 let usersData = JSON.parse(fs.readFileSync(`usersData/usersData.json`, 'utf8'))
 let user_id;
+let user_name;
 let k;
 let authoriseFlag = false;
 
@@ -60,6 +61,7 @@ app.post('/login', urlencodeParser, function(req, res) {
             k = i;
             if (user_password === usersData.user[k]["password"]){
                 user_id = usersData.user[i]["id"];
+                user_name = usersData.user[i]["name"]
                 console.log("Успешная авторизация")
                 authoriseFlag = true
                 console.log(user_id)
@@ -73,8 +75,8 @@ app.post('/login', urlencodeParser, function(req, res) {
 });
 
 // files initialization
-let jsObjectSkills = JSON.parse(fs.readFileSync('statistic/skills.json', 'utf8').toString())
-let jsObjectStat = JSON.parse(fs.readFileSync('statistic/stat.json', 'utf8').toString())
+let jsObjectSkills = JSON.parse(fs.readFileSync('views/lab1/statistic/skills.json', 'utf8').toString())
+let jsObjectStat = JSON.parse(fs.readFileSync('views/lab1/statistic/stat.json', 'utf8').toString())
 
 let personDS = []
 let personFE = []
@@ -84,7 +86,7 @@ let personSA = []
 app.post('/add', urlencodeParser, function(req, res) {
     if(!req.body) return res.sendStatus(400)
     // general stat file init
-    let skillsList = JSON.parse(fs.readFileSync('statistic/stat.json', 'utf8').toString())
+    let skillsList = JSON.parse(fs.readFileSync('views/lab1/statistic/stat.json', 'utf8').toString())
     // user stat file init
     let userSkillsList = JSON.parse(fs.readFileSync(`users/u${user_id}.json`, 'utf8').toString())
 
@@ -102,15 +104,15 @@ app.post('/add', urlencodeParser, function(req, res) {
         }
 
         if (i.startsWith('f')) {
-            personFE.push(jsObjectSkills[i.slice(1)])
+            personFE.push(jsObjectSkills[i.slice(1) - 1])
             skillsList['frontend'][jsObjectSkills[i.slice(1) - 1]] += count
             userSkillsList['frontend'][jsObjectSkills[i.slice(1) - 1]] += 1
         } else if (i.startsWith('a')) {
-            personSA.push(jsObjectSkills[i.slice(1)])
+            personSA.push(jsObjectSkills[i.slice(1) - 1])
             skillsList['sysadmin'][jsObjectSkills[i.slice(1) - 1]] += count
             userSkillsList['sysadmin'][jsObjectSkills[i.slice(1) - 1]] += 1
         } else if (i.startsWith('d')){
-            personDS.push(jsObjectSkills[i.slice(1)])
+            personDS.push(jsObjectSkills[i.slice(1) - 1])
             skillsList['data_scientist'][jsObjectSkills[i.slice(1) - 1]] += count
             userSkillsList['data_scientist'][jsObjectSkills[i.slice(1) - 1]] += 1
         }
@@ -118,7 +120,7 @@ app.post('/add', urlencodeParser, function(req, res) {
     }
 
     // writing statistics to the file
-    fs.writeFileSync('statistic/stat.json', JSON.stringify(skillsList), function(error) {
+    fs.writeFileSync('views/lab1/statistic/stat.json', JSON.stringify(skillsList), function(error) {
         if(error) throw error
         console.log("Асинхронная запись файла завершена.")
     })
@@ -166,16 +168,26 @@ app.get('/', function (req, res) {
 // register of all pages
 let pagesMap = new Map();
 pagesMap.set('main', 'main')
-pagesMap.set('login', 'authorization/login')
+
 pagesMap.set('reg', 'authorization/reg')
+pagesMap.set('login', 'authorization/login')
+pagesMap.set('account', 'account')
+
 pagesMap.set('lab1', 'lab1/lab_1')
-pagesMap.set('desc_frontend', 'lab1/frontend/desc_frontend')
-pagesMap.set('mark', 'lab1/mark')
+
 pagesMap.set('frontend', 'lab1/frontend/frontend')
+pagesMap.set('desc_frontend', 'lab1/frontend/desc_frontend' )
+
 pagesMap.set('data', 'lab1/data')
+pagesMap.set('desc_datascience', 'lab1/datascience/desc_datascience' )
+
 pagesMap.set('sysadmin', 'lab1/sysadmin')
+pagesMap.set('desc_sysadmin', 'lab1/sysadmin/sysadmin' )
+
 pagesMap.set('stat', 'lab1/stat')
+
 pagesMap.set('lab2', 'lab2/lab_2')
+
 pagesMap.set('test_1', 'lab2/test_1')
 pagesMap.set('test_2', 'lab2/test_2')
 pagesMap.set('easy_aud_test', 'lab2/test_1/easy_aud_test')
@@ -192,36 +204,49 @@ app.get('/:name', function(req, res) {
     let page = pagesMap.get(req.params.name)
     if (page === undefined){
         res.sendFile(__dirname + '/404.html');
-    } else if(req.params.name === 'stat') {
-        res.render(page, {dataScience: dataScience, frontEnd: frontEnd, sysAdmin: sysAdmin, DS: personDS, FE: personFE, SA:personSA});
-    } else if(req.params.name === 'desc_frontend') {
+    } else if (req.params.name === 'stat') {
+        res.render(page, {dataScience: dataScience, frontEnd: frontEnd, sysAdmin: sysAdmin});
+
+    } else if (req.params.name === 'desc_frontend') {
         res.render(page, {frontEnd: frontEnd});
-    } else if(req.params.name === 'mark') {
+
+    } else if (req.params.name === 'mark') {
         res.render(page, {FE: personFE});
-    } else if(req.params.name === 'frontend') {
+
+    } else if (req.params.name === 'frontend') {
         if (authoriseFlag) {
             res.render(page)
         } else {
             res.render('authorization/login')
         }
-    } else if(req.params.name === 'data') {
+
+    } else if (req.params.name === 'desc_datascience') {
+        res.render(page, {dataScience: dataScience});
+
+    } else if (req.params.name === 'data') {
         if (authoriseFlag) {
             res.render(page)
         } else {
             res.render('authorization/login')
         }
-    } else if(req.params.name === 'sysadmin') {
+
+    } else if (req.params.name === 'desc_sysadmin') {
+        res.render(page, {sysAdmin: sysAdmin});
+
+    } else if (req.params.name === 'sysadmin') {
         if (authoriseFlag) {
             res.render(page)
         } else {
             res.render('authorization/login')
         }
-    } else if(req.params.name === 'login') {
+
+    } else if (req.params.name === 'login') {
         if (authoriseFlag) {
-            res.render('main')
+            res.render('account', {user_name: user_name, DS: personDS, FE: personFE, SA:personSA})
         } else {
             res.render(page)
         }
+
     } else {
         res.render(page)
     }
