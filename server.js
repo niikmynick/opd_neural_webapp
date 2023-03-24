@@ -173,6 +173,7 @@ pagesMap.set('hard_eye_test', 'lab2/test_1/hard_eye_test')
 pagesMap.set('sum_aud_test', 'lab2/test_1/sum_aud_test')
 pagesMap.set('sum_eye_test', 'lab2/test_1/sum_eye_test')
 pagesMap.set('todo', 'lab2/test_2/TODO')
+pagesMap.set('todo_hard', 'lab2/test_2/TODO_hard')
 
 // switching pages
 app.get('/:name', function(req, res) {

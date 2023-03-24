@@ -22,34 +22,31 @@
         </div>
         <div id='Iteration' class="iteration"></div>
         <button id='Start_button' class="start_button" name="start" onclick="start_test()">Начать</button>
-        <div class="sun" id='Sun'>
-            <div class="tester__moving-dot" id="movingDot"></div>
+        <div class="moving-test" id="movingTest">
+            <div class="moving-test__moving-dot-wrapper" id='movingDotWrapper'>
+                <div class="moving-test__moving-dot" id="movingDot"></div>
+            </div>
+            <div class="moving-test__fixed-dot" id="fixedDot"></div>
         </div>
-        <div class="tester__fixed-dot" id="fixedDot"></div>
         <div id='Result' class="result"></div>
         <a href="/todo" class="restart_button" id='Retry'>Заново</a>
     </div>
 </div>
 <script>
     let iteration = 0;
-    const NUMBER_OF_ITERATIONS = 10;
+    const NUMBER_OF_ITERATIONS = 1000;
 
     //Результаты
     const resultList = []
 
-    function test_init() {
+    function start_test() {
         document.getElementById('Instruction').style.display = 'none';
         document.getElementById('Start_button').style.display = 'none';
         document.getElementById('bg').style.background = 'black';
         document.getElementById('Iteration').style.display = 'block';
         document.getElementById('Result').style.display = 'block';
         document.getElementById('Iteration').innerHTML = 'Попытка: ' + iteration +'/' + NUMBER_OF_ITERATIONS;
-    }
-
-    function start_test() {
-        test_init();
-        document.getElementById('Sun').style.display = 'block';
-        document.getElementById('fixedDot').style.display = 'block';
+        document.getElementById('movingTest').style.display = 'block';
 
         document.addEventListener('keydown', next_time);
     }
@@ -59,7 +56,7 @@
             iteration++;
             document.getElementById('Iteration').innerHTML = 'Попытка: ' + iteration +'/' + NUMBER_OF_ITERATIONS;
 
-            let movingDot = document.getElementById('Sun');
+            let movingDot = document.getElementById('movingDotWrapper');
             let rotationalSpeed = 2 * Math.PI / window.getComputedStyle(movingDot).animationDuration.slice(0, -1);
 
             let rotationalMatrix = window.getComputedStyle(movingDot).transform
@@ -82,8 +79,7 @@
         let dispersion = resultList.reduce((acc, number) => acc + Math.pow(number, 2), 0) / (resultList.length - 1);
         let sd = Math.sqrt(dispersion);
 
-        document.getElementById('Sun').style.display = 'none';
-        document.getElementById('fixedDot').style.display = 'none';
+        document.getElementById('movingTest').style.display = 'none';
 
         document.getElementById('Result').innerHTML = 'Стандартное отклонение: ' + sd.toFixed(3) + ' c';
         document.getElementById('Result').style.top = '30vh';
