@@ -34,22 +34,28 @@
     let iteration = 0;
     let end_time;
     let maxIteration = 5;
+    let isDuringTest = false;
 
     //Результаты
     let correctTests = 0;
     const resultList = [];
 
-    //Keydown on f
     document.addEventListener('keydown', function(event) {
-        if (event.key === "f" || event.code === 'KeyF' && iteration <= maxIteration) {
-            onAnswer(0);
-        }
-    });
-
-    //Keydown on j
-    document.addEventListener('keydown', function(event) {
-        if (event.key === "j" || event.code === 'KeyJ' && iteration <= maxIteration) {
-            onAnswer(1);
+        if (iteration <= maxIteration && isDuringTest) {
+            switch (event.key) {
+                case "f":
+                    onAnswer(0);
+                    break;
+                case "F":
+                    onAnswer(0);
+                    break;
+                case "j":
+                    onAnswer(1);
+                    break;
+                case "J":
+                    onAnswer(1);
+                    break;
+            }
         }
     });
 
@@ -82,6 +88,7 @@
         iteration++;
         end_time = 0;
         start_time = NaN;
+        isDuringTest = true;
         document.getElementById('Instruction').style.display = 'none';
         document.getElementById('Start_button').style.display = 'none';
         document.getElementById('bg').style.background = 'black';
@@ -96,9 +103,17 @@
         chosenAudio2 = audiosMap.get(num2);
         document.getElementById('Even').style.display = 'inline-block';
         document.getElementById('Odd').style.display = 'inline-block';
-        chosenAudio1.play()
-        console.log(num1)
-        setTimeout(function(){chosenAudio2.play();console.log(num2);start_time = Date.now();}, 600)
+        if (isDuringTest) {
+            chosenAudio1.play();
+        }
+        console.log(num1);
+        setTimeout(function(){
+            if (isDuringTest) {
+                chosenAudio2.play();
+                console.log(num2);
+                start_time = Date.now();
+            }
+        }, 600)
     }
     function finish_test(answer) {
         let end_time = Date.now() - start_time;
@@ -125,8 +140,9 @@
                 averageTime += resultList[i];
             }
             averageTime /= correctTests;
-            document.getElementById('Final Result').style.display = 'block';
-            document.getElementById('Final Result').innerHTML = 'Среднее время: ' + averageTime.toFixed(3) + '\nКоличество правильных ответов: ' + correctTests + '/' + maxIteration;
+            let percentageOfCorrectAnswers = correctTests / maxIteration * 100;
+            document.getElementById('Final Result').style.display = 'block'
+            document.getElementById('Final Result').innerHTML = 'Среднее время: ' + averageTime.toFixed(3) + '\nКоличество правильных ответов: ' + percentageOfCorrectAnswers.toFixed(2) + "%";
             document.getElementById('Retry').style.display = 'block';
         }
     }
