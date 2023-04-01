@@ -52,7 +52,6 @@ a, u {
     display: block;
     position: relative;
     width: 1000px;
-    height: 70px;
     z-index: 1;
 }
 .instruction::before {
@@ -69,6 +68,7 @@ a, u {
 }
 .text_instruction {
     padding-top: 10px;
+    padding-bottom: 8px;
     position: relative;
     color: white;
     font-size: 20pt;

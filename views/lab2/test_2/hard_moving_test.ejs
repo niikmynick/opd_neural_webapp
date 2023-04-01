@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="/public/css/style_test_2.css">
-    <title>Document</title>
+    <title>Hard moving test</title>
 </head>
 <body>
 <div id="bg" class="bg_img">
@@ -18,7 +18,9 @@
     </div>
     <div class="tester">
         <div id='Instruction' class="instruction text_instruction">
-            Этот тест считывает скорость реакции на движущийся объект. Ваша цель - нажать на ПРОБЕЛ как только красный круг совместиться с белым.
+            Этот тест считывает скорость реакции на движущийся объект. Ваша цель - нажать на
+            <b style="color: green">Numpad1</b>, <b style="color: red">Numpad2</b> или <b style="color: purple">Numpad3</b>
+            как только медленный, средний или быстрый круг соответственно совместиться с белым.
         </div>
         <div id='Iteration' class="iteration"></div>
         <button id='Start_button' class="start_button" name="start" onclick="start_test()">Начать</button>
@@ -35,7 +37,7 @@
             <div class="moving-test__fixed-dot" id="fixedDot"></div>
         </div>
         <div id='Result' class="result"></div>
-        <a href="/todo_hard" class="restart_button" id='Retry'>Заново</a>
+        <a href="/hard_moving_test" class="restart_button" id='Retry'>Заново</a>
     </div>
 </div>
 <script>
