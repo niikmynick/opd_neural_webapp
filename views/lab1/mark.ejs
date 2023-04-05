@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en" xmlns="http://www.w3.org/1999/html">
+<html lang="en" xmlns="http://www.w3.org/1999/html" xmlns="http://www.w3.org/1999/html">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -17,24 +17,39 @@
         </a>
     </div>
     <div class="choice">
-        <p>
 
-        </p>
         <form method="post" action="/mark">
-            <div class="list_1">
+            <div class="list_11">
                 <p class="text_title">Frontend - разработчик</p>
-                <table class="table_1">
-                    <tr class="table">
-                        <td>№</td>
-                        <td>Профессиональное качество</td>
-                    </tr>
-                    <% for(let i=0; i<5; i++) { %>
-                        <tr>
-                            <td><%= (i+1) %></td>
-                            <td class="td_1"><%= FE[i] %></td>
+                <div class="choice_pvk">
+                    <table class="table_1">
+                        <tr class="table">
+                            <td>№</td>
+                            <td>Профессиональное качество</td>
                         </tr>
-                    <% } %>
-                </table>
+                        <% for(let i=0; i<10; i++) { %>
+                            <tr>
+                                <td><%= (i+1) %></td>
+                                <td class="td_1"><%= FE[i] %></td>
+                            </tr>
+                        <% } %>
+                    </table>
+                    <div class="input_pvk">
+                        <div class="inputbox">
+                            <input type="text" name="1" required>
+                            <input type="text" name="2" required>
+                            <input type="text" name="3" required>
+                            <input type="text" name="4" required>
+                            <input type="text" name="5" required>
+                            <input type="text" name="6" required>
+                            <input type="text" name="7" required>
+                            <input type="text" name="8" required>
+                            <input type="text" name="9" required>
+                            <input type="text" name="10" required>
+                        </div>
+
+                    </div>
+                </div>
             </div>
             <div class="list_button">
                 <button class="sent" onclick="">Отправить</button>

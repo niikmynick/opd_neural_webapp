@@ -136,6 +136,8 @@ app.post('/add', urlencodeParser, function(req, res) {
 
 app.post('/mark', urlencodeParser, function(req, res) {
     if (!req.body) return res.sendStatus(400)
+    console.log(req.body)
+
     res.render('main')
 })
 
@@ -219,11 +221,12 @@ app.get('/:name', function(req, res) {
 
     } else if (req.params.name === 'frontend') {
         if (authoriseFlag) {
-            if (/[1-9]/.exec(userSkillsList['frontend'].toString()) !== []) {
-                res.render('lab1/testError', {user_name: user_name, DS: personDS, FE: personFE, SA:personSA})
-            } else {
-                res.render(page)
-            }
+            res.render(page)
+            // if (/[1-9]/.exec(userSkillsList['frontend'].toString()) !== []) {
+            //     res.render('lab1/testError', {user_name: user_name, DS: personDS, FE: personFE, SA:personSA})
+            // } else {
+            //     res.render(page)
+            // }
         } else {
             res.render('authorization/login')
         }
