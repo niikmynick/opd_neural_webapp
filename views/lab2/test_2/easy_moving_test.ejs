@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/public/css/style_test_2.css">
+    <title>Easy moving test</title>
+</head>
+<body>
+<div id="bg" class="bg_img">
+    <div class="top">
+        <a href="/test_2">
+            <img class="icon_back" src="public/img/back.png">
+        </a>
+        <a href="/login">
+            <img class="icon_menu" src="public/img/menu.png">
+        </a>
+    </div>
+    <div class="tester">
+        <div id='Instruction' class="instruction text_instruction">
+            Этот тест считывает скорость реакции на движущийся объект. Ваша цель - нажать на ПРОБЕЛ как только красный круг совместиться с белым.
+        </div>
+        <div id='Iteration' class="iteration"></div>
+        <button id='Start_button' class="start_button" name="start" onclick="start_test()">Начать</button>
+        <div class="moving-test" id="movingTest">
+            <div class="moving-test__moving-dot-wrapper" id='movingDotWrapper'>
+                <div class="moving-test__moving-dot" id="movingDot"></div>
+            </div>
+            <div class="moving-test__fixed-dot" id="fixedDot"></div>
+        </div>
+        <div id='Result' class="result"></div>
+        <a href="/easy_moving_test" class="restart_button" id='Retry'>Заново</a>
+    </div>
+</div>
+<script>
+    let iteration = 0;
+    const NUMBER_OF_ITERATIONS = 1000;
+
+    //Результаты
+    const resultList = []
+
+    function start_test() {
+        document.getElementById('Instruction').style.display = 'none';
+        document.getElementById('Start_button').style.display = 'none';
+        document.getElementById('bg').style.background = 'black';
+        document.getElementById('Iteration').style.display = 'block';
+        document.getElementById('Result').style.display = 'block';
+        document.getElementById('Iteration').innerHTML = 'Попытка: ' + iteration +'/' + NUMBER_OF_ITERATIONS;
+        document.getElementById('movingTest').style.display = 'block';
+
+        document.addEventListener('keydown', next_time);
+    }
+
+    function next_time(e) {
+        if (e.code === 'Space') {
+            iteration++;
+            document.getElementById('Iteration').innerHTML = 'Попытка: ' + iteration +'/' + NUMBER_OF_ITERATIONS;
+
+            let movingDot = document.getElementById('movingDotWrapper');
+            let rotationalSpeed = 2 * Math.PI / window.getComputedStyle(movingDot).animationDuration.slice(0, -1);
+
+            let rotationalMatrix = window.getComputedStyle(movingDot).transform
+                .split('(')[1].split(')')[0].split(',');
+            let angleTemp = Math.asin(rotationalMatrix[1]);
+            let angle = Math.acos(rotationalMatrix[0]);
+            angle = angleTemp > 0 ? -angle : angle;
+
+            let wrong = angle / rotationalSpeed;
+            document.getElementById('Result').innerHTML = 'Ваша ошибка: ' + (wrong).toFixed(3) +' с';
+            resultList.push(wrong);
+
+            if (iteration === NUMBER_OF_ITERATIONS) finish_test();
+        }
+    }
+
+    function finish_test() {
+        document.removeEventListener('keydown', next_time);
+
+        let dispersion = resultList.reduce((acc, number) => acc + Math.pow(number, 2), 0) / (resultList.length - 1);
+        let sd = Math.sqrt(dispersion);
+
+        document.getElementById('movingTest').style.display = 'none';
+
+        document.getElementById('Result').innerHTML = 'Стандартное отклонение: ' + sd.toFixed(3) + ' c';
+        document.getElementById('Result').style.top = '30vh';
+        document.getElementById('Retry').style.display = 'block';
+    }
+</script>
+</body>
+</html>
