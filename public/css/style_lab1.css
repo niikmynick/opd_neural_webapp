@@ -142,7 +142,7 @@ a, u {
 }
 .list_11 {
     width: 640px;
-    height: 325px;
+    height: 360px;
     display: block;
     position: relative;
     z-index: 1;
@@ -161,7 +161,6 @@ a, u {
     opacity: 0.3;
 }
 .list_button {
-
 }
 
 
@@ -266,10 +265,9 @@ a, u {
     transform: rotate(45deg);
 }
 .table_1 {
-    margin: 0 auto;
-    margin-top: 10px;
-    width: 600px;
-    height: 160px;
+    margin-left: 20px;
+    width: 500px;
+    height: 250px;
 }
 table, tr, td {
     color: white;
@@ -287,4 +285,53 @@ td {
 .td_1{
     text-align: left;
     font-size: 14px;
+}
+.text_title {
+    position: relative;
+    font-size: 24pt;
+    font-family: 'docs-Roboto', Helvetica, Arial, sans-serif;
+    letter-spacing: 0;
+    padding-top: 20px;
+    padding-left: 20px;
+    color: white;
+}
+.choice_pvk{
+    display: flex;
+}
+.input_pvk{
+    position: relative;
+    width: 50px;
+}
+.inputbox{
+    position: relative;
+    left: 20px;
+    width: 25px;
+    padding-top: 20px;
+}
+.inputbox input {
+    width: 15px;
+    height: 20px;
+    background: transparent;
+    border: none;
+    outline: none;
+    font-size: 1em;
+    color: #fff;
+    border-bottom: 1px solid #fff;
+}
+.popit {
+    position: relative;
+    text-align: center;
+}
+.text_popit {
+    display: block;
+    font-size: 20pt;
+    font-family: 'docs-Roboto', Helvetica, Arial, sans-serif;
+    letter-spacing: 0;
+    padding-top: 20px;
+    padding-left: 20px;
+    color: white;
+}
+.pp {
+    padding-top: 10px;
+    text-align: center;
 }
