@@ -42,7 +42,7 @@
 </div>
 <script>
     let iteration = 0;
-    const NUMBER_OF_ITERATIONS = 1000;
+    const NUMBER_OF_ITERATIONS = 30;
 
     //Результаты
     const resultList = {slow: [],
@@ -50,6 +50,10 @@
                         fast: []};
 
     function start_test() {
+        setInterval(() => {
+            iteration ++
+            document.getElementById('Iteration').innerHTML = 'Попытка: ' + iteration +'/' + NUMBER_OF_ITERATIONS;
+        }, 5000);
         document.getElementById('Instruction').style.display = 'none';
         document.getElementById('Start_button').style.display = 'none';
         document.getElementById('bg').style.background = 'black';
@@ -76,7 +80,7 @@
     }
     
     function calculate_wrong(speed) {
-        iteration++;
+
         document.getElementById('Iteration').innerHTML = 'Попытка: ' + iteration +'/' + NUMBER_OF_ITERATIONS;
 
         let targetMovingDot = document.getElementById(speed + 'MovingDot');
@@ -92,10 +96,29 @@
         angle = angleTemp > 0 ? -angle : angle;
 
         let wrong = angle / rotationalSpeed;
-        document.getElementById('Result').innerHTML = 'Ваша ошибка: ' + (wrong).toFixed(3) +' с';
-        resultList[speed].push(wrong);
+        if (wrong < 0.35 && wrong > -0.35){
+            document.getElementById('Result').innerHTML = 'Ваш результат: ' + (wrong).toFixed(3) +' с';
+            resultList[speed].push(wrong);
+            targetMovingDot.children[0].classList.add('dot_highlight');
+        } else {
+            if (speed === "fast") {
+                document.getElementById('Result').innerHTML = 'Ошибка!'
+                document.getElementById('Result').style.color = 'purple'
 
-        targetMovingDot.children[0].classList.add('dot_highlight');
+            }
+            if (speed === "middle") {
+                document.getElementById('Result').innerHTML = 'Ошибка!'
+                document.getElementById('Result').style.color = 'red'
+
+            }
+            if (speed === "slow") {
+                document.getElementById('Result').innerHTML = 'Ошибка!'
+                document.getElementById('Result').style.color = 'green'
+
+            }
+        }
+
+
 
         if (iteration === NUMBER_OF_ITERATIONS) finish_test();
     }
