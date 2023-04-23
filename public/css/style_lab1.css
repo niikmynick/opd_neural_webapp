@@ -142,7 +142,7 @@ a, u {
 }
 .list_11 {
     width: 640px;
-    height: 360px;
+    height: 400px;
     display: block;
     position: relative;
     z-index: 1;
@@ -176,6 +176,14 @@ a, u {
     text-align: justify;
     line-height: 20px;
     padding-top: 20px;
+    padding-left: 20px;
+    padding-right: 20px;
+}
+.text1 {
+    color: white;
+    font-family: Roboto,Arial,sans-serif;
+    font-size: 11pt;
+    text-align: justify;
     padding-left: 20px;
     padding-right: 20px;
 }
@@ -309,7 +317,7 @@ td {
     padding-top: 20px;
 }
 .inputbox input {
-    width: 15px;
+    width: 35px;
     height: 20px;
     background: transparent;
     border: none;

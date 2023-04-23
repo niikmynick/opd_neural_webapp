@@ -82,6 +82,12 @@ app.post('/login', urlencodeParser, function(req, res) {
 let jsObjectSkills = JSON.parse(fs.readFileSync('views/lab1/statistic/skills.json', 'utf8').toString())
 let jsObjectStat = JSON.parse(fs.readFileSync('views/lab1/statistic/stat.json', 'utf8').toString())
 
+// result keepers init
+let frontEnd = []
+let dataScience = []
+let sysAdmin = []
+
+// personal results
 let personDS = []
 let personFE = []
 let personSA = []
@@ -89,8 +95,6 @@ let personSA = []
 // saving user choice
 app.post('/add', urlencodeParser, function(req, res) {
     if(!req.body) return res.sendStatus(400)
-
-    console.log(userSkillsList)
 
     let count = 0;
 
@@ -107,18 +111,31 @@ app.post('/add', urlencodeParser, function(req, res) {
 
         if (i.startsWith('f')) {
             personFE.push(jsObjectSkills[i.slice(1) - 1])
-            jsObjectStat['frontend'][jsObjectSkills[i.slice(1) - 1]] += count
-            userSkillsList['frontend'][jsObjectSkills[i.slice(1) - 1]] += 1
         } else if (i.startsWith('a')) {
             personSA.push(jsObjectSkills[i.slice(1) - 1])
-            jsObjectStat['sysadmin'][jsObjectSkills[i.slice(1) - 1]] += count
-            userSkillsList['sysadmin'][jsObjectSkills[i.slice(1) - 1]] += 1
         } else if (i.startsWith('d')){
             personDS.push(jsObjectSkills[i.slice(1) - 1])
-            jsObjectStat['data_scientist'][jsObjectSkills[i.slice(1) - 1]] += count
-            userSkillsList['data_scientist'][jsObjectSkills[i.slice(1) - 1]] += 1
+
         }
 
+    }
+
+    res.render('lab1/mark', {DS: personDS, FE: personFE, SA:personSA})
+})
+
+app.post('/mark', urlencodeParser, function(req, res) {
+    if (!req.body) return res.sendStatus(400)
+    for (i in req.body) {
+        if (i.startsWith('f')) {
+            jsObjectStat['frontend'][personFE[i.slice(1) - 1]] += parseInt(req.body[i])
+            userSkillsList['frontend'][personFE[i.slice(1) - 1]] += parseInt(req.body[i])
+        } else if (i.startsWith('a')) {
+            jsObjectStat['sysadmin'][personSA[i.slice(1) - 1]] += parseInt(req.body[i])
+            userSkillsList['sysadmin'][personSA[i.slice(1) - 1]] += parseInt(req.body[i])
+        } else if (i.startsWith('d')){
+            jsObjectStat['data_scientist'][personDS[i.slice(1) - 1]] += parseInt(req.body[i])
+            userSkillsList['data_scientist'][personDS[i.slice(1) - 1]] += parseInt(req.body[i])
+        }
     }
 
     // writing statistics to the file
@@ -131,20 +148,9 @@ app.post('/add', urlencodeParser, function(req, res) {
         if(error) throw error
         console.log("Асинхронная запись файла завершена.")
     })
-    res.render('lab1/mark', {DS: personDS, FE: personFE, SA:personSA})
-})
-
-app.post('/mark', urlencodeParser, function(req, res) {
-    if (!req.body) return res.sendStatus(400)
-    console.log(req.body)
 
     res.render('main')
 })
-
-// result keepers init
-let frontEnd = []
-let dataScience = []
-let sysAdmin = []
 
 // filling result lists
 for (let profession in jsObjectStat) {
@@ -209,6 +215,40 @@ pagesMap.set('hard_moving_test', 'lab2/test_2/hard_moving_test')
 pagesMap.set('analog_tracking', 'lab2/test_3/analog_tracking')
 pagesMap.set('tracking_with_persecution', 'lab2/test_3/tracking_with_persecution')
 
+function checkTestAndRender (res, page, scope) {
+    let flag = false
+
+    for (let profession in userSkillsList) {
+
+        for (let skill in userSkillsList[profession]) {
+            if (profession === "frontend") {
+                if (parseInt(userSkillsList[profession[skill]]) >= 1) {
+                    personFE.push(skill);
+                    flag = true
+                }
+
+            } else if (profession === "data_scientist") {
+                if (parseInt(userSkillsList[profession[skill]]) >= 1) {
+                    personDS.push(skill);
+                    flag = true
+                }
+
+            } else if (profession === "sysadmin") {
+                if (parseInt(userSkillsList[profession[skill]]) >= 1) {
+                    personSA.push(skill);
+                    flag = true
+                }
+            }
+        }
+    }
+
+    if (flag) {
+        res.render('lab1/testError', {user_name: user_name, DS: personDS, FE: personFE, SA:personSA})
+    } else {
+        res.render(page)
+    }
+}
+
 // switching pages
 app.get('/:name', function(req, res) {
     let page = pagesMap.get(req.params.name)
@@ -223,14 +263,15 @@ app.get('/:name', function(req, res) {
     } else if (req.params.name === 'mark') {
         res.render(page, {FE: personFE});
 
-    } else if (req.params.name === 'frontend') {
+    } else if (req.params.name === "frontend") {
         if (authoriseFlag) {
             res.render(page)
-            // if (/[1-9]/.exec(userSkillsList['frontend'].toString()) !== []) {
-            //     res.render('lab1/testError', {user_name: user_name, DS: personDS, FE: personFE, SA:personSA})
-            // } else {
-            //     res.render(page)
-            // }
+            if (/[1-9]/.exec(userSkillsList['frontend'].toString()) !== []) {
+                res.render('lab1/testError', {user_name: user_name, DS: personDS, FE: personFE, SA:personSA})
+            } else {
+                res.render(page)
+            }
+            checkTestAndRender(res, page, 'frontend')
         } else {
             res.render('authorization/login')
         }
@@ -240,11 +281,7 @@ app.get('/:name', function(req, res) {
 
     } else if (req.params.name === 'datascience') {
         if (authoriseFlag) {
-            if (/[1-9]/.exec(userSkillsList['data_scientist'].toString()) !== []) {
-                res.render('lab1/testError', {user_name: user_name, DS: personDS, FE: personFE, SA:personSA})
-            } else {
-                res.render(page)
-            }
+            checkTestAndRender(res, page, 'data_scientist')
         } else {
             res.render('authorization/login')
         }
@@ -254,11 +291,7 @@ app.get('/:name', function(req, res) {
 
     } else if (req.params.name === 'sysadmin') {
         if (authoriseFlag) {
-            if (/[1-9]/.exec(userSkillsList['sysadmin'].toString()) !== []) {
-                res.render('lab1/testError', {user_name: user_name, DS: personDS, FE: personFE, SA:personSA})
-            } else {
-                res.render(page)
-            }
+            checkTestAndRender(res, page, 'sysadmin')
         } else {
             res.render('authorization/login')
         }
