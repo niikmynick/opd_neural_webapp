@@ -16,7 +16,7 @@
             <img class="icon_menu" src="/public/img/menu.png">
         </a>
     </div>
-    <div class="tester">
+    <div id ='Tester' class="tester">
         <div id='Instruction' class="instruction text_instruction">
             Этот тест считывает вашу реакцию на случайное перемещение маркера. Ваша цель - возвращение маркера в исходное мнстоположение.
         </div>
@@ -38,6 +38,7 @@
     const DIRECTION_CHANGE_INTERVAL = 800 //(milliseconds)
     const REFRESH_INTERVAL = 3 // (milliseconds)
 
+    const globalContainer = document.getElementById('Tester');
     const circle = document.getElementById('Circle')
     const rectangle1 = document.getElementById('Upper_marker')
     const rectangle2 = document.getElementById('Lower_marker')
@@ -50,7 +51,6 @@
 
     let globalLeftBorder = 0;
     let globalRightBorder = getCurrentValuePX(globalContainer, "width");
-
 
     //Результаты
     let score = 0;
@@ -117,7 +117,7 @@
                         let movement_change = setInterval(function (){
                             moveLeft(HORIZONTAL_MOVE);
                             iterator++;
-                            if (iterator >= iterations || !isDuringTest || getCurrentValuePX(circle, "left") < (globalLeftBorder+ 10) || getCurrentValuePX(circle, "left") > (globalRightBorder - 10)) {
+                            if (iterator >= iterations || !isDuringTest || getCurrentValuePX(circle, "left") < (globalLeftBorder + 10) || getCurrentValuePX(circle, "left") > (globalRightBorder - 10)) {
                                 clearInterval(movement_change)
                                 iterator = 0;
                             }
@@ -127,7 +127,7 @@
                         let movement_change = setInterval(function (){
                             moveRight(HORIZONTAL_MOVE);
                             iterator++;
-                            if (iterator >= iterations || !isDuringTest || getCurrentValuePX(circle, "left") < (globalLeftBorder+ 10) || getCurrentValuePX(circle, "left") > (globalRightBorder - 10)) {
+                            if (iterator >= iterations || !isDuringTest || getCurrentValuePX(circle, "left") < (globalLeftBorder + 10) || getCurrentValuePX(circle, "left") > (globalRightBorder - 10)) {
                                 clearInterval(movement_change)
                                 iterator = 0;
                             }
