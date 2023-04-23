@@ -48,6 +48,9 @@
     let leftBorder = getCurrentValuePX(rectangle1, "left");
     let rightBorder = leftBorder + getCurrentValuePX(rectangle1, "width");
 
+    let globalLeftBorder = 0;
+    let globalRightBorder = getCurrentValuePX(globalContainer, "width");
+
 
     //Результаты
     let score = 0;
@@ -114,7 +117,7 @@
                         let movement_change = setInterval(function (){
                             moveLeft(HORIZONTAL_MOVE);
                             iterator++;
-                            if (iterator >= iterations || !isDuringTest) {
+                            if (iterator >= iterations || !isDuringTest || getCurrentValuePX(circle, "left") < (globalLeftBorder+ 10) || getCurrentValuePX(circle, "left") > (globalRightBorder - 10)) {
                                 clearInterval(movement_change)
                                 iterator = 0;
                             }
@@ -124,7 +127,7 @@
                         let movement_change = setInterval(function (){
                             moveRight(HORIZONTAL_MOVE);
                             iterator++;
-                            if (iterator >= iterations || !isDuringTest) {
+                            if (iterator >= iterations || !isDuringTest || getCurrentValuePX(circle, "left") < (globalLeftBorder+ 10) || getCurrentValuePX(circle, "left") > (globalRightBorder - 10)) {
                                 clearInterval(movement_change)
                                 iterator = 0;
                             }

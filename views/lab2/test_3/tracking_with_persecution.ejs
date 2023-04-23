@@ -16,93 +16,187 @@
             <img class="icon_menu" src="/public/img/menu.png">
         </a>
     </div>
-    <div class="tester">
+    <div id ='Tester' class="tester">
         <div id='Instruction' class="instruction text_instruction">
-            TODO
+            Этот тест считывает вашу реакцию на случайное перемещение мишени. Ваша цель - преследовать цель за мишенью.
         </div>
-        <div id='Iteration' class="iteration"></div>
         <button id='Start_button' class="start_button" name="start" onclick="start_test()">Начать</button>
-        <div id='Circle' class="circle" onclick="onAnswer()"></div>
-        <div id='Result' class="result"></div>
+        <div id='Target' class="circle"></div>
+        <div id='Crosshair' class="crosshair"></div>
+        <div id='Timer' class="iteration">20s</div>
+        <div id='Score' class="iteration">Score: 0</div>
+        <div id='Upper_marker' class="rectangle"></div>
+        <div id='Lower_marker' class="rectangle"></div>
         <div id='Final Result' class="result"></div>
         <a href="/tracking_with_persecution" class="restart_button" id='Retry'>Заново</a>
     </div>
 </div>
 <script>
-    let start_time;
-    let iteration = 0;
-    let maxIteration = 5;
-    let end_time;
+    const TEST_DURATION = 20000; //(milliseconds)
+    const WAIT_TIME = 200; // time before target starts moving after starting test (milliseconds)
+    const HORIZONTAL_MOVE = 0.8; // px
+    const HORIZONTAL_USER_MOVE = 25; // px
+    const DIRECTION_CHANGE_INTERVAL = 800; //(milliseconds)
+    const REFRESH_INTERVAL = 3; // (milliseconds)
+
+    const globalContainer = document.getElementById('Tester');
+    const target = document.getElementById('Target');
+    const crosshair = document.getElementById('Crosshair');
+    const rectangle1 = document.getElementById('Upper_marker');
+    const rectangle2 = document.getElementById('Lower_marker');
+    const rectangleGlow = "1px 1px 10px 5px #888888";
+    rectangle1.style.boxShadow = rectangleGlow;
+    rectangle2.style.boxShadow = rectangleGlow;
+
     let isDuringTest = false;
+    let countDownTime;
+    let globalLeftBorder = 0;
+    let globalRightBorder = getCurrentValuePX(globalContainer, "width");
+    let circleLeftBorder = getCurrentValuePX(target, "left");
+    let circleRightBorder = getCurrentValuePX(target, "left") + getCurrentValuePX(target, "width");
+
 
     //Результаты
-    let correctTests = 0;
-    const resultList = [];
+    let score = 0;
 
-    //Keydown on space
     document.addEventListener('keydown', function(event) {
-        if (event.key === " " && iteration <= maxIteration && isDuringTest) {
-            onAnswer();
+        if (isDuringTest) {
+            switch (event.key) {
+                case "a":
+                    moveLeft(crosshair, HORIZONTAL_USER_MOVE);
+                    break;
+                case "A":
+                    moveLeft(crosshair, HORIZONTAL_USER_MOVE);
+                    break;
+                case "d":
+                    moveRight(crosshair, HORIZONTAL_USER_MOVE);
+                    break;
+                case "D":
+                    moveRight(crosshair, HORIZONTAL_USER_MOVE);
+                    break;
+            }
         }
     });
 
-    function onAnswer() {
-        finish_test();
-        if (iteration !== maxIteration) {
-            start_test();
-        } else {
-            iteration++;
-        }
+    function moveLeft(element, change_value) {
+        let curr_left_value = getCurrentValuePX(element, "left");
+        let new_left_value = curr_left_value - change_value;
+        element.style.left = new_left_value + "px";
     }
 
+    function moveRight(element, change_value) {
+        let curr_left_value = getCurrentValuePX(element, "left");
+        let new_left_value = curr_left_value + change_value;
+        element.style.left = new_left_value + "px";
+    }
+
+    //returns property value (number) of provided element, value should be in px
+    function getCurrentValuePX(element, property) {
+        let style = getComputedStyle(element);
+        let curr_left = style.getPropertyValue(property);
+        return parseFloat(curr_left.replace("px", ""));
+    }
+
+
     function start_test() {
-        iteration++;
-        end_time = 0;
-        start_time = NaN;
+        // Set the date we're counting down to
         isDuringTest = true;
+        document.getElementById('Timer').style.display = 'flex';
+        document.getElementById('Score').style.display = 'flex';
         document.getElementById('Instruction').style.display = 'none';
         document.getElementById('Start_button').style.display = 'none';
         document.getElementById('bg').style.background = 'black';
-        document.getElementById('Iteration').style.display = 'block';
-        document.getElementById('Iteration').innerHTML = 'Попытка: ' + iteration + '/' + maxIteration;
-        let rand_time = (Math.random() * 5000) + 1000;
-        document.getElementById('Circle').style.display = 'block';
+        target.style.display = 'flex';
+        crosshair.style.display = 'flex';
+        document.getElementById('Upper_marker').style.display = 'flex';
+        document.getElementById('Lower_marker').style.display = 'flex';
+        document.getElementById('Lower_marker').style.top = '3vh';
+
         setTimeout(function(){
             if (isDuringTest) {
-                document.getElementById('Circle').style.backgroundColor = 'red';
-                start_time = Date.now();
+                let direction_change = setInterval(function (){
+                    let rand_direction = Math.floor(Math.random()*2);
+                    let iterations = DIRECTION_CHANGE_INTERVAL/REFRESH_INTERVAL;
+                    let iterator = 0;
+                    if (rand_direction === 0) {
+                        let movement_change = setInterval(function (){
+                            moveLeft(target, HORIZONTAL_MOVE);
+                            iterator++;
+                            if (iterator >= iterations || !isDuringTest || getCurrentValuePX(target, "left") < (globalLeftBorder+ 10) || getCurrentValuePX(target, "left") > (globalRightBorder - 10)) {
+                                clearInterval(movement_change);
+                                iterator = 0;
+                            }
+                        }, REFRESH_INTERVAL);
+
+                    } else if (rand_direction === 1) {
+                        let movement_change = setInterval(function (){
+                            moveRight(target, HORIZONTAL_MOVE);
+                            iterator++;
+                            if (iterator >= iterations || !isDuringTest || getCurrentValuePX(target, "left") < (globalLeftBorder+ 10) || getCurrentValuePX(target, "left") > (globalRightBorder - 10)) {
+                                clearInterval(movement_change);
+                                iterator = 0;
+                            }
+                        }, REFRESH_INTERVAL);
+                    }
+                    let countScore = setInterval(function () {
+                        let crosshairCenter = getCurrentValuePX(crosshair, "left") + (getCurrentValuePX(crosshair, "width")/2);
+                        circleLeftBorder = getCurrentValuePX(target, "left");
+                        circleRightBorder = getCurrentValuePX(target, "left") + getCurrentValuePX(target, "width");
+                        if (crosshairCenter > circleLeftBorder && crosshairCenter < circleRightBorder) {
+                            target.style.boxShadow = "1px 1px 10px 5px darkgreen";
+                            score += REFRESH_INTERVAL;
+                            document.getElementById('Score').innerHTML = "Score: " + score;
+                        } else {
+                            target.style.boxShadow = "1px 1px 10px 5px darkred"
+                        }
+                        if (!isDuringTest) {
+                            clearInterval(countScore);
+                        }
+                    }, REFRESH_INTERVAL);
+
+                }, DIRECTION_CHANGE_INTERVAL);
+
+                countDownTime = new Date().getTime() + TEST_DURATION;
+                // Update the count-down every 1 millisecond
+                let timer = setInterval(function() {
+
+                    // Get today's date and time
+                    let now = new Date().getTime();
+
+                    // Find the distance between now and the count-down date
+                    let distance = countDownTime - now;
+
+                    let seconds = distance/1000;
+
+                    document.getElementById("Timer").innerHTML = seconds + "s";
+
+                    // If the count-down is finished, write some text
+                    if (distance <= 0) {
+                        clearInterval(direction_change);
+                        clearInterval(timer);
+                        document.getElementById("Timer").innerHTML = "Время вышло";
+                        finish_test();
+                    }
+                }, REFRESH_INTERVAL);
             }
-        }, rand_time);
+
+        }, WAIT_TIME);
     }
 
     function finish_test() {
-        end_time = Date.now() - start_time;
-        document.getElementById('Result').style.display = 'block';
-        document.getElementById('Circle').style.backgroundColor = 'midnightblue'
-        document.getElementById('Circle').style.display = 'none';
-        if (isNaN(end_time)) {
-            document.getElementById('Result').innerHTML = 'Не спешите!';
-        } else {
-            end_time = end_time / 1000
-            resultList.push(end_time);
-            document.getElementById('Result').innerHTML = 'Ваше время реакции: ' + end_time.toString() + 's';
-            correctTests++;
-        }
-        if (iteration === maxIteration) {
-            let averageTime = 0;
-            for (let i = 0; i < resultList.length; i++) {
-                if (isNaN(resultList[i])) {
-                    continue;
-                }
-                averageTime += resultList[i];
-            }
-            averageTime /= correctTests;
-            let percentageOfCorrectAnswers = correctTests / maxIteration * 100;
-            document.getElementById('Final Result').style.display = 'block'
-            document.getElementById('Final Result').innerHTML = 'Среднее время: ' + averageTime.toFixed(3) + '\nКоличество правильных ответов: ' + percentageOfCorrectAnswers.toFixed(2) + "%";
-            document.getElementById('Retry').style.display = 'block';
-        }
+        isDuringTest = false;
+
+        document.getElementById('Final Result').style.display = 'block';
+        target.style.display = 'none';
+        crosshair.style.display = 'none';
+        document.getElementById('Upper_marker').style.display = 'none';
+        document.getElementById('Lower_marker').style.display = 'none';
+        document.getElementById('Timer').style.display = 'none';
+        document.getElementById('Score').style.display = 'none';
+        document.getElementById('Final Result').innerHTML = "Score:" + score;
+        document.getElementById('Retry').style.display = 'block';
     }
+
 </script>
 </body>
 </html>

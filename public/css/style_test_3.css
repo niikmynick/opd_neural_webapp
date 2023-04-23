@@ -144,7 +144,7 @@ a, u {
     border-radius: 50%;
     position: relative;
     top: 45vh;
-    left: 49vw;
+    left: 48.8vw;
     z-index: 2;
 }
 .result {
@@ -300,3 +300,18 @@ a, u {
     z-index: 1;
     box-shadow: 1px 1px 10px 5px darkgreen;
 }
+
+.crosshair {
+    display: none;
+    height: 3vh;
+    width: 3vh;
+    background: rgba(255, 189, 51 ,0.5);
+    border: 2px solid #888888;
+    border-radius: 50%;
+    position: relative;
+    top: 40.5vh;
+    left: 49.3vw;
+    z-index: 2;
+
+}
+
