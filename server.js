@@ -195,6 +195,8 @@ pagesMap.set('lab2', 'lab2/lab_2')
 
 pagesMap.set('test_1', 'lab2/test_1')
 pagesMap.set('test_2', 'lab2/test_2')
+pagesMap.set('test_3', 'lab2/test_3')
+pagesMap.set('test_4', 'lab2/test_4')
 pagesMap.set('easy_aud_test', 'lab2/test_1/easy_aud_test')
 pagesMap.set('easy_aud_stat', 'lab2/test_1/stat')
 pagesMap.set('easy_eye_test', 'lab2/test_1/easy_eye_test')
@@ -204,6 +206,8 @@ pagesMap.set('sum_aud_test', 'lab2/test_1/sum_aud_test')
 pagesMap.set('sum_eye_test', 'lab2/test_1/sum_eye_test')
 pagesMap.set('easy_moving_test', 'lab2/test_2/easy_moving_test')
 pagesMap.set('hard_moving_test', 'lab2/test_2/hard_moving_test')
+pagesMap.set('analog_tracking', 'lab2/test_3/analog_tracking')
+pagesMap.set('tracking_with_persecution', 'lab2/test_3/tracking_with_persecution')
 
 // switching pages
 app.get('/:name', function(req, res) {
