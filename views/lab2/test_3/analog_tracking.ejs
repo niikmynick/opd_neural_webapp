@@ -115,9 +115,13 @@
                     let iterator = 0;
                     if (rand_direction === 0) {
                         let movement_change = setInterval(function (){
-                            moveLeft(HORIZONTAL_MOVE);
                             iterator++;
-                            if (iterator >= iterations || !isDuringTest || getCurrentValuePX(circle, "left") < (globalLeftBorder + 10) || getCurrentValuePX(circle, "left") > (globalRightBorder - 10)) {
+                            if (getCurrentValuePX(circle, "left") < (globalLeftBorder + 50) || getCurrentValuePX(circle, "left") > (globalRightBorder - 50)) {
+                                moveRight(HORIZONTAL_MOVE);
+                            } else {
+                                moveLeft(HORIZONTAL_MOVE);
+                            }
+                            if (iterator >= iterations || !isDuringTest) {
                                 clearInterval(movement_change)
                                 iterator = 0;
                             }
@@ -125,9 +129,13 @@
 
                     } else if (rand_direction === 1) {
                         let movement_change = setInterval(function (){
-                            moveRight(HORIZONTAL_MOVE);
                             iterator++;
-                            if (iterator >= iterations || !isDuringTest || getCurrentValuePX(circle, "left") < (globalLeftBorder + 10) || getCurrentValuePX(circle, "left") > (globalRightBorder - 10)) {
+                            if (getCurrentValuePX(circle, "left") < (globalLeftBorder + 50) || getCurrentValuePX(circle, "left") > (globalRightBorder - 50)) {
+                                moveLeft(HORIZONTAL_MOVE);
+                            } else {
+                                moveRight(HORIZONTAL_MOVE);
+                            }
+                            if (iterator >= iterations || !isDuringTest) {
                                 clearInterval(movement_change)
                                 iterator = 0;
                             }

@@ -120,21 +120,25 @@
                     let iterator = 0;
                     if (rand_direction === 0) {
                         let movement_change = setInterval(function (){
-                            moveLeft(target, HORIZONTAL_MOVE);
                             iterator++;
-                            if (iterator >= iterations || !isDuringTest || getCurrentValuePX(target, "left") < (globalLeftBorder+ 10) || getCurrentValuePX(target, "left") > (globalRightBorder - 10)) {
-                                clearInterval(movement_change);
+                            if (getCurrentValuePX(target, "left") < (globalLeftBorder + 50) || getCurrentValuePX(target, "left") > (globalRightBorder - 50)) {
+                                moveRight(target, HORIZONTAL_MOVE);
+                            } else {
+                                moveLeft(target, HORIZONTAL_MOVE);
+                            }
+                            if (iterator >= iterations || !isDuringTest) {
+                                clearInterval(movement_change)
                                 iterator = 0;
                             }
                         }, REFRESH_INTERVAL);
 
                     } else if (rand_direction === 1) {
                         let movement_change = setInterval(function (){
-                            moveRight(target, HORIZONTAL_MOVE);
                             iterator++;
-                            if (iterator >= iterations || !isDuringTest || getCurrentValuePX(target, "left") < (globalLeftBorder+ 10) || getCurrentValuePX(target, "left") > (globalRightBorder - 10)) {
-                                clearInterval(movement_change);
-                                iterator = 0;
+                            if (getCurrentValuePX(target, "left") < (globalLeftBorder + 50) || getCurrentValuePX(target, "left") > (globalRightBorder - 50)) {
+                                moveLeft(target, HORIZONTAL_MOVE);
+                            } else {
+                                moveRight(target, HORIZONTAL_MOVE);
                             }
                         }, REFRESH_INTERVAL);
                     }
