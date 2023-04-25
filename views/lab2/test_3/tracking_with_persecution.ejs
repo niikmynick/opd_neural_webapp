@@ -140,6 +140,10 @@
                             } else {
                                 moveRight(target, HORIZONTAL_MOVE);
                             }
+                            if (iterator >= iterations || !isDuringTest) {
+                                clearInterval(movement_change)
+                                iterator = 0;
+                            }
                         }, REFRESH_INTERVAL);
                     }
                     let countScore = setInterval(function () {
