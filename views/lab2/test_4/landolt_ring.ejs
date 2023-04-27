@@ -18,182 +18,203 @@
     </div>
     <div id ='Tester' class="tester">
         <div id='Instruction' class="instruction text_instruction">
-            TODO
+            Этот тест оценивает ваше внимание. Вам необходимо выбрать в возрастающем порядке числа в красных квадратах и в убывающем порядке числа в чёрных квадратах.
         </div>
         <button id='Start_button' class="start_button" name="start" onclick="start_test()">Начать</button>
-        <div id='Circle' class="circle"></div>
-        <div id='Timer' class="iteration">20s</div>
-        <div id='Score' class="iteration">Score: 0</div>
-        <div id='Upper_marker' class="rectangle"></div>
-        <div id='Lower_marker' class="rectangle"></div>
+        <div id="Choosing_instruction" class="choosing_instruction text_choosing_instruction"></div>
+        <div id="Choosing_img" class="choosing_instruction text_choosing_instruction" style="background-color: white; width: 5vh; height: 5vh; left: 48vw"></div>
+        <div id='Timer' class="iteration">0s</div>
         <div id='Final Result' class="result"></div>
+        <div id='Scene' class="scene" style="top: 6vh">
+            <div class="cell" id="1" onclick="cell(1, 1)"><img src="/public/img/n.png" class="cell_img"></div>
+            <div class="cell" id="2" onclick="cell(1, 2)"><img src="/public/img/n.png" class="cell_img"></div>
+            <div class="cell" id="3" onclick="cell(1, 3)"><img src="/public/img/n.png" class="cell_img"></div>
+            <div class="cell" id="4" onclick="cell(1, 4)"><img src="/public/img/n.png" class="cell_img"></div>
+            <div class="cell" id="5" onclick="cell(1, 5)"><img src="/public/img/n.png" class="cell_img"></div>
+            <div class="cell" id="6" onclick="cell(1, 6)"><img src="/public/img/n.png" class="cell_img"></div>
+            <div class="cell" id="7" onclick="cell(1, 7)"><img src="/public/img/n.png" class="cell_img"></div>
+            <div class="cell" id="8" onclick="cell(1, 8)"><img src="/public/img/n.png" class="cell_img"></div>
+            <div class="cell" id="9" onclick="cell(2, 9)"><img src="/public/img/ne.png" class="cell_img"></div>
+            <div class="cell" id="10" onclick="cell(2, 10)"><img src="/public/img/ne.png" class="cell_img"></div>
+            <div class="cell" id="11" onclick="cell(2, 11)"><img src="/public/img/ne.png" class="cell_img"></div>
+            <div class="cell" id="12" onclick="cell(2, 12)"><img src="/public/img/ne.png" class="cell_img"></div>
+            <div class="cell" id="13" onclick="cell(2, 13)"><img src="/public/img/ne.png" class="cell_img"></div>
+            <div class="cell" id="14" onclick="cell(2, 14)"><img src="/public/img/ne.png" class="cell_img"></div>
+            <div class="cell" id="15" onclick="cell(2, 15)"><img src="/public/img/ne.png" class="cell_img"></div>
+            <div class="cell" id="16" onclick="cell(2, 16)"><img src="/public/img/ne.png" class="cell_img"></div>
+            <div class="cell" id="17" onclick="cell(3, 17)"><img src="/public/img/e.png" class="cell_img"></div>
+            <div class="cell" id="18" onclick="cell(3, 18)"><img src="/public/img/e.png" class="cell_img"></div>
+            <div class="cell" id="19" onclick="cell(3, 19)"><img src="/public/img/e.png" class="cell_img"></div>
+            <div class="cell" id="20" onclick="cell(3, 20)"><img src="/public/img/e.png" class="cell_img"></div>
+            <div class="cell" id="21" onclick="cell(3, 21)"><img src="/public/img/e.png" class="cell_img"></div>
+            <div class="cell" id="22" onclick="cell(3, 22)"><img src="/public/img/e.png" class="cell_img"></div>
+            <div class="cell" id="23" onclick="cell(3, 23)"><img src="/public/img/e.png" class="cell_img"></div>
+            <div class="cell" id="24" onclick="cell(3, 24)"><img src="/public/img/e.png" class="cell_img"></div>
+            <div class="cell" id="25" onclick="cell(4, 25)"><img src="/public/img/se.png" class="cell_img"></div>
+            <div class="cell" id="26" onclick="cell(4, 26)"><img src="/public/img/se.png" class="cell_img"></div>
+            <div class="cell" id="27" onclick="cell(4, 27)"><img src="/public/img/se.png" class="cell_img"></div>
+            <div class="cell" id="28" onclick="cell(4, 28)"><img src="/public/img/se.png" class="cell_img"></div>
+            <div class="cell" id="29" onclick="cell(4, 29)"><img src="/public/img/se.png" class="cell_img"></div>
+            <div class="cell" id="30" onclick="cell(4, 30)"><img src="/public/img/se.png" class="cell_img"></div>
+            <div class="cell" id="31" onclick="cell(4, 31)"><img src="/public/img/se.png" class="cell_img"></div>
+            <div class="cell" id="32" onclick="cell(4, 32)"><img src="/public/img/se.png" class="cell_img"></div>
+            <div class="cell" id="33" onclick="cell(5, 33)"><img src="/public/img/s.png" class="cell_img"></div>
+            <div class="cell" id="34" onclick="cell(5, 34)"><img src="/public/img/s.png" class="cell_img"></div>
+            <div class="cell" id="35" onclick="cell(5, 35)"><img src="/public/img/s.png" class="cell_img"></div>
+            <div class="cell" id="36" onclick="cell(5, 36)"><img src="/public/img/s.png" class="cell_img"></div>
+            <div class="cell" id="37" onclick="cell(5, 37)"><img src="/public/img/s.png" class="cell_img"></div>
+            <div class="cell" id="38" onclick="cell(5, 38)"><img src="/public/img/s.png" class="cell_img"></div>
+            <div class="cell" id="39" onclick="cell(5, 39)"><img src="/public/img/s.png" class="cell_img"></div>
+            <div class="cell" id="40" onclick="cell(5, 40)"><img src="/public/img/s.png" class="cell_img"></div>
+            <div class="cell" id="41" onclick="cell(6, 41)"><img src="/public/img/sw.png" class="cell_img"></div>
+            <div class="cell" id="42" onclick="cell(6, 42)"><img src="/public/img/sw.png" class="cell_img"></div>
+            <div class="cell" id="43" onclick="cell(6, 43)"><img src="/public/img/sw.png" class="cell_img"></div>
+            <div class="cell" id="44" onclick="cell(6, 44)"><img src="/public/img/sw.png" class="cell_img"></div>
+            <div class="cell" id="45" onclick="cell(6, 45)"><img src="/public/img/sw.png" class="cell_img"></div>
+            <div class="cell" id="46" onclick="cell(6, 46)"><img src="/public/img/sw.png" class="cell_img"></div>
+            <div class="cell" id="47" onclick="cell(6, 47)"><img src="/public/img/sw.png" class="cell_img"></div>
+            <div class="cell" id="48" onclick="cell(6, 48)"><img src="/public/img/sw.png" class="cell_img"></div>
+            <div class="cell" id="49" onclick="cell(7, 49)"><img src="/public/img/w.png" class="cell_img"></div>
+            <div class="cell" id="50" onclick="cell(7, 50)"><img src="/public/img/w.png" class="cell_img"></div>
+            <div class="cell" id="51" onclick="cell(7, 51)"><img src="/public/img/w.png" class="cell_img"></div>
+            <div class="cell" id="52" onclick="cell(7, 52)"><img src="/public/img/w.png" class="cell_img"></div>
+            <div class="cell" id="53" onclick="cell(7, 53)"><img src="/public/img/w.png" class="cell_img"></div>
+            <div class="cell" id="54" onclick="cell(7, 54)"><img src="/public/img/w.png" class="cell_img"></div>
+            <div class="cell" id="55" onclick="cell(7, 55)"><img src="/public/img/w.png" class="cell_img"></div>
+            <div class="cell" id="56" onclick="cell(7, 56)"><img src="/public/img/w.png" class="cell_img"></div>
+            <div class="cell" id="57" onclick="cell(8, 57)"><img src="/public/img/nw.png" class="cell_img"></div>
+            <div class="cell" id="58" onclick="cell(8, 58)"><img src="/public/img/nw.png" class="cell_img"></div>
+            <div class="cell" id="59" onclick="cell(8, 59)"><img src="/public/img/nw.png" class="cell_img"></div>
+            <div class="cell" id="60" onclick="cell(8, 60)"><img src="/public/img/nw.png" class="cell_img"></div>
+            <div class="cell" id="61" onclick="cell(8, 61)"><img src="/public/img/nw.png" class="cell_img"></div>
+            <div class="cell" id="62" onclick="cell(8, 62)"><img src="/public/img/nw.png" class="cell_img"></div>
+            <div class="cell" id="63" onclick="cell(8, 63)"><img src="/public/img/nw.png" class="cell_img"></div>
+            <div class="cell" id="64" onclick="cell(8, 64)"><img src="/public/img/nw.png" class="cell_img"></div>
+        </div>
+        <button id='Finish_button' class="restart_button" name="finish" onclick="finish_test()" style="top: 5vh">Готово</button>
         <a href="/landolt_ring" class="restart_button" id='Retry'>Заново</a>
     </div>
 </div>
 <script>
-    const TEST_DURATION = 20000; //(milliseconds)
-    const WAIT_TIME = 200; // time before circle starts moving after starting test (milliseconds)
-    const HORIZONTAL_MOVE = 1 // px
-    const HORIZONTAL_USER_MOVE = 30 // px
-    const DIRECTION_CHANGE_INTERVAL = 800 //(milliseconds)
-    const REFRESH_INTERVAL = 3 // (milliseconds)
-
     const globalContainer = document.getElementById('Tester');
-    const circle = document.getElementById('Circle')
-    const rectangle1 = document.getElementById('Upper_marker')
-    const rectangle2 = document.getElementById('Lower_marker')
-    const rectangleGlow = "1px 1px 10px 5px darkgreen"
+    const REFRESH_INTERVAL = 3;
+    const container = document.querySelector('.scene');
+    const children = [...container.children];
 
     let isDuringTest = false;
-    let countDownTime;
-    let leftBorder = getCurrentValuePX(rectangle1, "left");
-    let rightBorder = leftBorder + getCurrentValuePX(rectangle1, "width");
+    let timePassed = 0;
+    let initTime = 0;
+    const TOTAL_RINGS = 8;
+    let randRing = Math.floor(Math.random()*8) + 1;
+    const ringMap = new Map();
+    ringMap.set(1, "n.png");
+    ringMap.set(2, "ne.png");
+    ringMap.set(3, "e.png");
+    ringMap.set(4, "se.png");
+    ringMap.set(5, "s.png");
+    ringMap.set(6, "sw.png");
+    ringMap.set(7, "w.png");
+    ringMap.set(8, "nw.png");
+    let correctChosen = [];
+    let incorrectChosen = [];
 
-    let globalLeftBorder = 0;
-    let globalRightBorder = getCurrentValuePX(globalContainer, "width");
+    function shuffle(array) {
+        let currentIndex = array.length,
+            temporaryValue, randomIndex;
 
-    //Результаты
-    let score = 0;
+        // While there remain elements to shuffle...
+        while (0 !== currentIndex) {
 
-    document.addEventListener('keydown', function(event) {
-        if (isDuringTest) {
-            switch (event.key) {
-                case "a":
-                    moveLeft(HORIZONTAL_USER_MOVE)
-                    break;
-                case "A":
-                    moveLeft(HORIZONTAL_USER_MOVE)
-                    break;
-                case "d":
-                    moveRight(HORIZONTAL_USER_MOVE)
-                    break;
-                case "D":
-                    moveRight(HORIZONTAL_USER_MOVE)
-                    break;
-            }
+            // Pick a remaining element...
+            randomIndex = Math.floor(Math.random() * currentIndex);
+            currentIndex -= 1;
+
+            // And swap it with the current element.
+            temporaryValue = array[currentIndex];
+            array[currentIndex] = array[randomIndex];
+            array[randomIndex] = temporaryValue;
         }
-    });
 
-    function moveLeft(change_value) {
-        let curr_left_value = getCurrentValuePX(circle, "left");
-        let new_left_value = curr_left_value - change_value;
-        circle.style.left = new_left_value + "px";
+        return array;
     }
-
-    function moveRight(change_value) {
-        let curr_left_value = getCurrentValuePX(circle, "left");
-        let new_left_value = curr_left_value + change_value;
-        circle.style.left = new_left_value + "px";
-    }
-
-    //returns property value (number) of provided element, value should be in px
-    function getCurrentValuePX(element, property) {
-        let style = getComputedStyle(element)
-        let curr_left = style.getPropertyValue(property);
-        return parseFloat(curr_left.replace("px", ""));
-    }
-
 
     function start_test() {
-        // Set the date we're counting down to
         isDuringTest = true;
         document.getElementById('Timer').style.display = 'flex';
-        document.getElementById('Score').style.display = 'flex';
         document.getElementById('Instruction').style.display = 'none';
+        document.getElementById('Choosing_instruction').style.display = 'block';
+        document.getElementById('Choosing_img').style.display = 'block';
+        document.getElementById('Choosing_instruction').innerHTML = 'Нажмите все кольца вида: ';
+        document.getElementById('Choosing_img').innerHTML = `<img src="/public/img/` + ringMap.get(randRing) + `" class="cell_img">`;
         document.getElementById('Start_button').style.display = 'none';
+        document.getElementById('Finish_button').style.display = 'block';
         document.getElementById('bg').style.background = 'black';
-        circle.style.display = 'flex';
-        document.getElementById('Upper_marker').style.display = 'flex';
-        document.getElementById('Lower_marker').style.display = 'flex';
-        document.getElementById('Lower_marker').style.top = '3vh';
+        document.getElementById('Scene').style.display = 'block';
 
-        setTimeout(function(){
-            if (isDuringTest) {
-                let direction_change = setInterval(function (){
-                    let rand_direction = Math.floor(Math.random()*2);
-                    let iterations = DIRECTION_CHANGE_INTERVAL/REFRESH_INTERVAL;
-                    let iterator = 0;
-                    if (rand_direction === 0) {
-                        let movement_change = setInterval(function (){
-                            iterator++;
-                            if (getCurrentValuePX(circle, "left") < (globalLeftBorder + 50) || getCurrentValuePX(circle, "left") > (globalRightBorder - 50)) {
-                                moveRight(HORIZONTAL_MOVE);
-                            } else {
-                                moveLeft(HORIZONTAL_MOVE);
-                            }
-                            if (iterator >= iterations || !isDuringTest) {
-                                clearInterval(movement_change)
-                                iterator = 0;
-                            }
-                        }, REFRESH_INTERVAL);
+        shuffle(children);
+        for (const child of children) {
+            container.appendChild(child);
+        }
+        initTime = new Date().getTime();
+        let timer = setInterval(function() {
 
-                    } else if (rand_direction === 1) {
-                        let movement_change = setInterval(function (){
-                            iterator++;
-                            if (getCurrentValuePX(circle, "left") < (globalLeftBorder + 50) || getCurrentValuePX(circle, "left") > (globalRightBorder - 50)) {
-                                moveLeft(HORIZONTAL_MOVE);
-                            } else {
-                                moveRight(HORIZONTAL_MOVE);
-                            }
-                            if (iterator >= iterations || !isDuringTest) {
-                                clearInterval(movement_change)
-                                iterator = 0;
-                            }
-                        }, REFRESH_INTERVAL);
-                    }
-                }, DIRECTION_CHANGE_INTERVAL);
+            let now = new Date().getTime();
 
-                let countScore = setInterval(function () {
-                    let circleCenter = getCurrentValuePX(circle, "left") + (getCurrentValuePX(circle, "width")/2);
-                    if (circleCenter > leftBorder && circleCenter < rightBorder) {
-                        rectangle1.style.boxShadow = "1px 1px 10px 5px darkgreen"
-                        rectangle2.style.boxShadow = "1px 1px 10px 5px darkgreen"
-                        score += REFRESH_INTERVAL;
-                        document.getElementById('Score').innerHTML = "Score: " + score;
-                    } else {
-                        rectangle1.style.boxShadow = "1px 1px 10px 5px darkred"
-                        rectangle2.style.boxShadow = "1px 1px 10px 5px darkred"
-                    }
-                }, REFRESH_INTERVAL);
+            let distance = now - initTime;
 
-                countDownTime = new Date().getTime() + TEST_DURATION;
-                // Update the count-down every 1 millisecond
-                let timer = setInterval(function() {
+            timePassed = distance/1000;
 
-                    // Get today's date and time
-                    let now = new Date().getTime();
+            document.getElementById("Timer").innerHTML = timePassed + "s";
 
-                    // Find the distance between now and the count-down date
-                    let distance = countDownTime - now;
-
-                    let seconds = distance/1000;
-
-                    document.getElementById("Timer").innerHTML = seconds + "s";
-
-                    // If the count-down is finished, write some text
-                    if (distance <= 0) {
-                        clearInterval(direction_change);
-                        clearInterval(timer);
-                        clearInterval(countScore);
-                        document.getElementById("Timer").innerHTML = "Время вышло";
-                        finish_test();
-                    }
-                }, REFRESH_INTERVAL);
+            if (!isDuringTest) {
+                clearInterval(timer);
             }
 
-        }, WAIT_TIME);
+        }, REFRESH_INTERVAL);
+    }
+
+
+    function cell(val, id) {
+        let cell = document.getElementById(id);
+        if (correctChosen.includes(cell)) {
+            correctChosen.splice(correctChosen.indexOf(cell), 1);
+            cell.style.backgroundColor = "white";
+        } else if (incorrectChosen.includes(cell)) {
+            incorrectChosen.splice(incorrectChosen.indexOf(cell), 1);
+            cell.style.backgroundColor = "white";
+        } else {
+            cell.style.backgroundColor = "gray";
+            if (val === randRing) {
+                correctChosen.push(cell);
+            } else {
+                incorrectChosen.push(cell);
+            }
+        }
     }
 
     function finish_test() {
         isDuringTest = false;
-
+        document.getElementById('Choosing_img').style.display = 'none';
+        document.getElementById('Choosing_instruction').style.display = 'none';
         document.getElementById('Final Result').style.display = 'block';
-        circle.style.display = 'none';
-        document.getElementById('Upper_marker').style.display = 'none';
-        document.getElementById('Lower_marker').style.display = 'none';
+        document.getElementById('Scene').style.display = 'inline-block';
+        document.getElementById('Final Result').innerHTML = "Вы верно выбрали " + correctChosen.length + " колец и ошибочно выбрали " + incorrectChosen.length + " колец" +
+        "<br>Время выполнения: " + timePassed;
         document.getElementById('Timer').style.display = 'none';
-        document.getElementById('Score').style.display = 'none';
-        document.getElementById('Final Result').innerHTML = "Score:" + score;
+        document.getElementById('Finish_button').style.display = 'none';
+
+        for (let cell of correctChosen) {
+            cell.style.backgroundColor = "green";
+        }
+        for (let cell of incorrectChosen) {
+            cell.style.backgroundColor = "red";
+        }
+        for (let cell of children) {
+            if (parseInt(cell.id) < (randRing*8) && parseInt(cell.id) > ((randRing-1)*8) && !correctChosen.includes(cell) && !incorrectChosen.includes(cell)) {
+                cell.style.backgroundColor = "yellow";
+            }
+        }
+        document.getElementById('Retry').style.top = '10vh';
         document.getElementById('Retry').style.display = 'block';
     }
 
