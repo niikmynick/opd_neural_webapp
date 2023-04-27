@@ -3,13 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="/public/css/style_test_3.css">
+    <link rel="stylesheet" href="/public/css/style_test_4.css">
     <title>Document</title>
 </head>
 <body>
 <div id="bg" class="bg_img">
     <div class="top">
-        <a href="/test_3">
+        <a href="/test_4">
             <img class="icon_back" src="/public/img/back.png">
         </a>
         <a href="/login">
@@ -18,7 +18,7 @@
     </div>
     <div id ='Tester' class="tester">
         <div id='Instruction' class="instruction text_instruction">
-            Этот тест считывает вашу реакцию на случайное перемещение маркера. Ваша цель - возвращение маркера в исходное мнстоположение.
+            TODO
         </div>
         <button id='Start_button' class="start_button" name="start" onclick="start_test()">Начать</button>
         <div id='Circle' class="circle"></div>
@@ -27,7 +27,7 @@
         <div id='Upper_marker' class="rectangle"></div>
         <div id='Lower_marker' class="rectangle"></div>
         <div id='Final Result' class="result"></div>
-        <a href="/analog_tracking" class="restart_button" id='Retry'>Заново</a>
+        <a href="/landolt_ring" class="restart_button" id='Retry'>Заново</a>
     </div>
 </div>
 <script>
@@ -157,7 +157,7 @@
                 }, REFRESH_INTERVAL);
 
                 countDownTime = new Date().getTime() + TEST_DURATION;
-                // Update the count-down every x milliseconds
+                // Update the count-down every 1 millisecond
                 let timer = setInterval(function() {
 
                     // Get today's date and time
