@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/public/css/style_test_4.css">
+    <title>Document</title>
+</head>
+<body>
+<div id="bg" class="bg_img">
+    <div class="top">
+        <a href="/test_4">
+            <img class="icon_back" src="/public/img/back.png">
+        </a>
+        <a href="/login">
+            <img class="icon_menu" src="/public/img/menu.png">
+        </a>
+    </div>
+    <div id ='Tester' class="tester">
+        <div id='Instruction' class="instruction text_instruction">
+            Вам предлагается ряд картинок. На каждом рисунке недостает одной фигуры, Вам необходимо выбрать один из
+            вариантов предложенных фигур, которая на ваш взгляд подходит к рисунку больше всего.
+        </div>
+        <button id='Start_button' class="start_button" name="start" onclick="start_test()">Начать</button>
+        <div id='Final Result' class="result"></div>
+        <div id='Scene' class="scene raven-scene" style="top: 6vh">
+            <img src="/public/img/raven_test/A1.png" style="position: absolute; z-index: 60">
+            <img src="/public/img/raven_test/A2.png" style="position: absolute; z-index: 59">
+            <img src="/public/img/raven_test/A3.png" style="position: absolute; z-index: 58">
+            <img src="/public/img/raven_test/A4.png" style="position: absolute; z-index: 57">
+            <img src="/public/img/raven_test/A5.png" style="position: absolute; z-index: 56">
+            <img src="/public/img/raven_test/A6.png" style="position: absolute; z-index: 55">
+            <img src="/public/img/raven_test/A7.png" style="position: absolute; z-index: 54">
+            <img src="/public/img/raven_test/A8.png" style="position: absolute; z-index: 53">
+            <img src="/public/img/raven_test/A9.png" style="position: absolute; z-index: 52">
+            <img src="/public/img/raven_test/A10.png" style="position: absolute; z-index: 51">
+            <img src="/public/img/raven_test/A11.png" style="position: absolute; z-index: 50">
+            <img src="/public/img/raven_test/A12.png" style="position: absolute; z-index: 49">
+            <img src="/public/img/raven_test/B1.png" style="position: absolute; z-index: 48">
+            <img src="/public/img/raven_test/B2.png" style="position: absolute; z-index: 47">
+            <img src="/public/img/raven_test/B3.png" style="position: absolute; z-index: 46">
+            <img src="/public/img/raven_test/B4.png" style="position: absolute; z-index: 45">
+            <img src="/public/img/raven_test/B5.png" style="position: absolute; z-index: 44">
+            <img src="/public/img/raven_test/B6.png" style="position: absolute; z-index: 43">
+            <img src="/public/img/raven_test/B7.png" style="position: absolute; z-index: 42">
+            <img src="/public/img/raven_test/B8.png" style="position: absolute; z-index: 41">
+            <img src="/public/img/raven_test/B9.png" style="position: absolute; z-index: 40">
+            <img src="/public/img/raven_test/B10.png" style="position: absolute; z-index: 39">
+            <img src="/public/img/raven_test/B11.png" style="position: absolute; z-index: 38">
+            <img src="/public/img/raven_test/B12.png" style="position: absolute; z-index: 37">
+            <img src="/public/img/raven_test/C1.png" style="position: absolute; z-index: 36">
+            <img src="/public/img/raven_test/C2.png" style="position: absolute; z-index: 35">
+            <img src="/public/img/raven_test/C3.png" style="position: absolute; z-index: 34">
+            <img src="/public/img/raven_test/C4.png" style="position: absolute; z-index: 33">
+            <img src="/public/img/raven_test/C5.png" style="position: absolute; z-index: 32">
+            <img src="/public/img/raven_test/C6.png" style="position: absolute; z-index: 31">
+            <img src="/public/img/raven_test/C7.png" style="position: absolute; z-index: 30">
+            <img src="/public/img/raven_test/C8.png" style="position: absolute; z-index: 29">
+            <img src="/public/img/raven_test/C9.png" style="position: absolute; z-index: 28">
+            <img src="/public/img/raven_test/C10.png" style="position: absolute; z-index: 27">
+            <img src="/public/img/raven_test/C11.png" style="position: absolute; z-index: 26">
+            <img src="/public/img/raven_test/C12.png" style="position: absolute; z-index: 25">
+            <img src="/public/img/raven_test/D1.png" style="position: absolute; z-index: 24">
+            <img src="/public/img/raven_test/D2.png" style="position: absolute; z-index: 23">
+            <img src="/public/img/raven_test/D3.png" style="position: absolute; z-index: 22">
+            <img src="/public/img/raven_test/D4.png" style="position: absolute; z-index: 21">
+            <img src="/public/img/raven_test/D5.png" style="position: absolute; z-index: 20">
+            <img src="/public/img/raven_test/D6.png" style="position: absolute; z-index: 19">
+            <img src="/public/img/raven_test/D7.png" style="position: absolute; z-index: 18">
+            <img src="/public/img/raven_test/D8.png" style="position: absolute; z-index: 17">
+            <img src="/public/img/raven_test/D9.png" style="position: absolute; z-index: 16">
+            <img src="/public/img/raven_test/D10.png" style="position: absolute; z-index: 15">
+            <img src="/public/img/raven_test/D11.png" style="position: absolute; z-index: 14">
+            <img src="/public/img/raven_test/D12.png" style="position: absolute; z-index: 13">
+            <img src="/public/img/raven_test/E1.png" style="position: absolute; z-index: 12">
+            <img src="/public/img/raven_test/E2.png" style="position: absolute; z-index: 11">
+            <img src="/public/img/raven_test/E3.png" style="position: absolute; z-index: 10">
+            <img src="/public/img/raven_test/E4.png" style="position: absolute; z-index: 9">
+            <img src="/public/img/raven_test/E5.png" style="position: absolute; z-index: 8">
+            <img src="/public/img/raven_test/E6.png" style="position: absolute; z-index: 7">
+            <img src="/public/img/raven_test/E7.png" style="position: absolute; z-index: 6">
+            <img src="/public/img/raven_test/E8.png" style="position: absolute; z-index: 5">
+            <img src="/public/img/raven_test/E9.png" style="position: absolute; z-index: 4">
+            <img src="/public/img/raven_test/E10.png" style="position: absolute; z-index: 3">
+            <img src="/public/img/raven_test/E11.png" style="position: absolute; z-index: 2">
+            <img src="/public/img/raven_test/E12.png" style="position: absolute; z-index: 1">
+        </div>
+        <a href="/raven_test" class="restart_button" id='Retry'>Заново</a>
+    </div>
+</div>
+<script>
+    let correctChosen = 0;
+    let counter = 0;
+    let isAorBseries = true;
+    const TRUE_RESULT = [4, 5, 1, 2, 6, 3, 6, 2, 1, 3, 4, 5,
+                         2, 6, 1, 2, 1, 3, 5, 6, 4, 3, 4, 5,
+                         8, 2, 3, 8, 7, 4, 5, 1, 7, 6, 1, 2,
+                         3, 4, 3, 7, 8, 6, 5, 4, 1, 2, 5, 6,
+                         7, 6, 8, 2, 1, 5, 1, 6, 3, 2, 4, 5];
+
+    function start_test() {
+        document.getElementById('Instruction').style.display = 'none';
+        document.getElementById('Start_button').style.display = 'none';
+        document.getElementById('bg').style.background = 'black';
+        document.getElementById('Scene').style.display = 'inline-block';
+
+        document.getElementById('Scene').addEventListener('mousemove', mouseMoveOverPossibleAnswer);
+        addEventListener('click', next_time);
+    }
+
+    function isOverPossibleAnswer(e) {
+        let mousePositionX = e.clientX - e.target.getBoundingClientRect().left;
+        let mousePositionY = e.clientY - e.target.getBoundingClientRect().top;
+        if  (isAorBseries) {
+            if (1 <= mousePositionX && mousePositionX <= 129 &&
+                247 <= mousePositionY && mousePositionY <= 326) return 1;
+            if (151 <= mousePositionX && mousePositionX <= 279 &&
+                247 <= mousePositionY && mousePositionY <= 326) return 2;
+            if (301 <= mousePositionX && mousePositionX <= 429 &&
+                247 <= mousePositionY && mousePositionY <= 326) return 3;
+            if (1 <= mousePositionX && mousePositionX <= 129 &&
+                360 <= mousePositionY && mousePositionY <= 438) return 4;
+            if (151 <= mousePositionX && mousePositionX <= 279 &&
+                360 <= mousePositionY && mousePositionY <= 438) return 5;
+            if (301 <= mousePositionX && mousePositionX <= 429 &&
+                360 <= mousePositionY && mousePositionY <= 438) return 6;
+        } else {
+            if (0 <= mousePositionX && mousePositionX <= 112 &&
+                272 <= mousePositionY && mousePositionY <= 341) return 1;
+            if (121 <= mousePositionX && mousePositionX <= 233 &&
+                272 <= mousePositionY && mousePositionY <= 341) return 2;
+            if (242 <= mousePositionX && mousePositionX <= 354 &&
+                272 <= mousePositionY && mousePositionY <= 341) return 3;
+            if (363 <= mousePositionX && mousePositionX <= 474 &&
+                272 <= mousePositionY && mousePositionY <= 341) return 4;
+            if (0 <= mousePositionX && mousePositionX <= 112 &&
+                370 <= mousePositionY && mousePositionY <= 439) return 5;
+            if (121 <= mousePositionX && mousePositionX <= 233 &&
+                370 <= mousePositionY && mousePositionY <= 439) return 6;
+            if (242 <= mousePositionX && mousePositionX <= 354 &&
+                370 <= mousePositionY && mousePositionY <= 439) return 7;
+            if (363 <= mousePositionX && mousePositionX <= 474 &&
+                370 <= mousePositionY && mousePositionY <= 439) return 8;
+        }
+        return false;
+    }
+
+    function mouseMoveOverPossibleAnswer(e) {
+        if (isOverPossibleAnswer(e)) {
+            e.target.style.cursor = 'pointer';
+        } else {
+            e.target.style.cursor = 'crosshair';
+        }
+    }
+
+    function next_time(e) {
+        if (!(document.getElementById('Scene').contains(e.target))) {
+            return;
+        }
+        let answer = isOverPossibleAnswer(e)
+        if (answer) {
+            if (answer === TRUE_RESULT[counter]) {
+                correctChosen += 1;
+                e.target.remove();
+            } else {
+                e.target.style.zIndex = '0';
+            }
+            counter++;
+        }
+        if (counter === 24) {
+            isAorBseries = false;
+        }
+        if (counter === 60) {
+            finish_test();
+        }
+    }
+
+    function finish_test() {
+        let percentOfCorrectAnswer = correctChosen / 60 * 100;
+        let message;
+        if (percentOfCorrectAnswer <= 5) {
+            message = 'V степень: дефектная интеллектуальная способность';
+        } else if (6 <= percentOfCorrectAnswer && percentOfCorrectAnswer <= 24) {
+            message = 'IV степень: интеллект ниже среднего';
+        } else if (25 <= percentOfCorrectAnswer && percentOfCorrectAnswer <= 74) {
+            message = 'III степень: средний интеллект';
+        } else if (75 <= percentOfCorrectAnswer && percentOfCorrectAnswer <= 94) {
+            message = 'II степень: незаурядный интеллект';
+        } else {
+            message = 'I степень: особо высокоразвитый интеллект';
+        }
+
+        document.getElementById('Final Result').style.display = 'block';
+        document.getElementById('Scene').style.display = 'inline-block';
+
+        document.getElementById('Final Result').innerHTML = 'Верных ответов ' + correctChosen + ' из 60(' +
+            percentOfCorrectAnswer.toFixed(1) + '%)<br>У Вас ' + message + '<br>Ошибочные матрицы:';
+        document.getElementById('Scene').style.overflowY = 'scroll';
+        Array.from(document.getElementById('Scene').children).forEach(img =>
+            img.style.position = 'static'
+        );
+
+        document.getElementById('Retry').style.top = '10vh';
+        document.getElementById('Retry').style.display = 'block';
+    }
+
+</script>
+</body>
+</html>
