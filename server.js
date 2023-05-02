@@ -218,6 +218,7 @@ pagesMap.set('red_black_table', 'lab2/test_4/red_black_table')
 pagesMap.set('landolt_ring', 'lab2/test_4/landolt_ring')
 pagesMap.set('verbal_memory', 'lab2/test_4/verbal_memory')
 pagesMap.set('visual_memory', 'lab2/test_4/visual_memory')
+pagesMap.set('raven_test', 'lab2/test_4/raven_test')
 
 function checkTestAndRender (res, page, scope) {
     let flag = false

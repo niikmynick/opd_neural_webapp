@@ -185,6 +185,13 @@ a, u {
     left: 33vw;
     background-color: #eeeeee;
 }
+
+.raven-scene {
+    background-color: rgba(0, 0, 0, 0);
+    width: 75vh;
+    height: 67vh;
+}
+
 .cell-red:hover {
     background-color: #DF2020;
     box-shadow: 2px 2px 4px 2px #aaaaaa;
