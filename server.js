@@ -216,6 +216,8 @@ pagesMap.set('analog_tracking', 'lab2/test_3/analog_tracking')
 pagesMap.set('tracking_with_persecution', 'lab2/test_3/tracking_with_persecution')
 pagesMap.set('red_black_table', 'lab2/test_4/red_black_table')
 pagesMap.set('landolt_ring', 'lab2/test_4/landolt_ring')
+pagesMap.set('verbal_memory', 'lab2/test_4/verbal_memory')
+pagesMap.set('visual_memory', 'lab2/test_4/visual_memory')
 
 function checkTestAndRender (res, page, scope) {
     let flag = false

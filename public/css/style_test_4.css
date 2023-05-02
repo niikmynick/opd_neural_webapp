@@ -226,3 +226,18 @@ a, u {
     background-color: #BFBFBF;
 }
 
+.cell_verbal {
+    display: inherit;
+    width: 24%;
+    height: 24%;
+    background-color: white;
+    color: black;
+    float: left;
+    margin: 2px;
+    text-align: center;
+    vertical-align: middle;
+    font: bold 32px sans-serif;
+    border-radius: 3px;
+    box-shadow: 0 1px 2px rgba(0,0,0,.3);
+}
+

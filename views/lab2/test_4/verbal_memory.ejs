@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/public/css/style_test_4.css">
+    <title>Document</title>
+</head>
+<body>
+<div id="bg" class="bg_img">
+    <div class="top">
+        <a href="/test_4">
+            <img class="icon_back" src="/public/img/back.png">
+        </a>
+        <a href="/login">
+            <img class="icon_menu" src="/public/img/menu.png">
+        </a>
+    </div>
+    <div id ='Tester' class="tester">
+        <div id='Instruction' class="instruction text_instruction">
+            Этот тест оценивает вашу словесную память. Вам необходимо запомнить как можно больше слов и написать их в любом порядке.
+        </div>
+        <button id='Start_button' class="start_button" name="start" onclick="start_test()">Начать</button>
+        <div id='Timer' class="iteration">0s</div>
+        <div id='Final Result' class="result"></div>
+        <div id='Scene' class="scene">
+            <div class="cell_verbal" id="cell1" contenteditable="false">1</div>
+            <div class="cell_verbal" id="cell2">2</div>
+            <div class="cell_verbal" id="cell3">3</div>
+            <div class="cell_verbal" id="cell4">4</div>
+            <div class="cell_verbal" id="cell5">5</div>
+            <div class="cell_verbal" id="cell6">6</div>
+            <div class="cell_verbal" id="cell7">7</div>
+            <div class="cell_verbal" id="cell8">8</div>
+            <div class="cell_verbal" id="cell9">9</div>
+            <div class="cell_verbal" id="cell10">10</div>
+            <div class="cell_verbal" id="cell11">11</div>
+            <div class="cell_verbal" id="cell12">12</div>
+            <div class="cell_verbal" id="cell13">13</div>
+            <div class="cell_verbal" id="cell14">14</div>
+            <div class="cell_verbal" id="cell15">15</div>
+            <div class="cell_verbal" id="cell16">16</div>
+        </div>
+        <button id='Finish_button' class="restart_button" name="finish" onclick="finish_test()" style="top: 10vh">Готово</button>
+        <a href="/verbal_memory" class="restart_button" id='Retry'>Заново</a>
+    </div>
+</div>
+<script>
+    const globalContainer = document.getElementById('Tester');
+    const REFRESH_INTERVAL = 3;
+    const dictionary = ['яблоко', 'лампа', 'книга', 'чайник', 'птица', 'ручка', 'ноутбук', 'дерево', 'телефон', 'велосипед', 'солнце', 'гитара', 'зеркало', 'стол', 'гриб', 'плащ', 'замок', 'ножницы', 'карандаш', 'бутылка', 'стул', 'пылесос', 'рубашка', 'банан', 'компьютер', 'коньки', 'губка', 'торт', 'ковер', 'кот', 'пальто', 'кувшин', 'молоток', 'термос', 'кресло', 'доска', 'клавиатура', 'шкаф', 'шапка', 'тумбочка', 'стакан', 'тарелка', 'бумага', 'картон', 'паспорт', 'морковь', 'рыба', 'ложка', 'вилка', 'нож', 'подушка', 'медведь', 'коса', 'лопата', 'сковорода', 'масло', 'свеча', 'нитки', 'ковер', 'цветок', 'молоко', 'банк', 'тетрадь', 'динамик', 'гольф', 'микрофон', 'наушники', 'щетка', 'паста', 'колесо', 'шар', 'корзина', 'гамак', 'мангал', 'кольцо', 'кисть', 'печенье', 'картошка', 'лаванда', 'носки', 'шнурки', 'часы', 'юбка', 'белье', 'дверь', 'окно']
+    const WAIT_TIME = 5000; //time in ms to show the words
+
+    let selectedWords = []
+    let isDuringTest = false;
+    let score = 0;
+    let cursor = 0;
+
+
+    function shuffle(array) {
+        let currentIndex = array.length,
+            temporaryValue, randomIndex;
+
+        // While there remain elements to shuffle...
+        while (0 !== currentIndex) {
+
+            // Pick a remaining element...
+            randomIndex = Math.floor(Math.random() * currentIndex);
+            currentIndex -= 1;
+
+            // And swap it with the current element.
+            temporaryValue = array[currentIndex];
+            array[currentIndex] = array[randomIndex];
+            array[randomIndex] = temporaryValue;
+        }
+
+        return array;
+    }
+
+
+    const container = document.querySelector('.scene');
+    const children = [...container.children];
+    function start_test() {
+        isDuringTest = true;
+        document.getElementById('Instruction').style.display = 'none';
+        document.getElementById('Start_button').style.display = 'none';
+        document.getElementById('bg').style.background = 'black';
+        document.getElementById('Scene').style.display = 'block';
+
+        shuffle(children);
+        for (const child of children) {
+            container.appendChild(child);
+        }
+        shuffle(dictionary);
+        let cursor = 0;
+        for (const child of children) {
+            cursor++;
+            selectedWords.push(dictionary[cursor]);
+            child.innerHTML = dictionary[cursor];
+        }
+        setTimeout(fillAnswers, WAIT_TIME)
+    }
+
+    function fillAnswers() {
+        for (const child of children) {
+            child.innerHTML = "";
+            child.contentEditable = "true";
+        }
+        document.getElementById('Finish_button').style.display = 'block';
+    }
+
+    function finish_test() {
+        isDuringTest = false;
+        document.getElementById('Final Result').style.display = 'block';
+        document.getElementById('Finish_button').style.display = 'none';
+        document.getElementById('Scene').style.display = 'none';
+        document.getElementById('Retry').style.display = 'block';
+        for (const child of children) {
+            let answer = child.innerHTML.toLowerCase();
+            if (selectedWords.includes(answer)) {
+                score++;
+                selectedWords.splice(selectedWords.indexOf(answer), 1);
+            }
+        }
+        document.getElementById('Final Result').innerHTML = 'Число правилных ответов: ' + score;
+    }
+
+</script>
+</body>
+</html>
