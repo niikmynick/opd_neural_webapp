@@ -18,105 +18,93 @@
     </div>
     <div id ='Tester' class="tester">
         <div id='Instruction' class="instruction text_instruction">
-            Этот тест оценивает ваше внимание. Вам необходимо выбрать в возрастающем порядке числа в красных квадратах и в убывающем порядке числа в чёрных квадратах.
+            Этот тест оценивает вашу визуальную память. Вам необходимо запомнить какие ячейки загорелись и кликнуть на них.
         </div>
         <button id='Start_button' class="start_button" name="start" onclick="start_test()">Начать</button>
         <div id="Choosing_instruction" class="choosing_instruction text_choosing_instruction"></div>
         <div id="Choosing_img" class="choosing_instruction text_choosing_instruction" style="background-color: white; width: 5vh; height: 5vh; left: 48vw"></div>
-        <div id='Timer' class="iteration">0s</div>
         <div id='Final Result' class="result"></div>
         <div id='Scene' class="scene" style="top: 6vh">
-            <div class="cell" id="1" onclick="cell(1, 1)"><img src="/public/img/n.png" class="cell_img"></div>
-            <div class="cell" id="2" onclick="cell(1, 2)"><img src="/public/img/n.png" class="cell_img"></div>
-            <div class="cell" id="3" onclick="cell(1, 3)"><img src="/public/img/n.png" class="cell_img"></div>
-            <div class="cell" id="4" onclick="cell(1, 4)"><img src="/public/img/n.png" class="cell_img"></div>
-            <div class="cell" id="5" onclick="cell(1, 5)"><img src="/public/img/n.png" class="cell_img"></div>
-            <div class="cell" id="6" onclick="cell(1, 6)"><img src="/public/img/n.png" class="cell_img"></div>
-            <div class="cell" id="7" onclick="cell(1, 7)"><img src="/public/img/n.png" class="cell_img"></div>
-            <div class="cell" id="8" onclick="cell(1, 8)"><img src="/public/img/n.png" class="cell_img"></div>
-            <div class="cell" id="9" onclick="cell(2, 9)"><img src="/public/img/ne.png" class="cell_img"></div>
-            <div class="cell" id="10" onclick="cell(2, 10)"><img src="/public/img/ne.png" class="cell_img"></div>
-            <div class="cell" id="11" onclick="cell(2, 11)"><img src="/public/img/ne.png" class="cell_img"></div>
-            <div class="cell" id="12" onclick="cell(2, 12)"><img src="/public/img/ne.png" class="cell_img"></div>
-            <div class="cell" id="13" onclick="cell(2, 13)"><img src="/public/img/ne.png" class="cell_img"></div>
-            <div class="cell" id="14" onclick="cell(2, 14)"><img src="/public/img/ne.png" class="cell_img"></div>
-            <div class="cell" id="15" onclick="cell(2, 15)"><img src="/public/img/ne.png" class="cell_img"></div>
-            <div class="cell" id="16" onclick="cell(2, 16)"><img src="/public/img/ne.png" class="cell_img"></div>
-            <div class="cell" id="17" onclick="cell(3, 17)"><img src="/public/img/e.png" class="cell_img"></div>
-            <div class="cell" id="18" onclick="cell(3, 18)"><img src="/public/img/e.png" class="cell_img"></div>
-            <div class="cell" id="19" onclick="cell(3, 19)"><img src="/public/img/e.png" class="cell_img"></div>
-            <div class="cell" id="20" onclick="cell(3, 20)"><img src="/public/img/e.png" class="cell_img"></div>
-            <div class="cell" id="21" onclick="cell(3, 21)"><img src="/public/img/e.png" class="cell_img"></div>
-            <div class="cell" id="22" onclick="cell(3, 22)"><img src="/public/img/e.png" class="cell_img"></div>
-            <div class="cell" id="23" onclick="cell(3, 23)"><img src="/public/img/e.png" class="cell_img"></div>
-            <div class="cell" id="24" onclick="cell(3, 24)"><img src="/public/img/e.png" class="cell_img"></div>
-            <div class="cell" id="25" onclick="cell(4, 25)"><img src="/public/img/se.png" class="cell_img"></div>
-            <div class="cell" id="26" onclick="cell(4, 26)"><img src="/public/img/se.png" class="cell_img"></div>
-            <div class="cell" id="27" onclick="cell(4, 27)"><img src="/public/img/se.png" class="cell_img"></div>
-            <div class="cell" id="28" onclick="cell(4, 28)"><img src="/public/img/se.png" class="cell_img"></div>
-            <div class="cell" id="29" onclick="cell(4, 29)"><img src="/public/img/se.png" class="cell_img"></div>
-            <div class="cell" id="30" onclick="cell(4, 30)"><img src="/public/img/se.png" class="cell_img"></div>
-            <div class="cell" id="31" onclick="cell(4, 31)"><img src="/public/img/se.png" class="cell_img"></div>
-            <div class="cell" id="32" onclick="cell(4, 32)"><img src="/public/img/se.png" class="cell_img"></div>
-            <div class="cell" id="33" onclick="cell(5, 33)"><img src="/public/img/s.png" class="cell_img"></div>
-            <div class="cell" id="34" onclick="cell(5, 34)"><img src="/public/img/s.png" class="cell_img"></div>
-            <div class="cell" id="35" onclick="cell(5, 35)"><img src="/public/img/s.png" class="cell_img"></div>
-            <div class="cell" id="36" onclick="cell(5, 36)"><img src="/public/img/s.png" class="cell_img"></div>
-            <div class="cell" id="37" onclick="cell(5, 37)"><img src="/public/img/s.png" class="cell_img"></div>
-            <div class="cell" id="38" onclick="cell(5, 38)"><img src="/public/img/s.png" class="cell_img"></div>
-            <div class="cell" id="39" onclick="cell(5, 39)"><img src="/public/img/s.png" class="cell_img"></div>
-            <div class="cell" id="40" onclick="cell(5, 40)"><img src="/public/img/s.png" class="cell_img"></div>
-            <div class="cell" id="41" onclick="cell(6, 41)"><img src="/public/img/sw.png" class="cell_img"></div>
-            <div class="cell" id="42" onclick="cell(6, 42)"><img src="/public/img/sw.png" class="cell_img"></div>
-            <div class="cell" id="43" onclick="cell(6, 43)"><img src="/public/img/sw.png" class="cell_img"></div>
-            <div class="cell" id="44" onclick="cell(6, 44)"><img src="/public/img/sw.png" class="cell_img"></div>
-            <div class="cell" id="45" onclick="cell(6, 45)"><img src="/public/img/sw.png" class="cell_img"></div>
-            <div class="cell" id="46" onclick="cell(6, 46)"><img src="/public/img/sw.png" class="cell_img"></div>
-            <div class="cell" id="47" onclick="cell(6, 47)"><img src="/public/img/sw.png" class="cell_img"></div>
-            <div class="cell" id="48" onclick="cell(6, 48)"><img src="/public/img/sw.png" class="cell_img"></div>
-            <div class="cell" id="49" onclick="cell(7, 49)"><img src="/public/img/w.png" class="cell_img"></div>
-            <div class="cell" id="50" onclick="cell(7, 50)"><img src="/public/img/w.png" class="cell_img"></div>
-            <div class="cell" id="51" onclick="cell(7, 51)"><img src="/public/img/w.png" class="cell_img"></div>
-            <div class="cell" id="52" onclick="cell(7, 52)"><img src="/public/img/w.png" class="cell_img"></div>
-            <div class="cell" id="53" onclick="cell(7, 53)"><img src="/public/img/w.png" class="cell_img"></div>
-            <div class="cell" id="54" onclick="cell(7, 54)"><img src="/public/img/w.png" class="cell_img"></div>
-            <div class="cell" id="55" onclick="cell(7, 55)"><img src="/public/img/w.png" class="cell_img"></div>
-            <div class="cell" id="56" onclick="cell(7, 56)"><img src="/public/img/w.png" class="cell_img"></div>
-            <div class="cell" id="57" onclick="cell(8, 57)"><img src="/public/img/nw.png" class="cell_img"></div>
-            <div class="cell" id="58" onclick="cell(8, 58)"><img src="/public/img/nw.png" class="cell_img"></div>
-            <div class="cell" id="59" onclick="cell(8, 59)"><img src="/public/img/nw.png" class="cell_img"></div>
-            <div class="cell" id="60" onclick="cell(8, 60)"><img src="/public/img/nw.png" class="cell_img"></div>
-            <div class="cell" id="61" onclick="cell(8, 61)"><img src="/public/img/nw.png" class="cell_img"></div>
-            <div class="cell" id="62" onclick="cell(8, 62)"><img src="/public/img/nw.png" class="cell_img"></div>
-            <div class="cell" id="63" onclick="cell(8, 63)"><img src="/public/img/nw.png" class="cell_img"></div>
-            <div class="cell" id="64" onclick="cell(8, 64)"><img src="/public/img/nw.png" class="cell_img"></div>
+            <div class="cell" id="1" onclick="cell(1)"></div>
+            <div class="cell" id="2" onclick="cell(2)"></div>
+            <div class="cell" id="3" onclick="cell(3)"></div>
+            <div class="cell" id="4" onclick="cell(4)"></div>
+            <div class="cell" id="5" onclick="cell(5)"></div>
+            <div class="cell" id="6" onclick="cell(6)"></div>
+            <div class="cell" id="7" onclick="cell(7)"></div>
+            <div class="cell" id="8" onclick="cell(8)"></div>
+            <div class="cell" id="9" onclick="cell(9)"></div>
+            <div class="cell" id="10" onclick="cell(10)"></div>
+            <div class="cell" id="11" onclick="cell(11)"></div>
+            <div class="cell" id="12" onclick="cell(12)"></div>
+            <div class="cell" id="13" onclick="cell(13)"></div>
+            <div class="cell" id="14" onclick="cell(14)"></div>
+            <div class="cell" id="15" onclick="cell(15)"></div>
+            <div class="cell" id="16" onclick="cell(16)"></div>
+            <div class="cell" id="17" onclick="cell(17)"></div>
+            <div class="cell" id="18" onclick="cell(18)"></div>
+            <div class="cell" id="19" onclick="cell(19)"></div>
+            <div class="cell" id="20" onclick="cell(20)"></div>
+            <div class="cell" id="21" onclick="cell(21)"></div>
+            <div class="cell" id="22" onclick="cell(22)"></div>
+            <div class="cell" id="23" onclick="cell(23)"></div>
+            <div class="cell" id="24" onclick="cell(24)"></div>
+            <div class="cell" id="25" onclick="cell(25)"></div>
+            <div class="cell" id="26" onclick="cell(26)"></div>
+            <div class="cell" id="27" onclick="cell(27)"></div>
+            <div class="cell" id="28" onclick="cell(28)"></div>
+            <div class="cell" id="29" onclick="cell(29)"></div>
+            <div class="cell" id="30" onclick="cell(30)"></div>
+            <div class="cell" id="31" onclick="cell(31)"></div>
+            <div class="cell" id="32" onclick="cell(32)"></div>
+            <div class="cell" id="33" onclick="cell(33)"></div>
+            <div class="cell" id="34" onclick="cell(34)"></div>
+            <div class="cell" id="35" onclick="cell(35)"></div>
+            <div class="cell" id="36" onclick="cell(36)"></div>
+            <div class="cell" id="37" onclick="cell(37)"></div>
+            <div class="cell" id="38" onclick="cell(38)"></div>
+            <div class="cell" id="39" onclick="cell(39)"></div>
+            <div class="cell" id="40" onclick="cell(40)"></div>
+            <div class="cell" id="41" onclick="cell(41)"></div>
+            <div class="cell" id="42" onclick="cell(42)"></div>
+            <div class="cell" id="43" onclick="cell(43)"></div>
+            <div class="cell" id="44" onclick="cell(44)"></div>
+            <div class="cell" id="45" onclick="cell(45)"></div>
+            <div class="cell" id="46" onclick="cell(46)"></div>
+            <div class="cell" id="47" onclick="cell(47)"></div>
+            <div class="cell" id="48" onclick="cell(48)"></div>
+            <div class="cell" id="49" onclick="cell(49)"></div>
+            <div class="cell" id="50" onclick="cell(50)"></div>
+            <div class="cell" id="51" onclick="cell(51)"></div>
+            <div class="cell" id="52" onclick="cell(52)"></div>
+            <div class="cell" id="53" onclick="cell(53)"></div>
+            <div class="cell" id="54" onclick="cell(54)"></div>
+            <div class="cell" id="55" onclick="cell(55)"></div>
+            <div class="cell" id="56" onclick="cell(56)"></div>
+            <div class="cell" id="57" onclick="cell(57)"></div>
+            <div class="cell" id="58" onclick="cell(58)"></div>
+            <div class="cell" id="59" onclick="cell(59)"></div>
+            <div class="cell" id="60" onclick="cell(60)"></div>
+            <div class="cell" id="61" onclick="cell(61)"></div>
+            <div class="cell" id="62" onclick="cell(62)"></div>
+            <div class="cell" id="63" onclick="cell(63)"></div>
+            <div class="cell" id="64" onclick="cell(64)"></div>
+
         </div>
-        <button id='Finish_button' class="restart_button" name="finish" onclick="finish_test()" style="top: 5vh">Готово</button>
-        <a href="/landolt_ring" class="restart_button" id='Retry'>Заново</a>
+        <button id='Finish_button' class="restart_button" name="finish" onclick="finish_test()" style="top: 10vh">Готово</button>
+        <a href="/visual_memory" class="restart_button" id='Retry'>Заново</a>
     </div>
 </div>
 <script>
-    const globalContainer = document.getElementById('Tester');
-    const REFRESH_INTERVAL = 3;
+    const WAIT_TIME = 3000; //time in ms to show the words
+
+    let selectedCells = [];
+    let isDuringTest = false;
+    let canClick = false;
+    let score = 0;
+
     const container = document.querySelector('.scene');
     const children = [...container.children];
-
-    let isDuringTest = false;
-    let timePassed = 0;
-    let initTime = 0;
-    const TOTAL_RINGS = 8;
-    let randRing = Math.floor(Math.random()*8) + 1;
-    const ringMap = new Map();
-    ringMap.set(1, "n.png");
-    ringMap.set(2, "ne.png");
-    ringMap.set(3, "e.png");
-    ringMap.set(4, "se.png");
-    ringMap.set(5, "s.png");
-    ringMap.set(6, "sw.png");
-    ringMap.set(7, "w.png");
-    ringMap.set(8, "nw.png");
-    let correctChosen = [];
-    let incorrectChosen = [];
 
     function shuffle(array) {
         let currentIndex = array.length,
@@ -138,16 +126,12 @@
         return array;
     }
 
+
+
     function start_test() {
         isDuringTest = true;
-        document.getElementById('Timer').style.display = 'flex';
         document.getElementById('Instruction').style.display = 'none';
-        document.getElementById('Choosing_instruction').style.display = 'block';
-        document.getElementById('Choosing_img').style.display = 'block';
-        document.getElementById('Choosing_instruction').innerHTML = 'Нажмите все кольца вида: ';
-        document.getElementById('Choosing_img').innerHTML = `<img src="/public/img/` + ringMap.get(randRing) + `" class="cell_img">`;
         document.getElementById('Start_button').style.display = 'none';
-        document.getElementById('Finish_button').style.display = 'block';
         document.getElementById('bg').style.background = 'black';
         document.getElementById('Scene').style.display = 'block';
 
@@ -155,67 +139,45 @@
         for (const child of children) {
             container.appendChild(child);
         }
-        initTime = new Date().getTime();
-        let timer = setInterval(function() {
-
-            let now = new Date().getTime();
-
-            let distance = now - initTime;
-
-            timePassed = distance/1000;
-
-            document.getElementById("Timer").innerHTML = timePassed + "s";
-
-            if (!isDuringTest) {
-                clearInterval(timer);
-            }
-
-        }, REFRESH_INTERVAL);
+        for (let i = 1; i <= 8; i++) {
+            document.getElementById(i.toString()).style.backgroundColor = 'gold';
+        }
+        setTimeout(fillAnswers, WAIT_TIME)
     }
 
-
-    function cell(val, id) {
-        let cell = document.getElementById(id);
-        if (correctChosen.includes(cell)) {
-            correctChosen.splice(correctChosen.indexOf(cell), 1);
-            cell.style.backgroundColor = "white";
-        } else if (incorrectChosen.includes(cell)) {
-            incorrectChosen.splice(incorrectChosen.indexOf(cell), 1);
-            cell.style.backgroundColor = "white";
-        } else {
+    function cell(id) {
+        if (canClick) {
+            let cell = document.getElementById(id);
+            selectedCells.push(cell);
             cell.style.backgroundColor = "gray";
-            if (val === randRing) {
-                correctChosen.push(cell);
-            } else {
-                incorrectChosen.push(cell);
-            }
         }
+    }
+
+    function fillAnswers() {
+        for (const child of children) {
+            child.style.backgroundColor = 'white';
+        }
+        canClick = true;
+        document.getElementById('Finish_button').style.display = 'block';
     }
 
     function finish_test() {
         isDuringTest = false;
-        document.getElementById('Choosing_img').style.display = 'none';
-        document.getElementById('Choosing_instruction').style.display = 'none';
         document.getElementById('Final Result').style.display = 'block';
-        document.getElementById('Scene').style.display = 'inline-block';
-        document.getElementById('Final Result').innerHTML = "Вы верно выбрали " + correctChosen.length + " колец и ошибочно выбрали " + incorrectChosen.length + " колец" +
-        "<br>Время выполнения: " + timePassed;
-        document.getElementById('Timer').style.display = 'none';
         document.getElementById('Finish_button').style.display = 'none';
-
-        for (let cell of correctChosen) {
-            cell.style.backgroundColor = "green";
+        document.getElementById('Retry').style.display = 'block';
+        for (let i = 1; i <= 8; i++) {
+            document.getElementById(i.toString()).style.backgroundColor = 'gold';
         }
-        for (let cell of incorrectChosen) {
-            cell.style.backgroundColor = "red";
-        }
-        for (let cell of children) {
-            if (parseInt(cell.id) < (randRing*8) && parseInt(cell.id) > ((randRing-1)*8) && !correctChosen.includes(cell) && !incorrectChosen.includes(cell)) {
-                cell.style.backgroundColor = "yellow";
+        for (const cell of selectedCells) {
+            if ((1 <= cell.id) && (cell.id <= 8)) {
+                score++;
+                cell.style.backgroundColor = 'green';
+            } else {
+                cell.style.backgroundColor = 'red';
             }
         }
-        document.getElementById('Retry').style.top = '10vh';
-        document.getElementById('Retry').style.display = 'block';
+        document.getElementById('Final Result').innerHTML = 'Вы верно выбрали: ' + score + '/8';
     }
 
 </script>
