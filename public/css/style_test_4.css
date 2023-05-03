@@ -129,7 +129,7 @@ a, u {
     transition-duration: 200ms;
     position: relative;
     top: 60vh;
-    left: 45%;
+    margin: 0 auto;
 }
 .restart_button:hover {
     background-color: #202020;
@@ -182,8 +182,8 @@ a, u {
     height: 65vh;
     position: relative;
     top: 8vh;
-    left: 34vw;
     background-color: #eeeeee;
+    margin: 0 auto;
 }
 
 .raven-scene {

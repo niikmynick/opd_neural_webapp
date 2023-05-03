@@ -21,6 +21,7 @@
             Этот тест оценивает ваше внимание. Вам необходимо выбрать в возрастающем порядке числа в красных квадратах и в убывающем порядке числа в чёрных квадратах.
         </div>
         <button id='Start_button' class="start_button" name="start" onclick="start_test()">Начать</button>
+        <div id="Choosing_instruction" class="choosing_instruction text_choosing_instruction"></div>
         <div id='Timer' class="iteration">0s</div>
         <div id='Final Result' class="result"></div>
         <div id='Scene' class="scene">
@@ -86,6 +87,7 @@
     let timePassed = 0;
     let initTime = 0;
     let cursor = 0;
+    let score = 0;
 
 
     function shuffle(array) {
@@ -112,7 +114,13 @@
         isDuringTest = true;
         document.getElementById('Timer').style.display = 'flex';
         document.getElementById('Instruction').style.display = 'none';
+        document.getElementById('Choosing_instruction').style.display = 'block';
         document.getElementById('Start_button').style.display = 'none';
+
+        document.getElementById('Choosing_instruction').style.backgroundColor = 'white';
+        document.getElementById('Choosing_instruction').style.width = 'fit-content';
+        document.getElementById('Choosing_instruction').style.margin = '0 auto';
+        document.getElementById('Choosing_instruction').innerHTML = '<b style="color: red">Красные на увеличение</b><b style="color: black"> Черные на уменьшение</b>';
         document.getElementById('bg').style.background = 'black';
         document.getElementById('Scene').style.display = 'block';
         const container = document.querySelector('.scene');
@@ -143,20 +151,20 @@
 
     function cell(val) {
         if (val === correctSequence[cursor]) {
-            if (cursor === 48) {
-                document.getElementById('Final Result').innerHTML = "Время: " + timePassed + 's';
-                finish_test();
-            }
-            cursor++;
-        } else {
-            document.getElementById('Final Result').innerHTML = "Вы выбрали неверную ячейку";
+            score++;
+        }
+        cursor++;
+        if (cursor === 48) {
+            document.getElementById('Final Result').innerHTML = "Время: " + timePassed + 's' + " Выбрано правильных ячеек: " + score;
             finish_test();
         }
+
     }
 
     function finish_test() {
         isDuringTest = false;
         document.getElementById('Final Result').style.display = 'block';
+        document.getElementById('Choosing_instruction').style.display = 'none';
         document.getElementById('Timer').style.display = 'none';
         document.getElementById('Scene').style.display = 'none';
         document.getElementById('Retry').style.display = 'block';
