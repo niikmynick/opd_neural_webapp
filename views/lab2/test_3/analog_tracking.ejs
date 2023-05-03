@@ -113,34 +113,24 @@
                     let rand_direction = Math.floor(Math.random()*2);
                     let iterations = DIRECTION_CHANGE_INTERVAL/REFRESH_INTERVAL;
                     let iterator = 0;
-                    if (rand_direction === 0) {
-                        let movement_change = setInterval(function (){
-                            iterator++;
-                            if (getCurrentValuePX(circle, "left") < (globalLeftBorder + 50) || getCurrentValuePX(circle, "left") > (globalRightBorder - 50)) {
-                                moveRight(HORIZONTAL_MOVE);
-                            } else {
-                                moveLeft(HORIZONTAL_MOVE);
-                            }
-                            if (iterator >= iterations || !isDuringTest) {
-                                clearInterval(movement_change)
-                                iterator = 0;
-                            }
-                        }, REFRESH_INTERVAL);
+                    let movement_change = setInterval(function (){
+                        iterator++;
+                        console.log("Curr:" + getCurrentValuePX(circle, "left") + "RightBorder: " + (globalRightBorder - 100));
+                        if (getCurrentValuePX(circle, "left") > (globalRightBorder - 100)) {
+                            moveLeft(HORIZONTAL_MOVE);
+                        } else if (getCurrentValuePX(circle, "left") < (globalLeftBorder + 100)) {
+                            moveRight(HORIZONTAL_MOVE);
+                        } else if (rand_direction === 0) {
+                            moveLeft(HORIZONTAL_MOVE);
+                        } else if (rand_direction === 1) {
+                            moveRight(HORIZONTAL_MOVE);
+                        }
+                        if (iterator >= iterations || !isDuringTest) {
+                            clearInterval(movement_change)
+                            iterator = 0;
+                        }
+                    }, REFRESH_INTERVAL);
 
-                    } else if (rand_direction === 1) {
-                        let movement_change = setInterval(function (){
-                            iterator++;
-                            if (getCurrentValuePX(circle, "left") < (globalLeftBorder + 50) || getCurrentValuePX(circle, "left") > (globalRightBorder - 50)) {
-                                moveLeft(HORIZONTAL_MOVE);
-                            } else {
-                                moveRight(HORIZONTAL_MOVE);
-                            }
-                            if (iterator >= iterations || !isDuringTest) {
-                                clearInterval(movement_change)
-                                iterator = 0;
-                            }
-                        }, REFRESH_INTERVAL);
-                    }
                 }, DIRECTION_CHANGE_INTERVAL);
 
                 let countScore = setInterval(function () {
@@ -193,7 +183,7 @@
         document.getElementById('Lower_marker').style.display = 'none';
         document.getElementById('Timer').style.display = 'none';
         document.getElementById('Score').style.display = 'none';
-        document.getElementById('Final Result').innerHTML = "Score:" + score;
+        document.getElementById('Final Result').innerHTML = "Score: " + score;
         document.getElementById('Retry').style.display = 'block';
     }
 

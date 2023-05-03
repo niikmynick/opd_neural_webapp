@@ -43,6 +43,7 @@ a, u {
 .tester {
     cursor: crosshair;
     width: 100%;
+    height: 90vh;
 }
 .instruction {
     margin-top: 20px;
@@ -128,8 +129,7 @@ a, u {
     transition-duration: 200ms;
     position: relative;
     top: 60vh;
-    left: 45%;
-    margin-bottom: 100px;
+    margin: 0 auto;
 }
 .restart_button:hover {
     background-color: #202020;
@@ -150,12 +150,12 @@ a, u {
 }
 .cell-red {
     display: inherit;
-    width: 13.7%;
-    height: 13.7%;
+    width: 13.2%;
+    height: 13.2%;
     background-color: red;
     color: white;
     float: left;
-    margin: 2px;
+    margin: 0.5%;
     text-align: center;
     vertical-align: middle;
     font: bold 40px sans-serif;
@@ -164,12 +164,12 @@ a, u {
 }
 .cell-black {
     display: inherit;
-    width: 13.7%;
-    height: 13.7%;
+    width: 13.2%;
+    height: 13.2%;
     background-color: black;
     color: white;
     float: left;
-    margin: 2px;
+    margin: 0.5%;
     text-align: center;
     vertical-align: middle;
     font: bold 40px sans-serif;
@@ -178,11 +178,10 @@ a, u {
 }
 .scene {
     display: none;
-    width: 70vh;
-    height: 70vh;
+    width: 65vh;
+    height: 65vh;
     position: relative;
-    top: 11vh;
-    left: 33vw;
+    top: 8vh;
     background-color: #eeeeee;
 }
 
@@ -193,11 +192,11 @@ a, u {
 }
 
 .cell-red:hover {
-    background-color: #DF2020;
+    background-color: #DF4040;
     box-shadow: 2px 2px 4px 2px #aaaaaa;
 }
 .cell-red:active {
-    background-color: #BF4040;
+    background-color: #DF8080;
 }
 .cell-black:hover {
     background-color: #202020;
@@ -208,12 +207,12 @@ a, u {
 }
 .cell {
     display: inherit;
-    width: 11.9%;
-    height: 11.9%;
+    width: 11.5%;
+    height: 11.5%;
     background-color: white;
     color: white;
     float: left;
-    margin: 2px;
+    margin: 0.5%;
     text-align: center;
     vertical-align: middle;
     font: bold 40px sans-serif;
@@ -225,12 +224,20 @@ a, u {
     width: 95%;
     height: 95%;
 }
-.cell-black:hover {
-    background-color: #DFDFDF;
-    box-shadow: 2px 2px 4px 2px #aaaaaa;
-}
-.cell-black:active {
-    background-color: #BFBFBF;
+
+.cell_verbal {
+    display: inherit;
+    width: 24%;
+    height: 24%;
+    background-color: white;
+    color: black;
+    float: left;
+    margin: 0.5%;
+    text-align: center;
+    vertical-align: middle;
+    font: bold 32px sans-serif;
+    border-radius: 3px;
+    box-shadow: 0 1px 2px rgba(0,0,0,.3);
 }
 
 .container {
