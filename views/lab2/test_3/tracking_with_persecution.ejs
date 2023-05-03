@@ -118,34 +118,24 @@
                     let rand_direction = Math.floor(Math.random()*2);
                     let iterations = DIRECTION_CHANGE_INTERVAL/REFRESH_INTERVAL;
                     let iterator = 0;
-                    if (rand_direction === 0) {
-                        let movement_change = setInterval(function (){
-                            iterator++;
-                            if (getCurrentValuePX(target, "left") > (globalRightBorder - 100)) {
-                                moveRight(target, HORIZONTAL_MOVE);
-                            } else {
-                                moveLeft(target, HORIZONTAL_MOVE);
-                            }
-                            if (iterator >= iterations || !isDuringTest) {
-                                clearInterval(movement_change)
-                                iterator = 0;
-                            }
-                        }, REFRESH_INTERVAL);
 
-                    } else if (rand_direction === 1) {
-                        let movement_change = setInterval(function (){
-                            iterator++;
-                            if (getCurrentValuePX(target, "left") < (globalLeftBorder + 100)) {
-                                moveLeft(target, HORIZONTAL_MOVE);
-                            } else {
-                                moveRight(target, HORIZONTAL_MOVE);
-                            }
-                            if (iterator >= iterations || !isDuringTest) {
-                                clearInterval(movement_change)
-                                iterator = 0;
-                            }
-                        }, REFRESH_INTERVAL);
-                    }
+                    let movement_change = setInterval(function (){
+                        iterator++;
+                        if (getCurrentValuePX(target, "left") > (globalRightBorder - 100)) {
+                            moveLeft(target, HORIZONTAL_MOVE);
+                        } else if (getCurrentValuePX(target, "left") < (globalLeftBorder + 100)) {
+                            moveRight(target, HORIZONTAL_MOVE);
+                        } else if (rand_direction === 0) {
+                            moveLeft(target, HORIZONTAL_MOVE);
+                        } else if (rand_direction === 1) {
+                            moveRight(target, HORIZONTAL_MOVE);
+                        }
+                        if (iterator >= iterations || !isDuringTest) {
+                            clearInterval(movement_change)
+                            iterator = 0;
+                        }
+                    }, REFRESH_INTERVAL);
+
                     let countScore = setInterval(function () {
                         let crosshairCenter = getCurrentValuePX(crosshair, "left") + (getCurrentValuePX(crosshair, "width")/2);
                         circleLeftBorder = getCurrentValuePX(target, "left");
@@ -201,7 +191,7 @@
         document.getElementById('Lower_marker').style.display = 'none';
         document.getElementById('Timer').style.display = 'none';
         document.getElementById('Score').style.display = 'none';
-        document.getElementById('Final Result').innerHTML = "Score:" + score;
+        document.getElementById('Final Result').innerHTML = "Score: " + score;
         document.getElementById('Retry').style.display = 'block';
     }
 
