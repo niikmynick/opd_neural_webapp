@@ -217,6 +217,8 @@ pagesMap.set('tracking_with_persecution', 'lab2/test_3/tracking_with_persecution
 pagesMap.set('red_black_table', 'lab2/test_4/red_black_table')
 pagesMap.set('landolt_ring', 'lab2/test_4/landolt_ring')
 pagesMap.set('raven_test', 'lab2/test_4/raven_test')
+pagesMap.set('voinarovsky_test', 'lab2/test_4/voinarovsky_test')
+pagesMap.set('compasses_test', 'lab2/test_4/compasses_test')
 
 function checkTestAndRender (res, page, scope) {
     let flag = false
