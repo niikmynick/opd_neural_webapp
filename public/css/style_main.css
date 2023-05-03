@@ -4,7 +4,8 @@ body {
 }
 .top {
     display: block;
-    position: relative;
+    position: sticky;
+    top: 0;
     background-color: black;
     filter: invert(15%);
     width: 100%;

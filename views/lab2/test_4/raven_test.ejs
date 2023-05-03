@@ -102,7 +102,7 @@
         document.getElementById('Instruction').style.display = 'none';
         document.getElementById('Start_button').style.display = 'none';
         document.getElementById('bg').style.background = 'black';
-        document.getElementById('Scene').style.display = 'inline-block';
+        document.getElementById('Scene').style.display = 'block';
 
         document.getElementById('Scene').addEventListener('mousemove', mouseMoveOverPossibleAnswer);
         addEventListener('click', next_time);
@@ -191,7 +191,7 @@
         }
 
         document.getElementById('Final Result').style.display = 'block';
-        document.getElementById('Scene').style.display = 'inline-block';
+        document.getElementById('Scene').style.display = 'block';
 
         document.getElementById('Final Result').innerHTML = 'Верных ответов ' + correctChosen + ' из 60(' +
             percentOfCorrectAnswer.toFixed(1) + '%)<br>У Вас ' + message + '<br>Ошибочные матрицы:';

@@ -3,8 +3,10 @@ body {
     background-color: black;
 }
 .top {
-    display: block;
-    position: relative;
+    display: flex;
+    justify-content: space-between;
+    position: sticky;
+    top: 0;
     background-color: black;
     filter: invert(15%);
     width: 100%;
@@ -19,7 +21,7 @@ body {
 }
 .icon_back {
     transform: rotate(180deg);
-    margin-right: 190vh;
+    margin-left: 10px;
     width: 45px;
     height: 45px;
 }
@@ -43,7 +45,7 @@ a, u {
 .tester {
     cursor: crosshair;
     width: 100%;
-    height: 90vh;
+    min-height: 90vh;
 }
 .instruction {
     margin-top: 20px;
@@ -129,7 +131,7 @@ a, u {
     transition-duration: 200ms;
     position: relative;
     top: 60vh;
-    margin: 0 auto;
+    margin: 0 auto 100px;
 }
 .restart_button:hover {
     background-color: #202020;
@@ -183,6 +185,8 @@ a, u {
     position: relative;
     top: 8vh;
     background-color: #eeeeee;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 .raven-scene {
