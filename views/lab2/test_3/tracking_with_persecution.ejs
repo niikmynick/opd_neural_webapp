@@ -121,7 +121,7 @@
                     if (rand_direction === 0) {
                         let movement_change = setInterval(function (){
                             iterator++;
-                            if (getCurrentValuePX(target, "left") < (globalLeftBorder + 50) || getCurrentValuePX(target, "left") > (globalRightBorder - 50)) {
+                            if (getCurrentValuePX(target, "left") > (globalRightBorder - 100)) {
                                 moveRight(target, HORIZONTAL_MOVE);
                             } else {
                                 moveLeft(target, HORIZONTAL_MOVE);
@@ -135,7 +135,7 @@
                     } else if (rand_direction === 1) {
                         let movement_change = setInterval(function (){
                             iterator++;
-                            if (getCurrentValuePX(target, "left") < (globalLeftBorder + 50) || getCurrentValuePX(target, "left") > (globalRightBorder - 50)) {
+                            if (getCurrentValuePX(target, "left") < (globalLeftBorder + 100)) {
                                 moveLeft(target, HORIZONTAL_MOVE);
                             } else {
                                 moveRight(target, HORIZONTAL_MOVE);
