@@ -3,8 +3,10 @@ body {
     background-color: black;
 }
 .top {
-    display: block;
-    position: relative;
+    display: flex;
+    justify-content: space-between;
+    position: sticky;
+    top: 0;
     background-color: black;
     filter: invert(15%);
     width: 100%;
@@ -19,7 +21,7 @@ body {
 }
 .icon_back {
     transform: rotate(180deg);
-    margin-right: 190vh;
+    margin-left: 10px;
     width: 45px;
     height: 45px;
 }
@@ -43,7 +45,7 @@ a, u {
 .tester {
     cursor: crosshair;
     width: 100%;
-    height: 90vh;
+    min-height: 90vh;
 }
 .instruction {
     margin-top: 20px;
@@ -129,7 +131,7 @@ a, u {
     transition-duration: 200ms;
     position: relative;
     top: 60vh;
-    margin: 0 auto;
+    margin: 0 auto 100px;
 }
 .restart_button:hover {
     background-color: #202020;
@@ -183,7 +185,8 @@ a, u {
     position: relative;
     top: 8vh;
     background-color: #eeeeee;
-    margin: 0 auto;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 .raven-scene {
@@ -241,3 +244,105 @@ a, u {
     box-shadow: 0 1px 2px rgba(0,0,0,.3);
 }
 
+.container {
+    display: none;
+    text-align: center;
+    position: relative;
+    max-width: 700px;
+    margin: 10% auto;
+}
+
+.container-voinarovsky {
+    display: block;
+    z-index: -5;
+    position: relative;
+    max-width: 700px;
+    margin: 10% auto;
+}
+
+.itc-slider__item {
+    flex: 0 0 100%;
+    max-width: 100%;
+    counter-increment: slide;
+    height: 250px;
+    position: relative;
+    background-color: #333;
+    padding-top: 10px;
+    padding-bottom: 8px;
+    font-size: 15pt;
+    font-family: 'Montserrat', Arial, sans-serif;
+    border-radius: 20px;
+    color: #fff;
+}
+
+.question {
+    position: relative;
+    display: block;
+}
+
+.question_title {
+    margin-left: 50px;
+    max-width: 80%;
+}
+
+.question_inp {
+    position: absolute;
+    top: 0;
+    margin-left: 50px;
+    margin-right: 10px;
+    cursor: pointer;
+}
+
+.question_span {
+    display: inline-block;
+    max-width: 80%;
+    margin-bottom: 2%;
+    margin-left: 12%;
+    cursor: pointer;
+}
+
+.itc-slider__item::before {
+    content: counter(slide) "/30";
+    position: absolute;
+    top: 10px;
+    right: 20px;
+    color: #fff;
+    font-style: italic;
+    font-size: 32px;
+    font-weight: bold;
+    display: block;
+}
+
+.container-compasses {
+    max-width: 100%;
+    padding: 100px 100px 10px;
+    margin: 0;
+}
+
+.answers {
+    display: inline-block;
+}
+
+.butSideWorld {
+    width: 49px;
+    height: 24px;
+    border: 1px solid silver;
+    border-radius: 3px;
+    background-color: white;
+    text-align: center;
+    padding-top: 4px;
+    padding-bottom: 4px;
+    margin-bottom: 4px;
+    cursor: pointer;
+    font: bold 16px sans-serif;
+    box-shadow: 0 1px 2px rgba(0,0,0,.3);
+}
+
+.itemCompass {
+    display: inline-block;
+    vertical-align: top;
+    margin-right: 20px;
+    margin-bottom: 20px;
+    background-color: #eeeeee;
+    padding: 8px;
+}

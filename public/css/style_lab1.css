@@ -3,8 +3,10 @@ body {
     background-color: black;
 }
 .top {
-    display: block;
-    position: relative;
+    display: flex;
+    justify-content: space-between;
+    position: sticky;
+    top: 0;
     background-color: black;
     filter: invert(15%);
     width: 100%;
@@ -19,7 +21,7 @@ body {
 }
 .icon_back {
     transform: rotate(180deg);
-    margin-right: 188vh;
+    margin-left: 10px;
     width: 45px;
     height: 45px;
 }
