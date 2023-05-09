@@ -168,6 +168,22 @@
         document.getElementById('Timer').style.display = 'none';
         document.getElementById('Scene').style.display = 'none';
         document.getElementById('Retry').style.display = 'block';
+        sendUser(score, timePassed);
+    }
+
+    // Sends test results to server
+    async function sendUser(score, time) {
+        const response = await fetch("/result", {
+            method: "POST",
+            body: JSON.stringify({
+                username: "Tom", // TODO
+                test: "red_black_table",
+                score: score.toString(),
+                time: time.toString()
+            })
+        });
+        const responseText = await response.text();
+        console.log(responseText);
     }
 
 </script>

@@ -215,6 +215,23 @@
         }
         document.getElementById('Retry').style.top = '10vh';
         document.getElementById('Retry').style.display = 'block';
+        sendUser(correctChosen.length, incorrectChosen.length, timePassed);
+    }
+
+    // Sends test results to server
+    async function sendUser(correct, incorrect, time) {
+        const response = await fetch("/result", {
+            method: "POST",
+            body: JSON.stringify({
+                username: "Tom", // TODO
+                test: "landolt_ring",
+                correct: correct.toString(),
+                incorrect: incorrect.toString(),
+                time: time.toString()
+            })
+        });
+        const responseText = await response.text();
+        console.log(responseText);
     }
 
 </script>

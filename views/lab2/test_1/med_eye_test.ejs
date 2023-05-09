@@ -132,7 +132,23 @@
             document.getElementById('Final Result').style.display = 'block'
             document.getElementById('Final Result').innerHTML = 'Среднее время: ' + averageTime.toFixed(3) + '\nКоличество правильных ответов: ' + percentageOfCorrectAnswers.toFixed(2) + "%";
             document.getElementById('Retry').style.display = 'block';
+            sendUser(averageTime.toFixed(3), percentageOfCorrectAnswers.toFixed(2));
         }
+    }
+
+    // Sends test results to server
+    async function sendUser(averageTime, percentageOfCorrectAnswers) {
+        const response = await fetch("/result", {
+            method: "POST",
+            body: JSON.stringify({
+                username: "Tom", // TODO
+                test: "med_eye_test",
+                avgTime: averageTime.toString(),
+                percentageCorrect: percentageOfCorrectAnswers.toString()
+            })
+        });
+        const responseText = await response.text();
+        console.log(responseText);
     }
 </script>
 </body>

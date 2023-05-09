@@ -145,6 +145,22 @@
         document.getElementById('Result').style.top = '30vh';
 
         document.getElementById('Retry').style.display = 'block';
+        sendUser(); // TODO
+    }
+
+    // Sends test results to server
+    //TODO
+    async function sendUser() {
+        const response = await fetch("/result", {
+            method: "POST",
+            body: JSON.stringify({
+                username: "Tom", // TODO
+                test: "hard_moving_test",
+                TODO: "TODO"
+            })
+        });
+        const responseText = await response.text();
+        console.log(responseText);
     }
 </script>
 </body>

@@ -312,3 +312,19 @@ app.get('/:name', function(req, res) {
         res.render(page)
     }
 });
+
+
+//Receives results form tests
+// TODO
+app.post('/result', urlencodeParser, function(req, res) {
+    if(!req.body) return res.sendStatus(400);
+    let data = "";
+    req.on("data", chunk => {
+        data += chunk;
+    });
+    req.on("end", () => {
+        console.log(data);
+        let obj = JSON.parse(data); // contains username, test name, result variables
+        res.end("Данные успешно получены");
+    });
+});

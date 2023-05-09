@@ -202,6 +202,21 @@
 
         document.getElementById('Retry').style.top = '10vh';
         document.getElementById('Retry').style.display = 'block';
+        sendUser(correctChosen);
+    }
+
+    // Sends test results to server
+    async function sendUser(correct) {
+        const response = await fetch("/result", {
+            method: "POST",
+            body: JSON.stringify({
+                username: "Tom", // TODO
+                test: "raven_test",
+                correct: correct.toString()
+            })
+        });
+        const responseText = await response.text();
+        console.log(responseText);
     }
 
 </script>

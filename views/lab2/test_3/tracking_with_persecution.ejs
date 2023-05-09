@@ -193,6 +193,21 @@
         document.getElementById('Score').style.display = 'none';
         document.getElementById('Final Result').innerHTML = "Score: " + score;
         document.getElementById('Retry').style.display = 'block';
+        sendUser(score);
+    }
+
+    // Sends test results to server
+    async function sendUser(score) {
+        const response = await fetch("/result", {
+            method: "POST",
+            body: JSON.stringify({
+                username: "Tom", // TODO
+                test: "tracking_with_persecution",
+                score: score.toString()
+            })
+        });
+        const responseText = await response.text();
+        console.log(responseText);
     }
 
 </script>

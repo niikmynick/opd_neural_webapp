@@ -178,8 +178,22 @@
             }
         }
         document.getElementById('Final Result').innerHTML = 'Вы верно выбрали: ' + score + '/8';
+        sendUser(score);
     }
 
+    // Sends test results to server
+    async function sendUser(score) {
+        const response = await fetch("/result", {
+            method: "POST",
+            body: JSON.stringify({
+                username: "Tom", // TODO
+                test: "visual_memory",
+                score: score.toString()
+            })
+        });
+        const responseText = await response.text();
+        console.log(responseText);
+    }
 </script>
 </body>
 </html>

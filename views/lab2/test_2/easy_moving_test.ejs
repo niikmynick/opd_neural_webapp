@@ -93,6 +93,21 @@
         document.getElementById('Result').innerHTML = 'Стандартное отклонение: ' + sd.toFixed(3) + ' c';
         document.getElementById('Result').style.top = '30vh';
         document.getElementById('Retry').style.display = 'block';
+        sendUser(sd.toFixed(3));
+    }
+
+    // Sends test results to server
+    async function sendUser(sd) {
+        const response = await fetch("/result", {
+            method: "POST",
+            body: JSON.stringify({
+                username: "Tom", // TODO
+                test: "easy_moving_test",
+                standardDispersion: sd.toString()
+            })
+        });
+        const responseText = await response.text();
+        console.log(responseText);
     }
 </script>
 </body>

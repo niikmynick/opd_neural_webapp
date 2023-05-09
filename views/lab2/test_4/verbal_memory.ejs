@@ -144,6 +144,21 @@
         }
         let percentageOfCorrectAnswers = ((sum / 16)/ maxIteration) * 100;
         document.getElementById('Final Result').innerHTML = 'Число правилных ответов: ' + percentageOfCorrectAnswers.toFixed(2) + "%";
+        sendUser(percentageOfCorrectAnswers.toFixed(2));
+    }
+
+    // Sends test results to server
+    async function sendUser(percentage) {
+        const response = await fetch("/result", {
+            method: "POST",
+            body: JSON.stringify({
+                username: "Tom", // TODO
+                test: "verbal_memory",
+                percentage: percentage.toString()
+            })
+        });
+        const responseText = await response.text();
+        console.log(responseText);
     }
 
 </script>
