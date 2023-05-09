@@ -276,6 +276,21 @@
         document.getElementById('container-voinarovsky').style.display = 'none';
         document.getElementById('Retry').style.display = 'block';
         document.getElementById('Retry').style.top = '10vh';
+        sendUser(result);
+    }
+
+    // Sends test results to server
+    async function sendUser(result) {
+        const response = await fetch("/result", {
+            method: "POST",
+            body: JSON.stringify({
+                username: "Tom", // TODO
+                test: "voinarovsky_test",
+                correct: result.toString()
+            })
+        });
+        const responseText = await response.text();
+        console.log(responseText);
     }
 </script>
 </body>
