@@ -5,7 +5,7 @@ const host = 'localhost';
 let fs = require('fs');
 let express = require('express');
 let bodyParser = require('body-parser');
-
+const cookieParser = require("cookie-parser");
 let urlencodeParser = bodyParser.urlencoded({ extended: false });
 let app = express();
 
