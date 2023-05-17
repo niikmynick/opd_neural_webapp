@@ -154,7 +154,7 @@
         const response = await fetch("/result", {
             method: "POST",
             body: JSON.stringify({
-                username: "Tom", // TODO
+                username: getCookie("login"),
                 test: "easy_moving_test",
                 sd: sd.toString(),
                 sdMinus: sdMinus.toString(),

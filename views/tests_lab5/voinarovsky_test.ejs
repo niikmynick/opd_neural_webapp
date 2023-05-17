@@ -284,7 +284,7 @@
         const response = await fetch("/result", {
             method: "POST",
             body: JSON.stringify({
-                username: "Tom", // TODO
+                username: getCookie("login"),
                 test: "voinarovsky_test",
                 correct: result.toString()
             })

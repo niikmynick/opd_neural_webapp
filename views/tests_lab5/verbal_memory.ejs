@@ -152,7 +152,7 @@
         const response = await fetch("/result", {
             method: "POST",
             body: JSON.stringify({
-                username: "Tom", // TODO
+                username: getCookie("login"),
                 test: "verbal_memory",
                 percentage: percentage.toString()
             })

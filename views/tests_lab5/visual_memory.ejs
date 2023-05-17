@@ -186,7 +186,7 @@
         const response = await fetch("/result", {
             method: "POST",
             body: JSON.stringify({
-                username: "Tom", // TODO
+                username: getCookie("login"),
                 test: "visual_memory",
                 score: score.toString()
             })

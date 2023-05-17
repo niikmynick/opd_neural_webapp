@@ -182,7 +182,7 @@
         const response = await fetch("/result", {
             method: "POST",
             body: JSON.stringify({
-                username: "Tom", // TODO
+                username: getCookie("login"),
                 test: "hard_eye_test",
                 avgTime: averageTime.toString(),
                 percentageCorrect: percentageOfCorrectAnswers.toString()
