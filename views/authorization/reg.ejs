@@ -17,14 +17,14 @@
                         <label>E-mail</label>
                     </div>
                     <div class="inputbox">
-                        <input type="text" name="name" required>
+                        <input type="text" id="login" name="name" required>
                         <label>Name</label>
                     </div>
                     <div class="inputbox">
                         <input type="password" name="password" required>
                         <label>Password</label>
                     </div>
-                    <button type="submit">Register</button>
+                    <button type="submit" onclick="setCookie('login', document.getElementById('login').value)">Register</button>
                     <div class="register">
                         <p>Have an account? <a href="/login">Log in</a></p>
                     </div>
@@ -32,5 +32,6 @@
             </div>
         </div>
     </section>
+    <script src="/public/libs/CookieManager.js"></script>
 </body>
 </html>
