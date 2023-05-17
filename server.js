@@ -5,9 +5,29 @@ const host = 'localhost';
 let fs = require('fs');
 let express = require('express');
 let bodyParser = require('body-parser');
-const cookieParser = require("cookie-parser");
 let urlencodeParser = bodyParser.urlencoded({ extended: false });
 let app = express();
+
+
+// database initialization
+const sqlite3 = require('sqlite3').verbose();
+let db = new sqlite3.Database('./identifier.sqlite', (err) => {
+    if (err) {
+        console.error(err.message);
+    }
+    console.log('Connected to the database.');
+});
+
+function runQuery (query) {
+    return new Promise((resolve, reject) => {
+        db.all(query, (err, rows) => {
+            if (err) {
+                reject(err);
+            }
+            resolve(rows);
+        });
+    });
+}
 
 app.use('/public', express.static('public'));
 app.set('view engine', 'ejs');
@@ -22,27 +42,15 @@ app.listen(port, host, function (){
 app.post('/registration', urlencodeParser, function(req, res) {
     if(!req.body) return res.sendStatus(400);
     console.log(req.body);
-    let id = Date.now().toString()
-    let user = {"id": id}
-    let jsonData = fs.readFileSync('usersData/usersData.json' , 'utf8');
-    let all = jsonData.substring(0, jsonData.length-2) + ', ' + JSON.stringify(user) + "]";
-    fs.writeFileSync('usersData/usersData.json', all, function(error) {
-        if(error) throw error;
-        console.log(`User ${name} with id = ${id} registered successfully`);
-    });
-    let userData = fs.readFileSync('usersData/usersData.json' , 'utf8');
-    let gift = userData.substring(0, userData.length-2) + ', ' + JSON.stringify(req.body).replace("{","") + "]}";
-    fs.writeFileSync('usersData/usersData.json', gift, function(error) {
-        if(error) throw error;
-        console.log(`User ${name} with id = ${id} registered successfully`);
-    });
-    let blankUser = fs.readFileSync(`users/blankUser.json`, 'utf8').toString();
-    fs.writeFileSync(`users/u${id}.json`, blankUser, function(error) {
-        if(error) throw error;
-        console.log(`User ${name} with id = ${id} registered successfully`);
-    });
+
+    runQuery(`INSERT INTO users (name, email, password) VALUES ('${req.body.name}', '${req.body.email}', '${req.body.password}')`.then(r => r))
+
+    console.log(`User ${name} registered successfully`);
+
     res.render('main');
 });
+
+
 let usersData = JSON.parse(fs.readFileSync(`usersData/usersData.json`, 'utf8'))
 let user_id;
 let user_name;
@@ -50,36 +58,30 @@ let k;
 let authoriseFlag = false;
 
 let userSkillsList;
-let alreadyDoneTest;
 
 // user login
 app.post('/login', urlencodeParser, function(req, res) {
     if(!req.body) return res.sendStatus(400);
+
     const { user_email } = req.body;
     const { user_password } = req.body;
 
-    for (let i=0 ; i < usersData.user.length ; i++)
-    {
-        if (usersData.user[i]["email"] === user_email) {
-            k = i;
-            if (user_password === usersData.user[k]["password"]){
-                user_id = usersData.user[i]["id"];
-                user_name = usersData.user[i]["name"]
-                console.log("Успешная авторизация")
-                authoriseFlag = true
-                console.log(user_id)
-                userSkillsList = JSON.parse(fs.readFileSync(`users/u${user_id}.json`, 'utf8').toString())
-            } else {
-                console.log("Неверный пароль")
-            }
-        }
+    if (user_password === runQuery(`SELECT password FROM user WHERE email = '${user_email}'`).then(r => r)) {
+        console.log("Успешная авторизация")
+        authoriseFlag = true
+    } else {
+        console.log("Неверный пароль")
     }
 
     res.render('main')
 });
 
+let frontend_id = runQuery(`SELECT id FROM profession WHERE name = 'frontend developer'`).then(r => r)
+let sysAdmin_id = runQuery(`SELECT id FROM profession WHERE name = 'system administrator'`).then(r => r)
+let dataScientist_id = runQuery(`SELECT id FROM profession WHERE name = 'data scientist'`).then(r => r)
+
+
 // files initialization
-let jsObjectSkills = JSON.parse(fs.readFileSync('views/lab1/statistic/skills.json', 'utf8').toString())
 let jsObjectStat = JSON.parse(fs.readFileSync('views/lab1/statistic/stat.json', 'utf8').toString())
 
 // result keepers init
@@ -96,28 +98,15 @@ let personSA = []
 app.post('/add', urlencodeParser, function(req, res) {
     if(!req.body) return res.sendStatus(400)
 
-    let count = 0;
-
-    for (i in req.body) {
-        if (i === 'specialist_f') {
-            count = 2
-        } else if (i === 'specialist_d') {
-            count = 2
-        } else if (i === 'specialist_a') {
-            count = 2
-        } else {
-            count = 1
-        }
-
-        if (i.startsWith('f')) {
-            personFE.push(jsObjectSkills[i.slice(1) - 1])
-        } else if (i.startsWith('a')) {
-            personSA.push(jsObjectSkills[i.slice(1) - 1])
-        } else if (i.startsWith('d')){
-            personDS.push(jsObjectSkills[i.slice(1) - 1])
-
-        }
-
+    if (i.startsWith('f')) {
+        runQuery(`INSERT INTO important_qualities_result (user_id, profession_id, quality_id, value)
+                  VALUES (${user_id}, ${frontend_id}, ${i.slice(1 )}, 0)`).then(r => r)
+    } else if (i.startsWith('a')) {
+        runQuery(`INSERT INTO important_qualities_result (user_id, profession_id, quality_id, value)
+                  VALUES (${user_id}, ${sysAdmin_id}, ${i.slice(1 )}, 0)`).then(r => r)
+    } else if (i.startsWith('d')){
+        runQuery(`INSERT INTO important_qualities_result (user_id, profession_id, quality_id, value)
+                  VALUES (${user_id}, ${dataScientist_id}, ${i.slice(1 )}, 0)`).then(r => r)
     }
 
     res.render('lab1/mark', {DS: personDS, FE: personFE, SA:personSA})
@@ -125,55 +114,31 @@ app.post('/add', urlencodeParser, function(req, res) {
 
 app.post('/mark', urlencodeParser, function(req, res) {
     if (!req.body) return res.sendStatus(400)
+
     for (i in req.body) {
         if (i.startsWith('f')) {
-            jsObjectStat['frontend'][personFE[i.slice(1) - 1]] += parseInt(req.body[i])
-            userSkillsList['frontend'][personFE[i.slice(1) - 1]] += parseInt(req.body[i])
+            runQuery(`UPDATE important_qualities_result SET value = ${req.body[i]} WHERE user_id = ${user_id} AND profession_id = ${frontend_id} AND quality_id = ${i.slice(1)}`).then(r => r)
         } else if (i.startsWith('a')) {
-            jsObjectStat['sysadmin'][personSA[i.slice(1) - 1]] += parseInt(req.body[i])
-            userSkillsList['sysadmin'][personSA[i.slice(1) - 1]] += parseInt(req.body[i])
+            runQuery(`UPDATE important_qualities_result SET value = ${req.body[i]} WHERE user_id = ${user_id} AND profession_id = ${sysAdmin_id} AND quality_id = ${i.slice(1)}`).then(r => r)
         } else if (i.startsWith('d')){
-            jsObjectStat['data_scientist'][personDS[i.slice(1) - 1]] += parseInt(req.body[i])
-            userSkillsList['data_scientist'][personDS[i.slice(1) - 1]] += parseInt(req.body[i])
+            runQuery(`UPDATE important_qualities_result SET value = ${req.body[i]} WHERE user_id = ${user_id} AND profession_id = ${dataScientist_id} AND quality_id = ${i.slice(1)}`).then(r => r)
         }
     }
-
-    // writing statistics to the file
-    fs.writeFileSync('views/lab1/statistic/stat.json', JSON.stringify(jsObjectStat), function(error) {
-        if(error) throw error
-        console.log("Асинхронная запись файла завершена.")
-    })
-
-    fs.writeFileSync(`users/u${user_id}.json`, JSON.stringify(userSkillsList), function(error) {
-        if(error) throw error
-        console.log("Асинхронная запись файла завершена.")
-    })
 
     res.render('main')
 })
-
-// filling result lists
-for (let profession in jsObjectStat) {
-    for (let skill in jsObjectStat[profession]) {
-        if (profession === "frontend") {
-            frontEnd.push([skill, jsObjectStat[profession][skill]]);
-        } else if (profession === "data_scientist") {
-            dataScience.push([skill, jsObjectStat[profession][skill]]);
-        } else if (profession === "sysadmin") {
-            sysAdmin.push([skill, jsObjectStat[profession][skill]]);
-        }
-    }
-}
 
 // sorting lists by values
 dataScience.sort((a, b) => a[1] - b[1]).reverse()
 frontEnd.sort((a, b) => a[1] - b[1]).reverse()
 sysAdmin.sort((a, b) => a[1] - b[1]).reverse()
 
+
 // load main page
 app.get('/', function (req, res) {
     res.render('main');
 });
+
 
 // register of all pages
 let pagesMap = new Map();
@@ -222,39 +187,6 @@ pagesMap.set('raven_test', 'tests_lab5/raven_test')
 pagesMap.set('voinarovsky_test', 'tests_lab5/voinarovsky_test')
 pagesMap.set('compasses_test', 'tests_lab5/compasses_test')
 
-function checkTestAndRender (res, page, scope) {
-    let flag = false
-
-    for (let profession in userSkillsList) {
-
-        for (let skill in userSkillsList[profession]) {
-            if (profession === "frontend") {
-                if (parseInt(userSkillsList[profession[skill]]) >= 1) {
-                    personFE.push(skill);
-                    flag = true
-                }
-
-            } else if (profession === "data_scientist") {
-                if (parseInt(userSkillsList[profession[skill]]) >= 1) {
-                    personDS.push(skill);
-                    flag = true
-                }
-
-            } else if (profession === "sysadmin") {
-                if (parseInt(userSkillsList[profession[skill]]) >= 1) {
-                    personSA.push(skill);
-                    flag = true
-                }
-            }
-        }
-    }
-
-    if (flag) {
-        res.render('lab1/testError', {user_name: user_name, DS: personDS, FE: personFE, SA:personSA})
-    } else {
-        res.render(page)
-    }
-}
 
 // switching pages
 app.get('/:name', function(req, res) {
@@ -273,12 +205,6 @@ app.get('/:name', function(req, res) {
     } else if (req.params.name === "frontend") {
         if (authoriseFlag) {
             res.render(page)
-            if (/[1-9]/.exec(userSkillsList['frontend'].toString()) !== []) {
-                res.render('lab1/testError', {user_name: user_name, DS: personDS, FE: personFE, SA:personSA})
-            } else {
-                res.render(page)
-            }
-            checkTestAndRender(res, page, 'frontend')
         } else {
             res.render('authorization/login')
         }
@@ -288,7 +214,7 @@ app.get('/:name', function(req, res) {
 
     } else if (req.params.name === 'datascience') {
         if (authoriseFlag) {
-            checkTestAndRender(res, page, 'data_scientist')
+            res.render(page)
         } else {
             res.render('authorization/login')
         }
@@ -298,7 +224,7 @@ app.get('/:name', function(req, res) {
 
     } else if (req.params.name === 'sysadmin') {
         if (authoriseFlag) {
-            checkTestAndRender(res, page, 'sysadmin')
+            res.render(page)
         } else {
             res.render('authorization/login')
         }
@@ -317,23 +243,71 @@ app.get('/:name', function(req, res) {
 
 
 //Receives results form tests
-// TODO
 app.post('/result', urlencodeParser, function(req, res) {
     if(!req.body) return res.sendStatus(400);
+
     let data = "";
+
     req.on("data", chunk => {
         data += chunk;
     });
+
     req.on("end", () => {
         console.log(data);
         let obj = JSON.parse(data); // contains username, test name, result variables
         res.end("Данные успешно получены");
+        let user_name = obj.user_name;
+        let test_name = obj.test_name;
 
+        let table_name = test_name + '_result';
 
-        fs.writeFileSync('views/lab1/statistic/stat.json', JSON.stringify(jsObjectStat), function(error) {
-            if(error) throw error
-            console.log("Асинхронная запись файла завершена.")
-        })
+        if (test_name in ['easy_audio', 'easy_vision', 'medium_vision', 'hard_vision', 'audio_sum', 'vision_sum']) {
+            // time, percentage
+            runQuery(`INSERT INTO ${table_name} (user_name, time, percentage) VALUES ('${user_name}', ${obj.time}, ${obj.percentage})`)
+        } else if (test_name === 'easy_moving') {
+            // dispersion, neg, pos
+            runQuery(`INSERT INTO ${table_name} (user_name, dispersion, negative_dispersion, positive_dispersion) VALUES ('${user_name}', ${obj.dispersion}, ${obj.neg}, ${obj.pos})`)
+        } else if (test_name === 'hard_moving') {
+            // dispersion, neg, pos for 3 circles and average
+            runQuery(`INSERT INTO ${table_name} (
+                            user_name, 
+                            slow_dispersion,
+                            middle_dispersion,
+                            fast_dispersion,
+                            slow_negative_dispersion,
+                            middle_negative_dispersion,
+                            fast_negative_dispersion,
+                            slow_positive_dispersion,
+                            middle_positive_dispersion,
+                            fast_positive_dispersion, 
+                            average_dispersion) VALUES (
+                            '${user_name}', 
+                            ${obj.slow_dispersion}, 
+                            ${obj.middle_dispersion}, 
+                            ${obj.fast_dispersion}, 
+                            ${obj.slow_negative_dispersion}, 
+                            ${obj.middle_negative_dispersion},
+                            ${obj.fast_negative_dispersion}, 
+                            ${obj.slow_positive_dispersion}, 
+                            ${obj.middle_positive_dispersion}, 
+                            ${obj.fast_positive_dispersion}, 
+                            ${obj.average_dispersion}`)
 
+        } else if (test_name in ['analog_tracking', 'persecution_tracking', 'visual_memory']) {
+            // score
+            runQuery(`INSERT INTO ${table_name} (user_name, score) VALUES ('${user_name}', ${obj.score})`)
+        } else if (test_name in ['compass', 'landolt_ring']) {
+            // correct, incorrect
+            runQuery(`INSERT INTO ${table_name} (user_name, correct, incorrect) VALUES ('${user_name}', ${obj.correct}, ${obj.incorrect})`)
+        } else if (test_name in ['raven', 'voinarovsky']) {
+            // correct
+            runQuery(`INSERT INTO ${table_name} (user_name, correct) VALUES ('${user_name}', ${obj.correct})`)
+        } else if (test_name === 'red_n_black') {
+            // score, time
+            runQuery(`INSERT INTO ${table_name} (user_name, score, time) VALUES ('${user_name}', ${obj.score}, ${obj.time})`)
+        } else if (test_name in ['verbal_memory']) {
+            // percentage
+            runQuery(`INSERT INTO ${table_name} (user_name, percentage) VALUES ('${user_name}', ${obj.percentage})`)
+        }
     });
 });
