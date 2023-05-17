@@ -112,10 +112,10 @@
         const response = await fetch("/result", {
             method: "POST",
             body: JSON.stringify({
-                username: getCookie("login"),
-                test: "easy_aud_test",
-                avgTime: averageTime.toString(),
-                percentageCorrect: percentageOfCorrectAnswers.toString()
+                user_name: getCookie("login"),
+                test_name: "easy_audio",
+                time: averageTime.toString(),
+                percentage: percentageOfCorrectAnswers.toString()
             })
         });
         const responseText = await response.text();

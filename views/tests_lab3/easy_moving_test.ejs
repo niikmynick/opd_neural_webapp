@@ -155,11 +155,11 @@
         const response = await fetch("/result", {
             method: "POST",
             body: JSON.stringify({
-                username: getCookie("login"),
-                test: "easy_moving_test",
-                sd: sd.toString(),
-                sdMinus: sdMinus.toString(),
-                sdPlus: sdPlus.toString()
+                user_name: getCookie("login"),
+                test_name: "easy_moving",
+                dispersion: sd.toString(),
+                negative_dispersion: sdMinus.toString(),
+                positive_dispersion: sdPlus.toString()
             })
         });
         const responseText = await response.text();

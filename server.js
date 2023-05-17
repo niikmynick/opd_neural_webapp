@@ -5,9 +5,11 @@ const host = 'localhost';
 let fs = require('fs');
 let express = require('express');
 let bodyParser = require('body-parser');
-const cookieParser = require("cookie-parser");
+let jwt = require('jsonwebtoken');
 let urlencodeParser = bodyParser.urlencoded({ extended: false });
 let app = express();
+
+const tokenKey = '1a2b-3c4d-5e6f-7g8h';
 
 app.use('/public', express.static('public'));
 app.set('view engine', 'ejs');

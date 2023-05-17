@@ -211,8 +211,8 @@
         const response = await fetch("/result", {
             method: "POST",
             body: JSON.stringify({
-                username: getCookie("login"),
-                test: "raven_test",
+                user_name: getCookie("login"),
+                test_name: "raven",
                 correct: correct.toString()
             })
         });
