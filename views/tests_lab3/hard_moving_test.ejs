@@ -9,7 +9,7 @@
 <body>
 <div id="bg" class="bg_img">
     <div class="top">
-        <a href="/test_2">
+        <a href="/tests_lab3">
             <img class="icon_back" src="public/img/back.png">
         </a>
         <a href="/login">
@@ -177,7 +177,7 @@
 
         document.getElementById('movingTest').style.display = 'none';
         document.getElementById('Iteration').style.display = 'none';
-
+        let averageReduced = (average.reduce((acc, num) => acc + num, 0) / average.length).toFixed(3);
         document.getElementById('Result').innerHTML = `Стандартное отклонение:<br>
                 <table style="display: inline-table;">
                     <tr>
@@ -205,7 +205,7 @@
                         <td style="border: none">${sdPlus['fast']}</td>
                     </tr>
                 </table><br>
-                среднее по всем стандартным отклонениям: ${(average.reduce((acc, num) => acc + num, 0) / average.length).toFixed(3)} c.
+                среднее по всем стандартным отклонениям: ${averageReduced} c.
                 <style>
                     td {
                         border-bottom: 2px solid #fff;
@@ -221,18 +221,27 @@
 
         document.getElementById('Retry').style.display = 'block';
         clearInterval(interval);
-        sendUser(); // TODO
+        sendUser(sd, sdMinus, sdPlus, averageReduced);
     }
 
     // Sends test results to server
     //TODO
-    async function sendUser() {
+    async function sendUser(sd, sdMinus, sdPlus, averageReduced) {
         const response = await fetch("/result", {
             method: "POST",
             body: JSON.stringify({
                 username: "Tom", // TODO
                 test: "hard_moving_test",
-                TODO: "TODO"
+                sdSlow: sd['slow'].toString(),
+                sdMinusSlow: sdMinus['slow'].toString(),
+                sdPlusSlow: sdPlus['slow'].toString(),
+                sdMiddle: sd['middle'].toString(),
+                sdMinusMiddle: sdMinus['middle'].toString(),
+                sdPlusMiddle: sdPlus['middle'].toString(),
+                sdFast: sd['fast'].toString(),
+                sdMinusFast: sdMinus['fast'].toString(),
+                sdPlusFast: sdPlus['fast'].toString(),
+                averageReduced: averageReduced.toString()
             })
         });
         const responseText = await response.text();

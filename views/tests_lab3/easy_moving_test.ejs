@@ -9,7 +9,7 @@
 <body>
 <div id="bg" class="bg_img">
     <div class="top">
-        <a href="/test_2">
+        <a href="/tests_lab3">
             <img class="icon_back" src="public/img/back.png">
         </a>
         <a href="/login">
@@ -145,18 +145,20 @@
             </style>`
         document.getElementById('Result').style.top = '30vh';
         document.getElementById('Retry').style.display = 'block';
-        sendUser(sd.toFixed(3));
+        sendUser(sd, sdMinus, sdPlus);
         clearInterval(interval);
     }
 
     // Sends test results to server
-    async function sendUser(sd) {
+    async function sendUser(sd, sdMinus, sdPlus) {
         const response = await fetch("/result", {
             method: "POST",
             body: JSON.stringify({
                 username: "Tom", // TODO
                 test: "easy_moving_test",
-                standardDispersion: sd.toString()
+                sd: sd.toString(),
+                sdMinus: sdMinus.toString(),
+                sdPlus: sdPlus.toString()
             })
         });
         const responseText = await response.text();

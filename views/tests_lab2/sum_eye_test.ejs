@@ -9,7 +9,7 @@
 <body>
 <div id="bg" class="bg_img">
     <div class="top">
-        <a href="/test_1">
+        <a href="/tests_lab2">
             <img class="icon_back" src="/public/img/back.png">
         </a>
         <a href="/login">
@@ -18,42 +18,60 @@
     </div>
     <div class="tester">
         <div id='Instruction' class="instruction text_instruction">
-            Этот тест считывает скорость реакции на световой сигнал. Ваша цель - нажать на круг как только он поменяет свой цвет.
+            Этот тест считывает скорость сложения чисел в уме и определение результата как четное или нечётное число.
         </div>
         <div id='Iteration' class="iteration"></div>
         <button id='Start_button' class="start_button" name="start" onclick="start_test()">Начать</button>
-        <div id='Circle' class="circle" onclick="onAnswer()"></div>
+        <div id="Calc" class="choosing_instruction text_choosing_instruction"></div>
+        <button id="Even" class="number_button" onclick="onAnswer(0)">Чёт Кнопка F</button>
+        <button id="Odd" class="number_button" onclick="onAnswer(1)">Нечёт Кнопка J</button>
         <div id='Result' class="result"></div>
         <div id='Final Result' class="result"></div>
-        <a href="/easy_eye_test" class="restart_button" id='Retry'>Заново</a>
+        <a href="/sum_eye_test" class="restart_button" id='Retry'>Заново</a>
     </div>
 </div>
 <script>
     let start_time;
     let iteration = 0;
-    let maxIteration = 5;
     let end_time;
+    let maxIteration = 5;
     let isDuringTest = false;
 
     //Результаты
     let correctTests = 0;
     const resultList = [];
 
-    //Keydown on space
     document.addEventListener('keydown', function(event) {
-        if (event.key === " " && iteration <= maxIteration && isDuringTest) {
-            onAnswer();
+        if (iteration <= maxIteration && isDuringTest) {
+            switch (event.key) {
+                case "f":
+                    onAnswer(0);
+                    break;
+                case "F":
+                    onAnswer(0);
+                    break;
+                case "j":
+                    onAnswer(1);
+                    break;
+                case "J":
+                    onAnswer(1);
+                    break;
+            }
         }
     });
 
-    function onAnswer() {
-        finish_test();
+    function onAnswer(num) {
+        finish_test(num);
         if (iteration !== maxIteration) {
             start_test();
         } else {
             iteration++;
         }
     }
+
+    let num1 = Math.floor(Math.random() * 99) + 1;
+    let num2 = Math.floor(Math.random() * 99) + 1;
+    let sum = (num1 + num2) % 2;
 
     function start_test() {
         iteration++;
@@ -64,29 +82,31 @@
         document.getElementById('Start_button').style.display = 'none';
         document.getElementById('bg').style.background = 'black';
         document.getElementById('Iteration').style.display = 'block';
-        document.getElementById('Iteration').innerHTML = 'Попытка: ' + iteration + '/' + maxIteration;
-        let rand_time = (Math.random() * 5000) + 1000;
-        document.getElementById('Circle').style.display = 'block';
-        setTimeout(function(){
-            if (isDuringTest) {
-                document.getElementById('Circle').style.backgroundColor = 'red';
-                start_time = Date.now();
-            }
-        }, rand_time);
-    }
+        document.getElementById('Iteration').innerHTML = 'Попытка: ' + iteration +'/' + maxIteration;
 
-    function finish_test() {
-        end_time = Date.now() - start_time;
+        num1 = Math.floor(Math.random() * 100);
+        num2 = Math.floor(Math.random() * 100);
+        sum = (num1 + num2) % 2;
+        document.getElementById('Calc').style.display = 'block';
+        document.getElementById('Calc').innerHTML = num1 + '+' + num2;
+        document.getElementById('Even').style.display = 'inline-block';
+        document.getElementById('Odd').style.display = 'inline-block';
+        start_time = Date.now();
+    }
+    function finish_test(answer) {
+        let end_time = Date.now() - start_time;
         document.getElementById('Result').style.display = 'block';
-        document.getElementById('Circle').style.backgroundColor = 'midnightblue'
-        document.getElementById('Circle').style.display = 'none';
+        document.getElementById('Even').style.display = 'none';
+        document.getElementById('Odd').style.display = 'none';
         if (isNaN(end_time)) {
             document.getElementById('Result').innerHTML = 'Не спешите!';
-        } else {
+        } else if (sum === answer) {
             end_time = end_time / 1000
             resultList.push(end_time);
             document.getElementById('Result').innerHTML = 'Ваше время реакции: ' + end_time.toString() + 's';
             correctTests++;
+        } else {
+            document.getElementById('Result').innerHTML = 'Вы выбрали неверный ответ';
         }
         if (iteration === maxIteration) {
             let averageTime = 0;
@@ -104,13 +124,14 @@
             sendUser(averageTime.toFixed(3), percentageOfCorrectAnswers.toFixed(2));
         }
     }
+
     // Sends test results to server
     async function sendUser(averageTime, percentageOfCorrectAnswers) {
         const response = await fetch("/result", {
             method: "POST",
             body: JSON.stringify({
                 username: "Tom", // TODO
-                test: "easy_eye_test",
+                test: "sum_eye_test",
                 avgTime: averageTime.toString(),
                 percentageCorrect: percentageOfCorrectAnswers.toString()
             })
