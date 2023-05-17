@@ -95,6 +95,7 @@
         <a href="/landolt_ring" class="restart_button" id='Retry'>Заново</a>
     </div>
 </div>
+<script src="/public/libs/CookieManager.js"></script>
 <script>
     const globalContainer = document.getElementById('Tester');
     const REFRESH_INTERVAL = 3;
@@ -223,8 +224,8 @@
         const response = await fetch("/result", {
             method: "POST",
             body: JSON.stringify({
-                username: "Tom", // TODO
-                test: "landolt_ring",
+                user_name: getCookie("login"),
+                test_name: "landolt_ring",
                 correct: correct.toString(),
                 incorrect: incorrect.toString(),
                 time: time.toString()

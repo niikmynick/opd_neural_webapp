@@ -95,6 +95,7 @@
         <a href="/visual_memory" class="restart_button" id='Retry'>Заново</a>
     </div>
 </div>
+<script src="/public/libs/CookieManager.js"></script>
 <script>
     const WAIT_TIME = 3000; //time in ms to show the words
 
@@ -186,8 +187,8 @@
         const response = await fetch("/result", {
             method: "POST",
             body: JSON.stringify({
-                username: "Tom", // TODO
-                test: "visual_memory",
+                user_name: getCookie("login"),
+                test_name: "visual_memory",
                 score: score.toString()
             })
         });

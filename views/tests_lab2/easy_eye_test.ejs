@@ -28,6 +28,7 @@
         <a href="/easy_eye_test" class="restart_button" id='Retry'>Заново</a>
     </div>
 </div>
+<script src="/public/libs/CookieManager.js"></script>
 <script>
     let start_time;
     let iteration = 0;
@@ -109,10 +110,10 @@
         const response = await fetch("/result", {
             method: "POST",
             body: JSON.stringify({
-                username: "Tom", // TODO
-                test: "easy_eye_test",
-                avgTime: averageTime.toString(),
-                percentageCorrect: percentageOfCorrectAnswers.toString()
+                user_name: getCookie("login"),
+                test_name: "easy_vision",
+                time: averageTime.toString(),
+                percentage: percentageOfCorrectAnswers.toString()
             })
         });
         const responseText = await response.text();

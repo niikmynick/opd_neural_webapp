@@ -221,6 +221,7 @@
         <a href="/voinarovsky_test" class="restart_button" id='Retry'>Заново</a>
     </div>
 </div>
+<script src="/public/libs/CookieManager.js"></script>
 <script>
     function start_test() {
         document.getElementById('Instruction').style.display = 'none';
@@ -284,8 +285,8 @@
         const response = await fetch("/result", {
             method: "POST",
             body: JSON.stringify({
-                username: "Tom", // TODO
-                test: "voinarovsky_test",
+                user_name: getCookie("login"),
+                test_name: "voinarovsky",
                 correct: result.toString()
             })
         });

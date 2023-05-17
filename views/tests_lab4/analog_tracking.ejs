@@ -30,6 +30,7 @@
         <a href="/analog_tracking" class="restart_button" id='Retry'>Заново</a>
     </div>
 </div>
+<script src="/public/libs/CookieManager.js"></script>
 <script>
     const TEST_DURATION = 20000; //(milliseconds)
     const WAIT_TIME = 200; // time before circle starts moving after starting test (milliseconds)
@@ -193,7 +194,7 @@
         const response = await fetch("/result", {
             method: "POST",
             body: JSON.stringify({
-                username: "Tom", // TODO
+                username: getCookie("login"),
                 test: "analog_tracking",
                 score: score.toString()
             })

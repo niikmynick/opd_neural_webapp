@@ -31,6 +31,7 @@
         <a href="/compasses_test" class="restart_button" id='Retry'>Заново</a>
     </div>
 </div>
+<script src="/public/libs/CookieManager.js"></script>
 <script>
     const TRUE_RESULT = ['southeast', 'east', 'south', 'south', 'southeast', 'west', 'southwest', 'northeast', 'northeast', 'northwest',
                          'south', 'north', 'southeast', 'northwest', 'southeast', 'southeast', 'northwest', 'northeast', 'southeast', 'southwest',
@@ -157,8 +158,8 @@
         const response = await fetch("/result", {
             method: "POST",
             body: JSON.stringify({
-                username: "Tom", // TODO
-                test: "compasses_test",
+                user_name: getCookie("login"),
+                test_name: "compass",
                 correct: correct.toString(),
                 incorrect: incorrect.toString()
             })

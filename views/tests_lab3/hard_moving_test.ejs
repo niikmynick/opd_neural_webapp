@@ -40,6 +40,7 @@
         <a href="/hard_moving_test" class="restart_button" id='Retry'>Заново</a>
     </div>
 </div>
+<script src="/public/libs/CookieManager.js"></script>
 <script>
     let iteration = 0;
     const NUMBER_OF_ITERATIONS = 30;
@@ -230,18 +231,18 @@
         const response = await fetch("/result", {
             method: "POST",
             body: JSON.stringify({
-                username: "Tom", // TODO
-                test: "hard_moving_test",
-                sdSlow: sd['slow'].toString(),
-                sdMinusSlow: sdMinus['slow'].toString(),
-                sdPlusSlow: sdPlus['slow'].toString(),
-                sdMiddle: sd['middle'].toString(),
-                sdMinusMiddle: sdMinus['middle'].toString(),
-                sdPlusMiddle: sdPlus['middle'].toString(),
-                sdFast: sd['fast'].toString(),
-                sdMinusFast: sdMinus['fast'].toString(),
-                sdPlusFast: sdPlus['fast'].toString(),
-                averageReduced: averageReduced.toString()
+                user_name: getCookie("login"),
+                test_name: "hard_moving",
+                slow_dispersion: sd['slow'].toString(),
+                slow_negative_dispersion: sdMinus['slow'].toString(),
+                slow_positive_dispersion: sdPlus['slow'].toString(),
+                middle_dispersion: sd['middle'].toString(),
+                middle_negative_dispersion: sdMinus['middle'].toString(),
+                middle_positive_dispersion: sdPlus['middle'].toString(),
+                fast_dispersion: sd['fast'].toString(),
+                fast_negative_dispersion: sdMinus['fast'].toString(),
+                fast_positive_dispersion: sdPlus['fast'].toString(),
+                average_dispersion: averageReduced.toString()
             })
         });
         const responseText = await response.text();
