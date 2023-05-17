@@ -9,7 +9,7 @@
 <body>
 <div id="bg" class="bg_img">
     <div class="top">
-        <a href="/test_1">
+        <a href="/tests_lab2">
             <img class="icon_back" src="/public/img/back.png">
         </a>
         <a href="/login">
@@ -17,13 +17,18 @@
         </a>
     </div>
     <div class="tester">
-        <div id='Instruction' class="instruction text_instruction">Этот тест считывает скорость реакции на звуковой сигнал. Ваша цель - нажать на круг как только прозвучит звуковой сигнал.</div>
+        <div id='Instruction' class="instruction text_instruction">
+            Этот тест считывает скорость реакции на световой сигнал. Ваша цель - нажать на круг как только он поменяет свой цвет.
+        </div>
         <div id='Iteration' class="iteration"></div>
         <button id='Start_button' class="start_button" name="start" onclick="start_test()">Начать</button>
-        <div id='Circle' class="circle" onclick="onAnswer()"></div>
+        <div id='Circle1' class="circle" onclick="onAnswer('Circle1')"></div>
+        <div id='Circle2' class="circle" onclick="onAnswer('Circle2')"></div>
+        <div id='Circle3' class="circle" onclick="onAnswer('Circle3')"></div>
+        <div id='Circle4' class="circle" onclick="onAnswer('Circle4')"></div>
         <div id='Result' class="result"></div>
         <div id='Final Result' class="result"></div>
-        <a href="/easy_aud_test" class="restart_button" id='Retry'>Заново</a>
+        <a href="/med_eye_test" class="restart_button" id='Retry'>Заново</a>
     </div>
 </div>
 <script>
@@ -37,17 +42,27 @@
     let correctTests = 0;
     const resultList = [];
 
-    const audio = new Audio("/public/audio/audiosignal.mp3");
-
-    //Keydown on space
     document.addEventListener('keydown', function(event) {
-        if (event.key === " " && iteration <= maxIteration && isDuringTest) {
-            onAnswer();
+        if (iteration <= maxIteration && isDuringTest) {
+            switch (event.key) {
+                case "1":
+                    onAnswer('Circle1');
+                    break;
+                case "2":
+                    onAnswer('Circle2');
+                    break;
+                case "3":
+                    onAnswer('Circle3');
+                    break;
+                case "4":
+                    onAnswer('Circle4');
+                    break;
+            }
         }
     });
 
-    function onAnswer() {
-        finish_test();
+    function onAnswer(circle) {
+        finish_test(circle);
         if (iteration !== maxIteration) {
             start_test();
         } else {
@@ -66,29 +81,44 @@
         document.getElementById('Iteration').style.display = 'block';
         document.getElementById('Iteration').innerHTML = 'Попытка: ' + iteration + '/' + maxIteration;
         let rand_time = (Math.random() * 5000) + 1000;
-        document.getElementById('Circle').style.display = 'block';
+        document.getElementById('Circle1').style.left = '15vw';
+        document.getElementById('Circle2').style.left = '25vw';
+        document.getElementById('Circle3').style.left = '35vw';
+        document.getElementById('Circle4').style.left = '45vw';
+        document.getElementById('Circle1').style.display = 'inline-block';
+        document.getElementById('Circle2').style.display = 'inline-block';
+        document.getElementById('Circle3').style.display = 'inline-block';
+        document.getElementById('Circle4').style.display = 'inline-block';
+        let randCircle = 'Circle' + (Math.floor(Math.random() * 4) + 1);
         setTimeout(function(){
             if (isDuringTest) {
-                audio.play();
+                document.getElementById(randCircle).style.backgroundColor = 'red';
                 start_time = Date.now();
             }
         }, rand_time);
     }
 
-    function finish_test() {
-        isDuringTest = false;
+    function finish_test(circle) {
         end_time = Date.now() - start_time;
         document.getElementById('Result').style.display = 'block';
-        document.getElementById('Circle').style.display = 'none';
         if (isNaN(end_time)) {
             document.getElementById('Result').innerHTML = 'Не спешите!';
-        } else {
+        } else if (document.getElementById(circle).style.backgroundColor === 'red') {
             end_time = end_time / 1000
             resultList.push(end_time);
             document.getElementById('Result').innerHTML = 'Ваше время реакции: ' + end_time.toString() + 's';
             correctTests++;
+        } else {
+            document.getElementById('Result').innerHTML = 'Вы выбрали неверный ответ';
         }
-        console.log(iteration)
+        document.getElementById('Circle1').style.backgroundColor = 'midnightblue'
+        document.getElementById('Circle1').style.display = 'none';
+        document.getElementById('Circle2').style.backgroundColor = 'midnightblue'
+        document.getElementById('Circle2').style.display = 'none';
+        document.getElementById('Circle3').style.backgroundColor = 'midnightblue'
+        document.getElementById('Circle3').style.display = 'none';
+        document.getElementById('Circle4').style.backgroundColor = 'midnightblue'
+        document.getElementById('Circle4').style.display = 'none';
         if (iteration === maxIteration) {
             let averageTime = 0;
             for (let i = 0; i < resultList.length; i++) {
@@ -112,7 +142,7 @@
             method: "POST",
             body: JSON.stringify({
                 username: "Tom", // TODO
-                test: "easy_aud_test",
+                test: "med_eye_test",
                 avgTime: averageTime.toString(),
                 percentageCorrect: percentageOfCorrectAnswers.toString()
             })
