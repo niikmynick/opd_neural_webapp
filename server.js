@@ -6,7 +6,7 @@ let fs = require('fs');
 let express = require('express');
 let bodyParser = require('body-parser');
 let jwt = require('jsonwebtoken');
-let urlencodeParser = bodyParser.urlencoded({ extended: false });
+let urlEncodeParser = bodyParser.urlencoded({ extended: false });
 let app = express();
 
 
@@ -23,11 +23,11 @@ function runQuery (query) {
     return new Promise((resolve, reject) => {
         db.all(query, (err, rows) => {
             if (err) {
-                reject(err);
+                reject(err)
             }
-            resolve(rows);
-        });
-    });
+            resolve(rows)
+        })
+    })
 }
 
 const tokenKey = '1a2b-3c4d-5e6f-7g8h';
@@ -42,39 +42,45 @@ app.listen(port, host, function (){
 
 
 // user registration
-app.post('/registration', urlencodeParser, function(req, res) {
+app.post('/registration', urlEncodeParser, function(req, res) {
     if(!req.body) return res.sendStatus(400);
     console.log(req.body);
 
-    runQuery(`INSERT INTO users (name, email, password) VALUES ('${req.body.name}', '${req.body.email}', '${req.body.password}')`.then(r => r))
+    let user_name = req.body.name;
+    let user_email = req.body.email;
+    let user_password = req.body.password;
 
-    console.log(`User ${name} registered successfully`);
+    let query = `INSERT INTO user (name, email, password) VALUES ('${user_name}', '${user_email}', '${user_password}');`
+    runQuery(query).then(r => r)
+
+    console.log(`User ${user_name} registered successfully`);
 
     res.render('main');
 });
 
-
-let usersData = JSON.parse(fs.readFileSync(`usersData/usersData.json`, 'utf8'))
 let user_id;
 let user_name;
-let k;
 let authoriseFlag = false;
 
-let userSkillsList;
-
 // user login
-app.post('/login', urlencodeParser, function(req, res) {
+app.post('/login', urlEncodeParser, function(req, res) {
     if(!req.body) return res.sendStatus(400);
 
-    const { user_email } = req.body;
-    const { user_password } = req.body;
+    console.log(req.body);
 
-    if (user_password === runQuery(`SELECT password FROM user WHERE email = '${user_email}'`).then(r => r)) {
-        console.log("Успешная авторизация")
-        authoriseFlag = true
-    } else {
-        console.log("Неверный пароль")
-    }
+    const user_email = req.body.user_email;
+    const user_password = req.body.user_password;
+
+    runQuery(`SELECT password FROM user WHERE email = '${user_email}'`).then(r => {
+        if (user_password === r[0]["password"]) {
+            console.log("Успешная авторизация")
+            authoriseFlag = true
+        } else {
+            console.log(r[0]["password"])
+            console.log(user_password)
+            console.log("Неверный пароль")
+        }
+    })
 
     res.render('main')
 });
@@ -98,7 +104,7 @@ let personFE = []
 let personSA = []
 
 // saving user choice
-app.post('/add', urlencodeParser, function(req, res) {
+app.post('/add', urlEncodeParser, function(req, res) {
     if(!req.body) return res.sendStatus(400)
 
     if (i.startsWith('f')) {
@@ -115,7 +121,7 @@ app.post('/add', urlencodeParser, function(req, res) {
     res.render('lab1/mark', {DS: personDS, FE: personFE, SA:personSA})
 })
 
-app.post('/mark', urlencodeParser, function(req, res) {
+app.post('/mark', urlEncodeParser, function(req, res) {
     if (!req.body) return res.sendStatus(400)
 
     for (i in req.body) {
@@ -246,7 +252,7 @@ app.get('/:name', function(req, res) {
 
 
 //Receives results form tests
-app.post('/result', urlencodeParser, function(req, res) {
+app.post('/result', urlEncodeParser, function(req, res) {
     if(!req.body) return res.sendStatus(400);
 
     let data = "";
