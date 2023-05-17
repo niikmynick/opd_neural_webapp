@@ -328,5 +328,12 @@ app.post('/result', urlencodeParser, function(req, res) {
         console.log(data);
         let obj = JSON.parse(data); // contains username, test name, result variables
         res.end("Данные успешно получены");
+
+
+        fs.writeFileSync('views/lab1/statistic/stat.json', JSON.stringify(jsObjectStat), function(error) {
+            if(error) throw error
+            console.log("Асинхронная запись файла завершена.")
+        })
+
     });
 });
