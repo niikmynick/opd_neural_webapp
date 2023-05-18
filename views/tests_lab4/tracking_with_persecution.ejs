@@ -202,8 +202,8 @@
         const response = await fetch("/result", {
             method: "POST",
             body: JSON.stringify({
-                username: getCookie("login"),
-                test: "tracking_with_persecution",
+                user_name: getCookie("login"),
+                test_name: "tracking_with_persecution",
                 score: score.toString()
             })
         });

@@ -1,3 +1,4 @@
+
 // server initialization
 const port = 9000;
 const host = 'localhost';
@@ -5,9 +6,11 @@ const host = 'localhost';
 let fs = require('fs');
 let express = require('express');
 let bodyParser = require('body-parser');
-let jwt = require('jsonwebtoken');
 let urlEncodeParser = bodyParser.urlencoded({ extended: false });
 let app = express();
+const cookieManager = require('./public/libs/CookieManager.js');
+const cookieParser = require('cookie-parser');
+app.use(cookieParser());
 
 
 // database initialization
@@ -30,7 +33,6 @@ function runQuery(query) {
     });
 }
 
-const tokenKey = '1a2b-3c4d-5e6f-7g8h';
 
 app.use('/public', express.static('public'));
 app.set('view engine', 'ejs');
@@ -64,7 +66,7 @@ app.post('/registration', urlEncodeParser, function(req, res) {
     })
 
     console.log(`User ${user_name} with id ${user_id} registered`)
-
+    res.cookie('login', user_name);
     res.render('main');
 });
 
@@ -77,28 +79,32 @@ app.post('/login', urlEncodeParser, function(req, res) {
 
     const user_email = req.body.user_email;
     const user_password = req.body.user_password;
+    async function a() {
+        let one = runQuery(`SELECT password FROM user WHERE email = '${user_email}'`).then(r => {
+            if (user_password === r[0]["password"]) {
+                console.log("Успешная авторизация")
+                authoriseFlag = true
+            } else {
+                console.log("Неверный пароль")
+            }
+        })
 
-    runQuery(`SELECT password FROM user WHERE email = '${user_email}'`).then(r => {
-        if (user_password === r[0]["password"]) {
-            console.log("Успешная авторизация")
-            authoriseFlag = true
+        let two = runQuery(`SELECT id FROM user WHERE email = '${user_email}'`).then(r => {
+            user_id = r[0]["id"]
+        })
 
-        } else {
-            console.log("Неверный пароль")
-        }
-    })
+        let three = runQuery(`SELECT name FROM user WHERE email = '${user_email}'`).then(r => {
+            user_name = r[0]["name"]
+            res.cookie('login', user_name);
+        })
 
-    runQuery(`SELECT id FROM user WHERE email = '${user_email}'`).then(r => {
-        user_id = r[0]["id"]
-        setTimeout(() => {}, 1000)
-    })
+        await one;
+        await two;
+        await three;
+        res.render('main')
+    }
 
-    runQuery(`SELECT name FROM user WHERE email = '${user_email}'`).then(r => {
-        user_name = r[0]["name"]
-        setTimeout(() => {}, 1000)
-    })
-
-    res.render('main')
+    a();
 });
 
 
@@ -314,12 +320,14 @@ app.post('/result', urlEncodeParser, function(req, res) {
         console.log(data);
         let obj = JSON.parse(data); // contains username, test name, result variables
         res.end("Данные успешно получены");
-        let user_name = obj.user_name;
-        let test_name = obj.test_name;
+        let user_name = obj["user_name"];
+        let test_name = obj["test_name"];
+        console.log(test_name);
 
         let table_name = test_name + '_result';
 
-        if (test_name in ['easy_audio', 'easy_vision', 'medium_vision', 'hard_vision', 'audio_sum', 'vision_sum']) {
+        if (['easy_audio', 'easy_vision', 'medium_vision', 'hard_vision', 'audio_sum', 'vision_sum'].includes(test_name)) {
+            console.log("sending to db");
             // time, percentage
             runQuery(`INSERT INTO ${table_name} (user_name, time, percentage) VALUES ('${user_name}', ${obj.time}, ${obj.percentage})`)
         } else if (test_name === 'easy_moving') {
@@ -351,19 +359,19 @@ app.post('/result', urlEncodeParser, function(req, res) {
                             ${obj.fast_positive_dispersion}, 
                             ${obj.average_dispersion}`)
 
-        } else if (test_name in ['analog_tracking', 'persecution_tracking', 'visual_memory']) {
+        } else if (['analog_tracking', 'persecution_tracking', 'visual_memory'].includes(test_name)) {
             // score
             runQuery(`INSERT INTO ${table_name} (user_name, score) VALUES ('${user_name}', ${obj.score})`)
-        } else if (test_name in ['compass', 'landolt_ring']) {
+        } else if (['compass', 'landolt_ring'].includes(test_name)) {
             // correct, incorrect
             runQuery(`INSERT INTO ${table_name} (user_name, correct, incorrect) VALUES ('${user_name}', ${obj.correct}, ${obj.incorrect})`)
-        } else if (test_name in ['raven', 'voinarovsky']) {
+        } else if (['raven', 'voinarovsky'].includes(test_name)) {
             // correct
             runQuery(`INSERT INTO ${table_name} (user_name, correct) VALUES ('${user_name}', ${obj.correct})`)
         } else if (test_name === 'red_n_black') {
             // score, time
             runQuery(`INSERT INTO ${table_name} (user_name, score, time) VALUES ('${user_name}', ${obj.score}, ${obj.time})`)
-        } else if (test_name in ['verbal_memory']) {
+        } else if (test_name === 'verbal_memory') {
             // percentage
             runQuery(`INSERT INTO ${table_name} (user_name, percentage) VALUES ('${user_name}', ${obj.percentage})`)
         }
