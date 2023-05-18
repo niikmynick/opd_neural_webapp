@@ -19,15 +19,15 @@ let db = new sqlite3.Database('./identifier.sqlite', (err) => {
     console.log('Connected to the database.');
 });
 
-function runQuery (query) {
+function runQuery(query) {
     return new Promise((resolve, reject) => {
-        db.all(query, (err, rows) => {
+        db.all(query, [], (err, rows) => {
             if (err) {
-                reject(err)
+                reject(err);
             }
-            resolve(rows)
-        })
-    })
+            resolve(rows);
+        });
+    });
 }
 
 const tokenKey = '1a2b-3c4d-5e6f-7g8h';
@@ -39,28 +39,35 @@ app.listen(port, host, function (){
     console.log('Server - http://' + host + ':' + port);
 })
 
-
+// user stuff
+let user_id;
+let user_name;
+let authoriseFlag = false;
 
 // user registration
 app.post('/registration', urlEncodeParser, function(req, res) {
     if(!req.body) return res.sendStatus(400);
     console.log(req.body);
 
-    let user_name = req.body.name;
+    user_name = req.body.name;
     let user_email = req.body.email;
     let user_password = req.body.password;
+    authoriseFlag = true;
 
-    let query = `INSERT INTO user (name, email, password) VALUES ('${user_name}', '${user_email}', '${user_password}');`
-    runQuery(query).then(r => r)
+    runQuery(`INSERT INTO user (name, email, password) VALUES ('${user_name}', '${user_email}', '${user_password}')`).then(r => {
+        setTimeout(() => {}, 1000)
+    })
 
-    console.log(`User ${user_name} registered successfully`);
+    runQuery(`SELECT id FROM user WHERE email = '${user_email}'`).then(r => {
+        user_id = r[0]["id"]
+        setTimeout(() => {}, 1000)
+    })
+
+    console.log(`User ${user_name} with id ${user_id} registered`)
 
     res.render('main');
 });
 
-let user_id;
-let user_name;
-let authoriseFlag = false;
 
 // user login
 app.post('/login', urlEncodeParser, function(req, res) {
@@ -75,41 +82,49 @@ app.post('/login', urlEncodeParser, function(req, res) {
         if (user_password === r[0]["password"]) {
             console.log("Успешная авторизация")
             authoriseFlag = true
+
         } else {
-            console.log(r[0]["password"])
-            console.log(user_password)
             console.log("Неверный пароль")
         }
+    })
+
+    runQuery(`SELECT id FROM user WHERE email = '${user_email}'`).then(r => {
+        user_id = r[0]["id"]
+        setTimeout(() => {}, 1000)
+    })
+
+    runQuery(`SELECT name FROM user WHERE email = '${user_email}'`).then(r => {
+        user_name = r[0]["name"]
+        setTimeout(() => {}, 1000)
     })
 
     res.render('main')
 });
 
-let frontend_id = runQuery(`SELECT id FROM profession WHERE name = 'frontend developer'`).then(r => r)
-let sysAdmin_id = runQuery(`SELECT id FROM profession WHERE name = 'system administrator'`).then(r => r)
-let dataScientist_id = runQuery(`SELECT id FROM profession WHERE name = 'data scientist'`).then(r => r)
 
+// professions ids
+let frontend_id = 0
+let sysAdmin_id = 0
+let dataScientist_id = 0
 
-// files initialization
-let jsObjectStat = JSON.parse(fs.readFileSync('views/lab1/statistic/stat.json', 'utf8').toString())
-
-// result keepers init
-let frontEnd = []
-let dataScience = []
-let sysAdmin = []
-
-// personal results
-let personDS = []
-let personFE = []
-let personSA = []
+runQuery(`SELECT id FROM profession WHERE name = 'frontend developer'`).then(r => {
+    frontend_id = r[0]["id"]
+})
+runQuery(`SELECT id FROM profession WHERE name = 'system administrator'`).then(r => {
+    sysAdmin_id = r[0]["id"]
+})
+runQuery(`SELECT id FROM profession WHERE name = 'data scientist'`).then(r => {
+    dataScientist_id = r[0]["id"]
+})
 
 // saving user choice
 app.post('/add', urlEncodeParser, function(req, res) {
     if(!req.body) return res.sendStatus(400)
 
     if (i.startsWith('f')) {
-        runQuery(`INSERT INTO important_qualities_result (user_id, profession_id, quality_id, value)
-                  VALUES (${user_id}, ${frontend_id}, ${i.slice(1 )}, 0)`).then(r => r)
+        runQuery(`INSERT INTO important_qualities_result (user_id, profession_id, quality_id, value) 
+                    VALUES (${user_id}, ${frontend_id}, ${i.slice(1 )}, 0)`).then(r => r)
+
     } else if (i.startsWith('a')) {
         runQuery(`INSERT INTO important_qualities_result (user_id, profession_id, quality_id, value)
                   VALUES (${user_id}, ${sysAdmin_id}, ${i.slice(1 )}, 0)`).then(r => r)
@@ -136,6 +151,30 @@ app.post('/mark', urlEncodeParser, function(req, res) {
 
     res.render('main')
 })
+let personDS = []
+let personFE = []
+let personSA = []
+let dataScience = []
+let frontEnd = []
+let sysAdmin = []
+
+runQuery(`SELECT quality_name, value FROM important_qualities_result join important_quality on important_qualities_result.quality_id = important_quality.id WHERE profession_id = ${dataScientist_id}`).then((rows) => {
+    rows.forEach((row) => {
+        dataScience.push([row.name, row.value])
+    })
+})
+runQuery(`SELECT quality_name, value FROM important_qualities_result join important_quality on important_qualities_result.quality_id = important_quality.id WHERE profession_id = ${frontend_id}`).then((rows) => {
+    rows.forEach((row) => {
+        frontEnd.push([row.name, row.value])
+    })
+})
+runQuery(`SELECT quality_name, value FROM important_qualities_result join important_quality on important_qualities_result.quality_id = important_quality.id WHERE profession_id = ${sysAdmin_id}`).then((rows) => {
+    rows.forEach((row) => {
+        sysAdmin.push([row.name, row.value])
+    })
+})
+
+setTimeout(() => {}, 1000)
 
 // sorting lists by values
 dataScience.sort((a, b) => a[1] - b[1]).reverse()
@@ -209,6 +248,11 @@ app.get('/:name', function(req, res) {
         res.render(page, {frontEnd: frontEnd});
 
     } else if (req.params.name === 'mark') {
+        personDS = runQuery("SELECT * FROM important_qualities_result WHERE user_id = (?)", [user_id])
+        personFE = runQuery("SELECT * FROM important_qualities_result WHERE user_id = (?)", [user_id])
+        personSA = runQuery("SELECT * FROM important_qualities_result WHERE user_id = (?)", [user_id])
+        setTimeout(() => {}, 1000)
+
         res.render(page, {FE: personFE});
 
     } else if (req.params.name === "frontend") {
@@ -240,6 +284,11 @@ app.get('/:name', function(req, res) {
 
     } else if (req.params.name === 'login') {
         if (authoriseFlag) {
+            personDS = runQuery("SELECT * FROM important_qualities_result WHERE user_id = (?)", [user_id])
+            personFE = runQuery("SELECT * FROM important_qualities_result WHERE user_id = (?)", [user_id])
+            personSA = runQuery("SELECT * FROM important_qualities_result WHERE user_id = (?)", [user_id])
+            setTimeout(() => {}, 1000)
+
             res.render('account', {user_name: user_name, DS: personDS, FE: personFE, SA:personSA})
         } else {
             res.render(page)
