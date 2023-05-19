@@ -28,25 +28,20 @@
                             <td>№</td>
                             <td>Профессиональное качество</td>
                         </tr>
-                        <% for(let i=0; i<10; i++) { %>
+                        <% for(let i=0; i < FE.length; i++) { %>
                             <tr>
                                 <td><%= (i+1) %></td>
-                                <td class="td_1"><%= FE[i] %></td>
+                                <td class="td_1"><%= FE[i][0] %></td>
                             </tr>
                         <% } %>
                     </table>
                     <div class="input_pvk">
                         <div class="inputbox">
-                            <input type="number" max="10" min="1" name="f1" required>
-                            <input type="number" max="10" min="1" name="f2" required>
-                            <input type="number" max="10" min="1" name="f3" required>
-                            <input type="number" max="10" min="1" name="f4" required>
-                            <input type="number" max="10" min="1" name="f5" required>
-                            <input type="number" max="10" min="1" name="f6" required>
-                            <input type="number" max="10" min="1" name="f7" required>
-                            <input type="number" max="10" min="1" name="f8" required>
-                            <input type="number" max="10" min="1" name="f9" required>
-                            <input type="number" max="10" min="1" name="f10" required>
+                            <% for(let i=0; i < FE.length; i++) { %>
+                                <label>
+                                    <input type="number" max="10" min="1" name="f<%= (i+1) %>" required>
+                                </label>
+                            <% } %>
                         </div>
 
                     </div>
