@@ -20,7 +20,7 @@
     <div class="choice">
         <form method="post" action="/mark">
             <div class="list_11">
-                <p class="text_title">Frontend - разработчик</p>
+                <p class="text_title">Этап оценки</p>
                 <p class="text1">Оцените каждый навык от 1 - 10 включительно.</p>
                 <div class="choice_pvk">
                     <table class="table_1">
@@ -28,16 +28,16 @@
                             <td>№</td>
                             <td>Профессиональное качество</td>
                         </tr>
-                        <% for(let i=0; i < FE.length; i++) { %>
+                        <% for(let i=0; i < pvk.length; i++) { %>
                             <tr>
                                 <td><%= (i+1) %></td>
-                                <td class="td_1"><%= FE[i][0] %></td>
+                                <td class="td_1"><%= pvk[i][0] %></td>
                             </tr>
                         <% } %>
                     </table>
                     <div class="input_pvk">
                         <div class="inputbox">
-                            <% for(let i=0; i < FE.length; i++) { %>
+                            <% for(let i=0; i < pvk.length; i++) { %>
                                 <label>
                                     <input type="number" max="10" min="1" name="f<%= (i+1) %>" required>
                                 </label>

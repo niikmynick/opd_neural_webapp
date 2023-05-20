@@ -49,29 +49,34 @@ app.listen(port, host, function (){
     console.log('Server - http://' + host + ':' + port);
 })
 
+async function reloadPersonStat(user_id, needToCheck = ["dataScience", "frontEnd", "sysAdmin"]) {
 
-async function reloadPersonStat(user_id) {
-    personDS = []
-    personFE = []
-    personSA = []
-
-    await runQuery(`SELECT quality_name, value FROM important_qualities_result join important_quality on important_qualities_result.quality_id = important_quality.id WHERE user_id = ${user_id} AND profession_id = ${dataScientist_id}`).then((rows) => {
-        rows.forEach((row) => {
-            personDS.push([row["quality_name"], row.value])
+    if (needToCheck.includes("dataScience")) {
+        personDS = []
+        await runQuery(`SELECT quality_name, value FROM important_qualities_result join important_quality on important_qualities_result.quality_id = important_quality.id WHERE user_id = ${user_id} AND profession_id = ${dataScientist_id}`).then((rows) => {
+            rows.forEach((row) => {
+                personDS.push([row["quality_name"], row.value])
+            })
         })
-    })
+    }
 
-    await runQuery(`SELECT quality_name, value FROM important_qualities_result join important_quality on important_qualities_result.quality_id = important_quality.id WHERE user_id = ${user_id} AND profession_id = ${frontend_id}`).then((rows) => {
-        rows.forEach((row) => {
-            personFE.push([row["quality_name"], row.value])
+    if (needToCheck.includes("frontEnd")) {
+        personFE = []
+        await runQuery(`SELECT quality_name, value FROM important_qualities_result join important_quality on important_qualities_result.quality_id = important_quality.id WHERE user_id = ${user_id} AND profession_id = ${frontend_id}`).then((rows) => {
+            rows.forEach((row) => {
+                personFE.push([row["quality_name"], row.value])
+            })
         })
-    })
+    }
 
-    await runQuery(`SELECT quality_name, value FROM important_qualities_result join important_quality on important_qualities_result.quality_id = important_quality.id WHERE user_id = ${user_id} AND profession_id = ${sysAdmin_id}`).then((rows) => {
-        rows.forEach((row) => {
-            personSA.push([row["quality_name"], row.value])
+    if (needToCheck.includes("sysAdmin")) {
+        personSA = []
+        await runQuery(`SELECT quality_name, value FROM important_qualities_result join important_quality on important_qualities_result.quality_id = important_quality.id WHERE user_id = ${user_id} AND profession_id = ${sysAdmin_id}`).then((rows) => {
+            rows.forEach((row) => {
+                personSA.push([row["quality_name"], row.value])
+            })
         })
-    })
+    }
 }
 
 async function clearPersonStat(profession) {
@@ -176,11 +181,19 @@ app.post('/login', urlEncodeParser, function(req, res) {
 app.post('/add', urlEncodeParser, function(req, res) {
     if(!req.body) return res.sendStatus(400)
 
+    let profession = Object.keys(req.body)[0]
     insertPVK(req.body, user_id)
         .then(() => {
             reloadPersonStat(user_id)
                 .then(() => {
-                    res.render('lab1/mark', {FE: personFE})
+                    console.log(profession)
+                    if (profession.startsWith('f')) {
+                        res.render("lab1/mark", {pvk: personFE})
+                    } else if (profession.startsWith('d')) {
+                        res.render("lab1/mark", {pvk: personDS})
+                    } else if (profession.startsWith('s')) {
+                        res.render("lab1/mark", {pvk: personSA})
+                    }
                 })
         })
 })

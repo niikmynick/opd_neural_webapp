@@ -35,15 +35,15 @@ async function insertPVK(lst, user_id) {
     for (let i in lst) {
         if (i.startsWith('f')) {
             await runQuery(`INSERT INTO important_qualities_result (user_id, profession_id, quality_id, value) 
-                    VALUES (${user_id}, ${frontend_id}, ${i.slice(1 )}, 0)`).then(r => r)
+                    VALUES (${user_id}, ${frontend_id}, ${i.slice(1)}, 0)`).then(r => r)
 
         } else if (i.startsWith('a')) {
             await runQuery(`INSERT INTO important_qualities_result (user_id, profession_id, quality_id, value)
-                  VALUES (${user_id}, ${sysAdmin_id}, ${i.slice(1 )}, 0)`).then(r => r)
+                  VALUES (${user_id}, ${sysAdmin_id}, ${i.slice(1)}, 0)`).then(r => r)
 
         } else if (i.startsWith('d')){
             await runQuery(`INSERT INTO important_qualities_result (user_id, profession_id, quality_id, value)
-                  VALUES (${user_id}, ${dataScientist_id}, ${i.slice(1 )}, 0)`).then(r => r)
+                  VALUES (${user_id}, ${dataScientist_id}, ${i.slice(1)}, 0)`).then(r => r)
         }
     }
 }

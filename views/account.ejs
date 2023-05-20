@@ -9,7 +9,7 @@
 <body>
     <div class="bg_img_stat">
         <div class="top">
-            <a href="/lab1">
+            <a href="/">
                 <img class="icon_back_stat" src="public/img/back.png">
             </a>
             <a href="/login">
@@ -32,11 +32,13 @@
                             <tr class="table">
                                 <td>№</td>
                                 <td>Профессиональное качество</td>
+                                <td>Ваша оценка</td>
                             </tr>
                             <% for(let i=0; i < FE.length; i++) { %>
                                 <tr>
                                     <td><%= (i+1) %></td>
                                     <td class="td_1"><%= FE[i][0] %></td>
+                                    <td><%= FE[i][1] %></td>
                                 </tr>
                             <% } %>
                         <% } else { %>
@@ -51,11 +53,13 @@
                             <tr class="table">
                                 <td>№</td>
                                 <td>Профессиональное качество</td>
+                                <td>Ваша оценка</td>
                             </tr>
                             <% for(let i=0; i < DS.length; i++) { %>
                                 <tr>
                                     <td><%= (i+1) %></td>
                                     <td class="td_1"><%= DS[i][0] %></td>
+                                    <td><%= DS[i][1] %></td>
                                 </tr>
                             <% } %>
                         <% } else { %>
@@ -72,11 +76,13 @@
                             <tr class="table">
                                 <td>№</td>
                                 <td>Профессиональное качество</td>
+                                <td>Ваша оценка</td>
                             </tr>
                             <% for(let i=0; i < SA.length; i++) { %>
                                 <tr>
                                     <td><%= (i+1) %></td>
                                     <td class="td_1"><%= SA[i][0] %></td>
+                                    <td><%= SA[i][1] %></td>
                                 </tr>
                             <% } %>
                         <% } else { %>
