@@ -60,6 +60,16 @@ async function saveMarks(lst, user_id) {
     }
 }
 
+async function saveSelfEvaluation(lst, user_id){
+    for (let i in lst) {
+        // TODO
+    }
+}
+
+async function saveMindProfession(profession, user_id) {
+    // TODO
+}
+
 module.exports = {
     runQuery,
     registerUser,
