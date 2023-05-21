@@ -47,9 +47,7 @@ a, u {
 .choice{
     height: 85vh;
 }
-.choice_stat{
-    height: 1000px;
-}
+
 .title_text {
     height: 55px;
     padding-left: 30px;
@@ -201,6 +199,30 @@ a, u {
     border-radius: 20px;
     opacity: 0.3;
 }
+
+.list_4 {
+    margin-top: 15px;
+    margin-left: 40px;
+    width: 900px;
+    height: 1440px;
+    display: block;
+    position: relative;
+    z-index: 1;
+}
+
+.list_4:before {
+    content: "";
+    background-color: white;
+    background-size: cover;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    position: absolute;
+    border-radius: 20px;
+    opacity: 0.3;
+}
+
 .text_title {
     font-size: 24pt;
     font-family: 'docs-Roboto', Helvetica, Arial, sans-serif;
@@ -217,10 +239,11 @@ a, u {
 }
 .table_1 {
     margin: 0 auto;
-    margin-top: 10px;
+    margin-top: 20px;
     width: 600px;
     height: 160px;
 }
+
 table, tr, td {
     color: white;
     border-collapse: collapse;

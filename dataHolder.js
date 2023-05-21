@@ -10,6 +10,100 @@ let personDS = []
 let personFE = []
 let personSA = []
 
+let timePercentTests = {
+    'easy_audio': {
+        'time': null,
+        'percent': null
+    },
+    'easy_vision': {
+        'time': null,
+        'percent': null
+    },
+    'medium_vision': {
+        'time': null,
+        'percent': null
+    },
+    'hard_vision': {
+        'time': null,
+        'percent': null
+    },
+    'audio_sum': {
+        'time': null,
+        'percent': null
+    },
+    'vision_sum': {
+        'time': null,
+        'percent': null
+    }
+}
+
+let dispersionTests = {
+    'easy_moving': {
+        'dispersion': null,
+        'negative_dispersion': null,
+        'positive_dispersion': null
+    }
+}
+
+let manyArgsTests = {
+    'hard_moving': {
+        'slow_dispersion' : null,
+        'middle_dispersion' : null,
+        'fast_dispersion' : null,
+
+        'slow_negative_dispersion' : null,
+        'middle_negative_dispersion' : null,
+        'fast_negative_dispersion' : null,
+
+        'slow_positive_dispersion' : null,
+        'middle_positive_dispersion' : null,
+        'fast_positive_dispersion' : null,
+
+        'average_dispersion' : null
+    }
+}
+
+let scoreTests = {
+    'analog_tracking': {
+        'score': null
+    },
+    'persecution_tracking': {
+        'score': null
+    }
+}
+
+let correctIncorrectTests = {
+    'compass': {
+        'correct': null,
+        'incorrect': null
+    },
+    'landolt_ring': {
+        'correct': null,
+        'incorrect': null
+    }
+}
+
+let correctTests = {
+    'raven': {
+        'correct': null
+    },
+    'voinarovsky': {
+        'correct': null
+    }
+}
+
+let scoreTimeTests = {
+    'red_n_black': {
+        'score': null,
+        'time': null
+    }
+}
+let percentageTests = {
+    'verbal_memory': {
+        'percentage': null
+    }
+}
+
 let dataScience = []
 let frontEnd = []
 let sysAdmin = []
@@ -26,5 +120,13 @@ module.exports = {
     personSA,
     dataScience,
     frontEnd,
-    sysAdmin
+    sysAdmin,
+    timePercentTests,
+    dispersionTests,
+    manyArgsTests,
+    scoreTests,
+    correctIncorrectTests,
+    correctTests,
+    scoreTimeTests,
+    percentageTests
 }

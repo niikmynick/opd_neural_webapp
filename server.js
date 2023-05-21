@@ -20,7 +20,15 @@ let {
     personSA,
     dataScience,
     frontEnd,
-    sysAdmin
+    sysAdmin,
+    timePercentTests,
+    dispersionTests,
+    manyArgsTests,
+    scoreTests,
+    correctIncorrectTests,
+    correctTests,
+    scoreTimeTests,
+    percentageTests
 } = require("./dataHolder.js");
 
 
@@ -119,6 +127,77 @@ async function reloadOverallStat() {
     sysAdmin.sort((a, b) => a[1] - b[1]).reverse()
 }
 
+async function reloadTestStat(user_id) {
+    let testNames = []
+
+    await runQuery(`SELECT name FROM test`).then((names) => {
+        names.forEach((name) => {
+            testNames.push(name['name'])
+        })
+    })
+
+    for (let name of testNames) {
+        await runQuery(`SELECT * FROM ${name + '_result'} WHERE user_id = ${user_id}`)
+            .then((rows) => {
+                if (rows.length > 0) {
+                    switch (name) {
+                        case 'easy_audio':
+                        case 'easy_vision':
+                        case 'medium_vision':
+                        case 'hard_vision':
+                        case 'audio_sum':
+                        case 'vision_sum':
+                            timePercentTests[name]["time"] = rows[0]['time']
+                            timePercentTests[name]['percentage'] = rows[0]['percentage']
+                            break
+                        case 'easy_moving':
+                            dispersionTests[name]['dispersion'] = rows[0]['dispersion']
+                            dispersionTests[name]['negative_dispersion'] = rows[0]['negative_dispersion']
+                            dispersionTests[name]['positive_dispersion'] = rows[0]['positive_dispersion']
+                            break
+                        case 'hard_moving':
+                            manyArgsTests[name]['slow_dispersion'] = rows[0]['slow_dispersion']
+                            manyArgsTests[name]['middle_dispersion'] = rows[0]['middle_dispersion']
+                            manyArgsTests[name]['fast_dispersion'] = rows[0]['fast_dispersion']
+
+                            manyArgsTests[name]['slow_negative_dispersion'] = rows[0]['slow_negative_dispersion']
+                            manyArgsTests[name]['middle_negative_dispersion'] = rows[0]['middle_negative_dispersion']
+                            manyArgsTests[name]['fast_negative_dispersion'] = rows[0]['fast_negative_dispersion']
+
+                            manyArgsTests[name]['slow_positive_dispersion'] = rows[0]['slow_positive_dispersion']
+                            manyArgsTests[name]['middle_positive_dispersion'] = rows[0]['middle_positive_dispersion']
+                            manyArgsTests[name]['fast_positive_dispersion'] = rows[0]['fast_positive_dispersion']
+
+                            manyArgsTests[name]['average_dispersion'] = rows[0]['average_dispersion']
+
+                            break
+                        case 'analog_tracking':
+                        case 'persecution_tracking':
+                        case 'visual_memory':
+                            scoreTests[name]['score'] = rows[0]['score']
+                            break
+                        case 'compass':
+                        case 'landolt_ring':
+                            correctIncorrectTests[name]['correct'] = rows[0]['correct']
+                            correctIncorrectTests[name]['incorrect'] = rows[0]['incorrect']
+                            break
+                        case 'raven':
+                        case 'voinarovsky':
+                            correctTests[name]['correct'] = rows[0]['correct']
+                            break
+                        case 'red_n_black':
+                            scoreTimeTests[name]['score'] = rows[0]['score']
+                            scoreTimeTests[name]['time'] = rows[0]['time']
+                            break
+                        case 'verbal_memory':
+                            percentageTests[name]['percentage'] = rows[0]['percentage']
+                            break
+                    }
+                }
+            })
+    }
+}
+
 app.post('/registration', urlEncodeParser, function(req, res) {
     if(!req.body) return res.sendStatus(400);
     console.log(req.body);
@@ -162,12 +241,24 @@ app.post('/login', urlEncodeParser, function(req, res) {
 
                         reloadPersonStat(user_id)
                             .then(() => {
-                                res.render("account", {
-                                    user_name: user_name,
-                                    DS: personDS,
-                                    FE: personFE,
-                                    SA: personSA
-                                })
+                                reloadTestStat(user_id)
+                                    .finally(() => {
+                                        console.log(timePercentTests)
+                                        res.render("account", {
+                                            user_name: user_name,
+                                            DS: personDS,
+                                            FE: personFE,
+                                            SA: personSA,
+                                            timePercentTests: timePercentTests,
+                                            dispersionTests: dispersionTests,
+                                            manyArgsTests: manyArgsTests,
+                                            scoreTests: scoreTests,
+                                            correctIncorrectTests: correctIncorrectTests,
+                                            correctArgTests: correctTests,
+                                            scoreTimeTests: scoreTimeTests,
+                                            percentageTests: percentageTests
+                                        })
+                                    })
                             })
                     })
 
@@ -204,12 +295,23 @@ app.post('/mark', urlEncodeParser, function(req, res) {
     saveMarks(req.body, user_id).then(() => {
         reloadPersonStat(user_id)
             .then(() => {
-                res.render("account", {
-                    user_name: user_name,
-                    DS: personDS,
-                    FE: personFE,
-                    SA: personSA
-                })
+                reloadTestStat(user_id)
+                    .then(() => {
+                        res.render("account", {
+                            user_name: user_name,
+                            DS: personDS,
+                            FE: personFE,
+                            SA: personSA,
+                            timePercentTests: timePercentTests,
+                            dispersionTests: dispersionTests,
+                            manyArgsTests: manyArgsTests,
+                            scoreTests: scoreTests,
+                            correctIncorrectTests: correctIncorrectTests,
+                            correctArgTests: correctTests,
+                            scoreTimeTests: scoreTimeTests,
+                            percentageTests: percentageTests
+                        })
+                    })
             })
     })
 })
@@ -331,7 +433,22 @@ app.get('/:name', function(req, res) {
     } else if (req.params.name === 'login') {
         if (authoriseFlag) {
             reloadPersonStat(user_id).finally(() => {
-                res.render("account", {user_name: user_name, DS: personDS, FE: personFE, SA: personSA});
+                reloadTestStat(user_id).finally(() => {
+                    res.render("account", {
+                        user_name: user_name,
+                        DS: personDS,
+                        FE: personFE,
+                        SA: personSA,
+                        timePercentTests: timePercentTests,
+                        dispersionTests: dispersionTests,
+                        manyArgsTests: manyArgsTests,
+                        scoreTests: scoreTests,
+                        correctIncorrectTests: correctIncorrectTests,
+                        correctArgTests: correctTests,
+                        scoreTimeTests: scoreTimeTests,
+                        percentageTests: percentageTests
+                    })
+                })
             })
 
         } else {

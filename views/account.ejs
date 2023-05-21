@@ -16,79 +16,240 @@
                 <img class="icon_menu" src="public/img/menu.png">
             </a>
         </div>
-        <div class="choice_stat">
+        <div class="account_stat">
             <p class="title_text">
                 Здравствуйте, <%= user_name %>
             </p>
 
-            <p class="title_text">
-                Ваш выбор в тестах о ПВК
-            </p>
-            <div class="list">
-                <div class="list_3">
-                    <p class="text_title">Frontend - разработчик</p>
-                    <table class="table_1">
-                        <% if (FE.length !== 0) { %>
-                            <tr class="table">
-                                <td>№</td>
-                                <td>Профессиональное качество</td>
-                                <td>Ваша оценка</td>
-                            </tr>
-                            <% for(let i=0; i < FE.length; i++) { %>
-                                <tr>
-                                    <td><%= (i+1) %></td>
-                                    <td class="td_1"><%= FE[i][0] %></td>
-                                    <td><%= FE[i][1] %></td>
+            <div class="pvk_stat">
+                <p class="title_text">
+                    Ваш выбор в тестах о ПВК
+                </p>
+                <div class="list">
+                    <div class="list_3">
+                        <p class="text_title">Frontend - разработчик</p>
+                        <table class="table_1">
+                            <% if (FE.length !== 0) { %>
+                                <tr class="table">
+                                    <td>№</td>
+                                    <td>Профессиональное качество</td>
+                                    <td>Ваша оценка</td>
                                 </tr>
+                                <% for(let i=0; i < FE.length; i++) { %>
+                                    <tr>
+                                        <td><%= (i+1) %></td>
+                                        <td class="td_1"><%= FE[i][0] %></td>
+                                        <td><%= FE[i][1] %></td>
+                                    </tr>
+                                <% } %>
+                            <% } else { %>
+                                <p class="text2">Вы еще не прошли тестирование</p>
                             <% } %>
-                        <% } else { %>
-                            <p class="text2">Вы еще не прошли тестирование</p>
-                        <% } %>
-                    </table>
+                        </table>
+                    </div>
+                    <div class="list_3">
+                        <p class="text_title">Data Scientist</p>
+                        <table class="table_1">
+                            <% if (DS.length !== 0) { %>
+                                <tr class="table">
+                                    <td>№</td>
+                                    <td>Профессиональное качество</td>
+                                    <td>Ваша оценка</td>
+                                </tr>
+                                <% for(let i=0; i < DS.length; i++) { %>
+                                    <tr>
+                                        <td><%= (i+1) %></td>
+                                        <td class="td_1"><%= DS[i][0] %></td>
+                                        <td><%= DS[i][1] %></td>
+                                    </tr>
+                                <% } %>
+                            <% } else { %>
+                                <p class="text2">Вы еще не прошли тестирование</p>
+                            <% } %>
+                        </table>
+                    </div>
                 </div>
-                <div class="list_3">
-                    <p class="text_title">Data Scientist</p>
-                    <table class="table_1">
-                        <% if (DS.length !== 0) { %>
-                            <tr class="table">
-                                <td>№</td>
-                                <td>Профессиональное качество</td>
-                                <td>Ваша оценка</td>
-                            </tr>
-                            <% for(let i=0; i < DS.length; i++) { %>
-                                <tr>
-                                    <td><%= (i+1) %></td>
-                                    <td class="td_1"><%= DS[i][0] %></td>
-                                    <td><%= DS[i][1] %></td>
+                <div class="list_black">
+                    <div class="list_3">
+                        <p class="text_title">System Administrator</p>
+                        <table class="table_1">
+                            <% if (SA.length !== 0) { %>
+                                <tr class="table">
+                                    <td>№</td>
+                                    <td>Профессиональное качество</td>
+                                    <td>Ваша оценка</td>
                                 </tr>
+                                <% for(let i=0; i < SA.length; i++) { %>
+                                    <tr>
+                                        <td><%= (i+1) %></td>
+                                        <td class="td_1"><%= SA[i][0] %></td>
+                                        <td><%= SA[i][1] %></td>
+                                    </tr>
+                                <% } %>
+                            <% } else { %>
+                                <p class="text2">Вы еще не прошли тестирование</p>
                             <% } %>
-                        <% } else { %>
-                            <p class="text2">Вы еще не прошли тестирование</p>
-                        <% } %>
-                    </table>
+                        </table>
+                    </div>
                 </div>
             </div>
-            <div class="list_black">
-                <div class="list_3">
-                    <p class="text_title">System Administrator</p>
-                    <table class="table_1">
-                        <% if (SA.length !== 0) { %>
+
+            <div class="test_stat">
+                <p class="title_text">
+                    Ваши результаты в тестах
+                </p>
+                <div class="list">
+                    <div class="list_4">
+<!--                        <p class="text_title">Frontend - разработчик</p>-->
+                        <table class="table_1">
+
                             <tr class="table">
-                                <td>№</td>
-                                <td>Профессиональное качество</td>
-                                <td>Ваша оценка</td>
+                                <td>Тест</td>
+                                <td>Ваше время</td>
+                                <td>Процент выполнения</td>
                             </tr>
-                            <% for(let i=0; i < SA.length; i++) { %>
+                            <% for(let name of Object.keys(timePercentTests)) { %>
                                 <tr>
-                                    <td><%= (i+1) %></td>
-                                    <td class="td_1"><%= SA[i][0] %></td>
-                                    <td><%= SA[i][1] %></td>
+                                    <td class="td_1"><%= name %></td>
+                                    <td><%= timePercentTests[name]['time'] %></td>
+                                    <td><%= timePercentTests[name]['percentage'] %></td>
                                 </tr>
                             <% } %>
-                        <% } else { %>
-                            <p class="text2">Вы еще не прошли тестирование</p>
-                        <% } %>
-                    </table>
+
+                        </table>
+
+                        <table class="table_1">
+
+                            <tr class="table">
+                                <td>Тест</td>
+                                <td>Среднее отклонение</td>
+                                <td>Негативное отклонение</td>
+                                <td>Позитивное отклонение</td>
+                            </tr>
+                            <% for(let name of Object.keys(dispersionTests)) { %>
+                                <tr>
+                                    <td class="td_1"><%= name %></td>
+                                    <td><%= dispersionTests[name]['dispersion'] %></td>
+                                    <td><%= dispersionTests[name]['negative_dispersion'] %></td>
+                                    <td><%= dispersionTests[name]['positive_dispersion'] %></td>
+                                </tr>
+                            <% } %>
+
+                        </table>
+
+                        <table class="table_1">
+
+                            <tr class="table">
+                                <td>Тест</td>
+                                <td>Отклонение (медленный шар)</td>
+                                <td>Отклонение (средний шар)</td>
+                                <td>Отклонение (быстрый шар)</td>
+                                <td>Негативное отклонение (медленный шар)</td>
+                                <td>Негативное отклонение (средний шар)</td>
+                                <td>Негативное отклонение (быстрый шар)</td>
+                                <td>Позитивное отклонение (медленный шар)</td>
+                                <td>Позитивное отклонение (средний шар)</td>
+                                <td>Позитивное отклонение (быстрый шар)</td>
+                                <td>Среднее отклонение</td>
+                            </tr>
+                            <% for(let name of Object.keys(manyArgsTests)) { %>
+                                <tr>
+                                    <td class="td_1"><%= name %></td>
+                                    <td><%= manyArgsTests[name]['slow_dispersion'] %></td>
+                                    <td><%= manyArgsTests[name]['middle_dispersion'] %></td>
+                                    <td><%= manyArgsTests[name]['fast_dispersion'] %></td>
+                                    <td><%= manyArgsTests[name]['slow_negative_dispersion'] %></td>
+                                    <td><%= manyArgsTests[name]['middle_negative_dispersion'] %></td>
+                                    <td><%= manyArgsTests[name]['fast_negative_dispersion'] %></td>
+                                    <td><%= manyArgsTests[name]['slow_positive_dispersion'] %></td>
+                                    <td><%= manyArgsTests[name]['middle_positive_dispersion'] %></td>
+                                    <td><%= manyArgsTests[name]['fast_positive_dispersion'] %></td>
+                                    <td><%= manyArgsTests[name]['average_dispersion'] %></td>
+                                </tr>
+                            <% } %>
+
+                        </table>
+
+                        <table class="table_1">
+
+                            <tr class="table">
+                                <td>Тест</td>
+                                <td>Ваш результат</td>
+                            </tr>
+                            <% for(let name of Object.keys(scoreTests)) { %>
+                                <tr>
+                                    <td class="td_1"><%= name %></td>
+                                    <td><%= scoreTests[name]['score'] %></td>
+                                </tr>
+                            <% } %>
+
+                        </table>
+
+                        <table class="table_1">
+
+                            <tr class="table">
+                                <td>Тест</td>
+                                <td>Правильные ответы</td>
+                                <td>Неправильные ответы</td>
+                            </tr>
+                            <% for(let name of Object.keys(correctIncorrectTests)) { %>
+                                <tr>
+                                    <td class="td_1"><%= name %></td>
+                                    <td><%= correctIncorrectTests[name]['correct'] %></td>
+                                    <td><%= correctIncorrectTests[name]['incorrect'] %></td>
+                                </tr>
+                            <% } %>
+
+                        </table>
+
+                        <table class="table_1">
+
+                            <tr class="table">
+                                <td>Тест</td>
+                                <td>Правильные ответы</td>
+                            </tr>
+                            <% for(let name of Object.keys(correctArgTests)) { %>
+                                <tr>
+                                    <td class="td_1"><%= name %></td>
+                                    <td><%= correctArgTests[name]['correct'] %></td>
+                                </tr>
+                            <% } %>
+
+                        </table>
+
+                        <table class="table_1">
+
+                            <tr class="table">
+                                <td>Тест</td>
+                                <td>Ваше время</td>
+                                <td>Результат</td>
+                            </tr>
+                            <% for(let name of Object.keys(scoreTimeTests)) { %>
+                                <tr>
+                                    <td class="td_1"><%= name %></td>
+                                    <td><%= scoreTimeTests[name]['time'] %></td>
+                                    <td><%= scoreTimeTests[name]['score'] %></td>
+                                </tr>
+                            <% } %>
+
+                        </table>
+
+                        <table class="table_1">
+
+                            <tr class="table">
+                                <td>Тест</td>
+                                <td>Процент</td>
+                            </tr>
+                            <% for(let name of Object.keys(percentageTests)) { %>
+                                <tr>
+                                    <td class="td_1"><%= name %></td>
+                                    <td><%= percentageTests[name]['percentage'] %></td>
+                                </tr>
+                            <% } %>
+
+                        </table>
+                    </div>
+
                 </div>
             </div>
         </div>
