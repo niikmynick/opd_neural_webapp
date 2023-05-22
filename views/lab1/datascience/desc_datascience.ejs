@@ -31,11 +31,17 @@
                     <td>Профессиональное качество</td>
                     <td>Популярность</td>
                 </tr>
+                <% if (dataScience.length !== 0) {%>
                 <% for(let i=0; i<5; i++) { %>
                     <tr>
                         <td><%= (i+1) %></td>
                         <td class="td_1"><%= dataScience[i][0] %></td>
                         <td><%= dataScience[i][1] %></td>
+                    </tr>
+                <% } %>
+                <% } else {%>
+                    <tr>
+                        <td colspan="3">Нет данных</td>
                     </tr>
                 <% } %>
             </table>
