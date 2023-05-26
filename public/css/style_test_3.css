@@ -44,7 +44,7 @@ a, u {
 }
 .tester {
     cursor: crosshair;
-    width: 100%;
+    width: 100vw;
     height: 90vh;
 }
 .instruction {

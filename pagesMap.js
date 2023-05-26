@@ -21,6 +21,7 @@ pagesMap.set('testError', 'lab1/testError')
 pagesMap.set('stat', 'lab1/stat')
 
 pagesMap.set('tests', 'tests')
+pagesMap.set('all_tests', 'all_tests')
 
 pagesMap.set('tests_lab2', 'tests_lab2')
 pagesMap.set('tests_lab3', 'tests_lab3')

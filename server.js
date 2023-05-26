@@ -205,6 +205,7 @@ app.post('/registration', urlEncodeParser, function(req, res) {
     user_name = req.body.name;
     let user_email = req.body.email;
     let user_password = req.body.password;
+    //let isExpert = req.body.expert; TODO
     authoriseFlag = true;
 
     registerUser(user_name, user_email, user_password)
@@ -486,7 +487,7 @@ app.post('/result', urlEncodeParser, function(req, res) {
         } else if (test_name === 'easy_moving') {
             // dispersion, neg, pos
             runQuery(`INSERT INTO ${table_name} (user_id, dispersion, negative_dispersion, positive_dispersion)
-                      VALUES ('${user_id}', ${obj.dispersion}, ${obj.neg}, ${obj.pos})`).then(r => r)
+                      VALUES ('${user_id}', ${obj.dispersion}, ${obj.negative_dispersion}, ${obj.positive_dispersion})`).then(r => r)
         } else if (test_name === 'hard_moving') {
             // dispersion, neg, pos for 3 circles and average
             runQuery(`INSERT INTO ${table_name} (user_id,
