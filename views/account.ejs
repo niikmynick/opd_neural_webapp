@@ -252,6 +252,46 @@
 
                 </div>
             </div>
+
+            <div class="test_stat">
+                <p class="title_text">
+                    Ваш показатель пульса
+                </p>
+                <div class="list">
+                    <div class="list_3">
+                        <table class="table_1">
+                            <% if (pulse['before'].length !== 0) { %>
+                                <tr class="table">
+                                    <td>Время измерения</td>
+                                    <td>Показатель пульса</td>
+                                </tr>
+                                <tr>
+                                    <td class="td_1">До тестов</td>
+                                    <% let sum1 = 0 %>
+                                    <% pulse['before'].forEach(item => {
+                                        sum1 += item;
+                                    }); %>
+                                    <% let bp = sum1 / pulse['before'].length; %>>
+
+                                    <td><%= bp %></td>
+                                </tr>
+                                <tr>
+                                    <td class="td_1">После тестов</td>
+                                    <% let sum2 = 0 %>
+                                    <% pulse['after'].forEach(item => {
+                                        sum2 += item;
+                                    }); %>
+                                    <% let ap = sum2 / pulse['after'].length; %>
+                                    <td><%= ap %></td>
+                                </tr>
+                                <p class="text">Ваш пульс после тестов повысился на <%= (bp - ap) %></p>
+                            <% } else { %>
+                                <p class="text2">Вы еще не проходили тестирования</p>
+                            <% } %>
+                        </table>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </body>

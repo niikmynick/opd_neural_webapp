@@ -2,7 +2,8 @@ const {
     runQuery,
     registerUser,
     insertPVK,
-    saveMarks
+    saveMarks,
+    savePulse
 } = require("./dbProperties.js");
 
 const {
@@ -28,7 +29,8 @@ let {
     correctIncorrectTests,
     correctTests,
     scoreTimeTests,
-    percentageTests
+    percentageTests,
+    pulse
 } = require("./dataHolder.js");
 
 
@@ -56,6 +58,8 @@ app.set('view engine', 'ejs');
 app.listen(port, host, function (){
     console.log('Server - http://' + host + ':' + port);
 })
+
+let after_pulse_load
 
 async function reloadPersonStat(user_id, needToCheck = ["dataScience", "frontEnd", "sysAdmin"]) {
 
@@ -198,6 +202,21 @@ async function reloadTestStat(user_id) {
     }
 }
 
+async function reloadPulseStat(user_id) {
+    return await runQuery(`SELECT * FROM pulse_measurement WHERE user_id = ${user_id}`)
+        .then((rows) => {
+            if (rows.length > 0) {
+                for (let row of rows) {
+                    if (row['when_pulse_id'] === 1) {
+                        pulse['before'].push(row['pulse'])
+                    } else if (row['when_pulse_id'] === 2) {
+                        pulse['after'].push(row['pulse'])
+                    }
+                }
+            }
+        })
+}
+
 app.post('/registration', urlEncodeParser, function(req, res) {
     if(!req.body) return res.sendStatus(400);
     console.log(req.body);
@@ -244,21 +263,24 @@ app.post('/login', urlEncodeParser, function(req, res) {
                             .then(() => {
                                 reloadTestStat(user_id)
                                     .finally(() => {
-                                        console.log(timePercentTests)
-                                        res.render("account", {
-                                            user_name: user_name,
-                                            DS: personDS,
-                                            FE: personFE,
-                                            SA: personSA,
-                                            timePercentTests: timePercentTests,
-                                            dispersionTests: dispersionTests,
-                                            manyArgsTests: manyArgsTests,
-                                            scoreTests: scoreTests,
-                                            correctIncorrectTests: correctIncorrectTests,
-                                            correctArgTests: correctTests,
-                                            scoreTimeTests: scoreTimeTests,
-                                            percentageTests: percentageTests
-                                        })
+                                        reloadPulseStat(user_id)
+                                            .finally(() => {
+                                                res.render("account", {
+                                                    user_name: user_name,
+                                                    DS: personDS,
+                                                    FE: personFE,
+                                                    SA: personSA,
+                                                    timePercentTests: timePercentTests,
+                                                    dispersionTests: dispersionTests,
+                                                    manyArgsTests: manyArgsTests,
+                                                    scoreTests: scoreTests,
+                                                    correctIncorrectTests: correctIncorrectTests,
+                                                    correctArgTests: correctTests,
+                                                    scoreTimeTests: scoreTimeTests,
+                                                    percentageTests: percentageTests,
+                                                    pulse: pulse
+                                                })
+                                            })
                                     })
                             })
                     })
@@ -298,20 +320,28 @@ app.post('/mark', urlEncodeParser, function(req, res) {
             .then(() => {
                 reloadTestStat(user_id)
                     .then(() => {
-                        res.render("account", {
-                            user_name: user_name,
-                            DS: personDS,
-                            FE: personFE,
-                            SA: personSA,
-                            timePercentTests: timePercentTests,
-                            dispersionTests: dispersionTests,
-                            manyArgsTests: manyArgsTests,
-                            scoreTests: scoreTests,
-                            correctIncorrectTests: correctIncorrectTests,
-                            correctArgTests: correctTests,
-                            scoreTimeTests: scoreTimeTests,
-                            percentageTests: percentageTests
-                        })
+                        reloadPulseStat(user_id)
+                            .finally(() => {
+                                reloadPulseStat(user_id)
+                                    .finally(() => {
+                                        res.render("account", {
+                                            user_name: user_name,
+                                            DS: personDS,
+                                            FE: personFE,
+                                            SA: personSA,
+                                            timePercentTests: timePercentTests,
+                                            dispersionTests: dispersionTests,
+                                            manyArgsTests: manyArgsTests,
+                                            scoreTests: scoreTests,
+                                            correctIncorrectTests: correctIncorrectTests,
+                                            correctArgTests: correctTests,
+                                            scoreTimeTests: scoreTimeTests,
+                                            percentageTests: percentageTests,
+                                            pulse: pulse
+                                        })
+
+                                    })
+                            })
                     })
             })
     })
@@ -324,7 +354,7 @@ app.get('/', function (req, res) {
 app.get('/:name', function(req, res) {
     let page = pagesMap.get(req.params.name);
 
-    switch (page) {
+    switch (req.params.name) {
 
         case 'main': {
             res.render(page);
@@ -356,7 +386,7 @@ app.get('/:name', function(req, res) {
                     res.render(page, {FE: frontEnd});
                 })
             } else {
-                res.render('login');
+                res.render('authorization/login');
             }
         } break;
 
@@ -365,6 +395,8 @@ app.get('/:name', function(req, res) {
                 clearPersonStat("sysadmin").finally(() => {
                     res.render(page, {SA: sysAdmin});
                 })
+            } else {
+                res.render('authorization/login');
             }
         } break;
 
@@ -373,92 +405,87 @@ app.get('/:name', function(req, res) {
                 clearPersonStat("datascience").finally(() => {
                     res.render(page, {DS: dataScience});
                 })
+            } else {
+                res.render('authorization/login');
             }
         } break;
 
-
-    }
-
-
-    if (page === undefined){
-        res.sendFile(__dirname + '/404.html');
-
-    } else if (req.params.name === 'stat') {
-        reloadOverallStat().finally(() => {
-            res.render(page, {dataScience: dataScience, frontEnd: frontEnd, sysAdmin: sysAdmin});
-        })
-
-    } else if (req.params.name === 'desc_frontend') {
-        reloadOverallStat().finally(() => {
-            res.render(page, {frontEnd: frontEnd});
-        })
-
-    } else if (req.params.name === 'mark') {
-        reloadPersonStat().finally(() => {
-            res.render(page, {FE: personFE});
-        })
-
-    } else if (req.params.name === "frontend") {
-        if (authoriseFlag) {
-            clearPersonStat("frontend").finally(() => {
-                res.render(page, {FE: frontEnd});
+        case "desc_datascience": {
+            reloadOverallStat().finally(() => {
+                res.render(page, {dataScience: dataScience});
             })
-        } else {
-            res.render('authorization/login')
-        }
+        } break;
 
-    } else if (req.params.name === 'desc_datascience') {
-        reloadOverallStat().finally(() => {
-            res.render(page, {dataScience: dataScience});
-        })
+        case "desc_sysadmin": {
+            reloadOverallStat(dataScience, frontEnd, sysAdmin).finally(() => {
+                res.render(page, {sysAdmin: sysAdmin});
+            })
+        } break;
 
-    } else if (req.params.name === 'datascience') {
-        if (authoriseFlag) {
-            res.render(page)
-        } else {
-            res.render('authorization/login')
-        }
-
-    } else if (req.params.name === 'desc_sysadmin') {
-        reloadOverallStat(dataScience, frontEnd, sysAdmin).finally(() => {
-            res.render(page, {sysAdmin: sysAdmin});
-        })
-
-    } else if (req.params.name === 'sysadmin') {
-        if (authoriseFlag) {
-            res.render(page)
-        } else {
-            res.render('authorization/login')
-        }
-
-    } else if (req.params.name === 'login') {
-        if (authoriseFlag) {
-            reloadPersonStat(user_id).finally(() => {
-                reloadTestStat(user_id).finally(() => {
-                    res.render("account", {
-                        user_name: user_name,
-                        DS: personDS,
-                        FE: personFE,
-                        SA: personSA,
-                        timePercentTests: timePercentTests,
-                        dispersionTests: dispersionTests,
-                        manyArgsTests: manyArgsTests,
-                        scoreTests: scoreTests,
-                        correctIncorrectTests: correctIncorrectTests,
-                        correctArgTests: correctTests,
-                        scoreTimeTests: scoreTimeTests,
-                        percentageTests: percentageTests
+        case "login": {
+            if (authoriseFlag) {
+                reloadPersonStat(user_id).finally(() => {
+                    reloadTestStat(user_id).finally(() => {
+                        reloadPulseStat(user_id)
+                            .finally(() => {
+                                res.render("account", {
+                                    user_name: user_name,
+                                    DS: personDS,
+                                    FE: personFE,
+                                    SA: personSA,
+                                    timePercentTests: timePercentTests,
+                                    dispersionTests: dispersionTests,
+                                    manyArgsTests: manyArgsTests,
+                                    scoreTests: scoreTests,
+                                    correctIncorrectTests: correctIncorrectTests,
+                                    correctArgTests: correctTests,
+                                    scoreTimeTests: scoreTimeTests,
+                                    percentageTests: percentageTests,
+                                    pulse: pulse
+                                })
+                            })
                     })
                 })
-            })
 
-        } else {
+            } else {
+                res.render(page)
+            }
+        } break;
+
+        case 'easy_aud_test':
+        case 'easy_eye_test':
+        case 'med_eye_test':
+        case 'hard_eye_test':
+        case 'sum_aud_test':
+        case 'sum_eye_test':
+        case 'easy_moving_test':
+        case 'hard_moving_test':
+        case 'analog_tracking':
+        case 'tracking_with_persecution':
+        case 'visual_memory':
+        case 'compasses_test':
+        case 'landolt_ring':
+        case 'raven_test':
+        case 'voinarovsky_test':
+        case 'red_black_table':
+        case 'verbal_memory': {
+            if (authoriseFlag) {
+                after_pulse_load = page;
+                res.render("pulse_start")
+            } else {
+                res.render('authorization/login');
+            }
+        } break;
+
+        case undefined: {
+            res.sendFile(__dirname + '/404.html');
+        } break;
+
+        default: {
             res.render(page)
         }
-
-    } else {
-        res.render(page)
     }
+
 });
 
 app.post('/result', urlEncodeParser, function(req, res) {
@@ -530,4 +557,20 @@ app.post('/result', urlEncodeParser, function(req, res) {
             runQuery(`INSERT INTO ${table_name} (user_id, percentage) VALUES ('${user_id}', ${obj.percentage})`).then(r => r)
         }
     });
+});
+
+app.post('/pulse_start', urlEncodeParser, function(req, res) {
+    if(!req.body) return res.sendStatus(400);
+
+    savePulse(user_id, 1,  req.body.pulse).then(() => {
+        res.render(after_pulse_load)
+    })
+});
+
+app.post('/pulse_end', urlEncodeParser, function(req, res) {
+    if(!req.body) return res.sendStatus(400);
+
+    savePulse(user_id, 2,  req.body.pulse).then(() => {
+        res.render('main')
+    })
 });

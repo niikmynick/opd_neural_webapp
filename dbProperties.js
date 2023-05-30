@@ -60,6 +60,13 @@ async function saveMarks(lst, user_id) {
     }
 }
 
+async function savePulse(user_id, when_id, pulse) {
+    // 1 before
+    // 2 after
+    // 3 during
+    await runQuery(`INSERT INTO pulse_measurement (user_id, when_pulse_id, pulse) VALUES (${user_id}, ${when_id}, ${pulse})`).then(r => r)
+}
+
 async function saveSelfEvaluation(lst, user_id){
     for (let i in lst) {
         // TODO
@@ -74,5 +81,6 @@ module.exports = {
     runQuery,
     registerUser,
     insertPVK,
-    saveMarks
+    saveMarks,
+    savePulse
 }

@@ -13,27 +13,27 @@ let personSA = []
 let timePercentTests = {
     'easy_audio': {
         'time': null,
-        'percent': null
+        'percentage': null
     },
     'easy_vision': {
         'time': null,
-        'percent': null
+        'percentage': null
     },
     'medium_vision': {
         'time': null,
-        'percent': null
+        'percentage': null
     },
     'hard_vision': {
         'time': null,
-        'percent': null
+        'percentage': null
     },
     'audio_sum': {
         'time': null,
-        'percent': null
+        'percentage': null
     },
     'vision_sum': {
         'time': null,
-        'percent': null
+        'percentage': null
     }
 }
 
@@ -104,6 +104,11 @@ let percentageTests = {
     }
 }
 
+let pulse = {
+    'before': [],
+    'after': []
+}
+
 let dataScience = []
 let frontEnd = []
 let sysAdmin = []
@@ -128,5 +133,6 @@ module.exports = {
     correctIncorrectTests,
     correctTests,
     scoreTimeTests,
-    percentageTests
+    percentageTests,
+    pulse
 }

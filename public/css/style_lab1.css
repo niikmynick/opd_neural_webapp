@@ -318,6 +318,25 @@ td {
     width: 25px;
     padding-top: 20px;
 }
+
+.pulse_input {
+    position: relative;
+    left: 20px;
+    width: 256px;
+    padding-top: 20px;
+}
+
+.pulse_input input{
+    width: 256px;
+    height: 20px;
+    background: transparent;
+    border: none;
+    outline: none;
+    font-size: 1em;
+    color: #fff;
+    border-bottom: 1px solid #fff;
+}
+
 .inputbox input {
     width: 35px;
     height: 20px;
