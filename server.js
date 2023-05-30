@@ -59,8 +59,6 @@ app.listen(port, host, function (){
     console.log('Server - http://' + host + ':' + port);
 })
 
-let after_pulse_load
-
 async function reloadPersonStat(user_id, needToCheck = ["dataScience", "frontEnd", "sysAdmin"]) {
 
     if (needToCheck.includes("dataScience")) {
@@ -563,7 +561,7 @@ app.post('/pulse_start', urlEncodeParser, function(req, res) {
     if(!req.body) return res.sendStatus(400);
 
     savePulse(user_id, 1,  req.body.pulse).then(() => {
-        res.render(after_pulse_load)
+        res.render('all_tests')
     })
 });
 
