@@ -94,13 +94,13 @@ async function reloadPersonStat(user_id, needToCheck = ["dataScience", "frontEnd
 async function clearPersonStat(profession) {
     if (profession === "frontend") {
         personFE = []
-        await runQuery(`DELETE FROM important_qualities_result WHERE user_id = ${user_id} AND profession_id = ${frontend_id}`).then(r => r)
-    } else if (profession === "sysAdmin") {
+        await runQuery(`DELETE FROM important_qualities_result WHERE user_id = ${user_id} AND profession_id = 1`).then(r => r)
+    } else if (profession === "sysadmin") {
         personSA = []
-        await runQuery(`DELETE FROM important_qualities_result WHERE user_id = ${user_id} AND profession_id = ${sysAdmin_id}`).then(r => r)
-    } else if (profession === "dataScientist") {
+        await runQuery(`DELETE FROM important_qualities_result WHERE user_id = ${user_id} AND profession_id = 2`).then(r => r)
+    } else if (profession === "datascience") {
         personDS = []
-        await runQuery(`DELETE FROM important_qualities_result WHERE user_id = ${user_id} AND profession_id = ${dataScientist_id}`).then(r => r)
+        await runQuery(`DELETE FROM important_qualities_result WHERE user_id = ${user_id} AND profession_id = 3`).then(r => r)
     }
 }
 
@@ -465,7 +465,7 @@ app.get('/:name', function(req, res) {
         case "frontend": {
             if (authoriseFlag) {
                 clearPersonStat("frontend").finally(() => {
-                    res.render(page, {FE: frontEnd});
+                    res.render(page);
                 })
             } else {
                 res.render('authorization/login');
@@ -475,7 +475,7 @@ app.get('/:name', function(req, res) {
         case "sysadmin": {
             if (authoriseFlag) {
                 clearPersonStat("sysadmin").finally(() => {
-                    res.render(page, {SA: sysAdmin});
+                    res.render(page);
                 })
             } else {
                 res.render('authorization/login');
@@ -485,7 +485,7 @@ app.get('/:name', function(req, res) {
         case "datascience": {
             if (authoriseFlag) {
                 clearPersonStat("datascience").finally(() => {
-                    res.render(page, {DS: dataScience});
+                    res.render(page);
                 })
             } else {
                 res.render('authorization/login');
