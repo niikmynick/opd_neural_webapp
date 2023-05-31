@@ -508,6 +508,8 @@ app.get('/:name', function(req, res) {
             }
         } break;
 
+        case 'all_tests':
+        case 'pulse_start':
         case 'easy_aud_test':
         case 'easy_eye_test':
         case 'med_eye_test':
@@ -526,8 +528,9 @@ app.get('/:name', function(req, res) {
         case 'red_black_table':
         case 'verbal_memory': {
             if (authoriseFlag) {
-                after_pulse_load = page;
-                res.render("pulse_start")
+                // after_pulse_load = page;
+                // res.render("pulse_start")
+                res.render(page);
             } else {
                 res.render('authorization/login');
             }
@@ -618,9 +621,14 @@ app.post('/result', urlEncodeParser, function(req, res) {
 app.post('/pulse_start', urlEncodeParser, function(req, res) {
     if(!req.body) return res.sendStatus(400);
 
-    savePulse(user_id, 1,  req.body.pulse).then(() => {
-        res.render('all_tests')
-    })
+    try {
+        savePulse(user_id, 1,  req.body.pulse).then(() => {
+            res.render('all_tests')
+        })
+    } catch (e) {
+        res.render('authorization/login')
+    }
+
 });
 
 app.post('/pulse_end', urlEncodeParser, function(req, res) {
