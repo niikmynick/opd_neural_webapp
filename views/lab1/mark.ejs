@@ -28,18 +28,18 @@
                             <td>№</td>
                             <td>Профессиональное качество</td>
                         </tr>
-                        <% for(let i=0; i < pvk.length; i++) { %>
+                        <% for(let i=0; i < lst.length; i++) { %>
                             <tr>
                                 <td><%= (i+1) %></td>
-                                <td class="td_1"><%= pvk[i][0] %></td>
+                                <td class="td_1"><%= lst[i][0] %></td>
                             </tr>
                         <% } %>
                     </table>
                     <div class="input_pvk">
                         <div class="inputbox">
-                            <% for(let i=0; i < pvk.length; i++) { %>
+                            <% for(let i=0; i < lst.length; i++) { %>
                                 <label>
-                                    <input type="number" max="10" min="1" name="<%=prof%><%=(i+1)%>" required>
+                                    <input type="number" max="10" min="1" name="<%=prof%><%=pvk[i]%>" required>
                                 </label>
                             <% } %>
                         </div>

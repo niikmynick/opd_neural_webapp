@@ -30,7 +30,8 @@ let {
     correctTests,
     scoreTimeTests,
     percentageTests,
-    pulse
+    pulse,
+    pvk
 } = require("./dataHolder.js");
 
 
@@ -59,31 +60,32 @@ app.listen(port, host, function (){
     console.log('Server - http://' + host + ':' + port);
 })
 
+
 async function reloadPersonStat(user_id, needToCheck = ["dataScience", "frontEnd", "sysAdmin"]) {
 
     if (needToCheck.includes("dataScience")) {
         personDS = []
-        await runQuery(`SELECT quality_name, value FROM important_qualities_result join important_quality on important_qualities_result.quality_id = important_quality.id WHERE user_id = ${user_id} AND profession_id = ${dataScientist_id}`).then((rows) => {
+        await runQuery(`SELECT quality_name, mark FROM important_qualities_result join important_quality on important_qualities_result.quality_id = important_quality.id WHERE user_id = ${user_id} AND profession_id = ${dataScientist_id}`).then((rows) => {
             rows.forEach((row) => {
-                personDS.push([row["quality_name"], row.value])
+                personDS.push([row["quality_name"], row.mark])
             })
         })
     }
 
     if (needToCheck.includes("frontEnd")) {
         personFE = []
-        await runQuery(`SELECT quality_name, value FROM important_qualities_result join important_quality on important_qualities_result.quality_id = important_quality.id WHERE user_id = ${user_id} AND profession_id = ${frontend_id}`).then((rows) => {
+        await runQuery(`SELECT quality_name, mark FROM important_qualities_result join important_quality on important_qualities_result.quality_id = important_quality.id WHERE user_id = ${user_id} AND profession_id = ${frontend_id}`).then((rows) => {
             rows.forEach((row) => {
-                personFE.push([row["quality_name"], row.value])
+                personFE.push([row["quality_name"], row.mark])
             })
         })
     }
 
     if (needToCheck.includes("sysAdmin")) {
         personSA = []
-        await runQuery(`SELECT quality_name, value FROM important_qualities_result join important_quality on important_qualities_result.quality_id = important_quality.id WHERE user_id = ${user_id} AND profession_id = ${sysAdmin_id}`).then((rows) => {
+        await runQuery(`SELECT quality_name, mark FROM important_qualities_result join important_quality on important_qualities_result.quality_id = important_quality.id WHERE user_id = ${user_id} AND profession_id = ${sysAdmin_id}`).then((rows) => {
             rows.forEach((row) => {
-                personSA.push([row["quality_name"], row.value])
+                personSA.push([row["quality_name"], row.mark])
             })
         })
     }
@@ -112,32 +114,32 @@ async function reloadOverallStat() {
     let tempFE = {}
     let tempSA = {}
 
-    await runQuery(`SELECT quality_name, value FROM important_qualities_result join important_quality on important_qualities_result.quality_id = important_quality.id WHERE profession_id = ${dataScientist_id}`).then((rows) => {
+    await runQuery(`SELECT quality_name, mark FROM important_qualities_result join important_quality on important_qualities_result.quality_id = important_quality.id WHERE profession_id = ${dataScientist_id}`).then((rows) => {
         rows.forEach((row) => {
             if (row["quality_name"] in Object.keys(tempDS)) {
-                tempDS[row["quality_name"]].push(row.value)
+                tempDS[row["quality_name"]].push(row.mark)
             } else {
-                tempDS[row["quality_name"]] = [row.value]
+                tempDS[row["quality_name"]] = [row.mark]
             }
         })
     })
 
-    await runQuery(`SELECT quality_name, value FROM important_qualities_result join important_quality on important_qualities_result.quality_id = important_quality.id WHERE profession_id = ${frontend_id}`).then((rows) => {
+    await runQuery(`SELECT quality_name, mark FROM important_qualities_result join important_quality on important_qualities_result.quality_id = important_quality.id WHERE profession_id = ${frontend_id}`).then((rows) => {
         rows.forEach((row) => {
             if (row["quality_name"] in Object.keys(tempFE)) {
-                tempFE[row["quality_name"]].push(row.value)
+                tempFE[row["quality_name"]].push(row.mark)
             } else {
-                tempFE[row["quality_name"]] = [row.value]
+                tempFE[row["quality_name"]] = [row.mark]
             }
         })
     })
 
-    await runQuery(`SELECT quality_name, value FROM important_qualities_result join important_quality on important_qualities_result.quality_id = important_quality.id WHERE profession_id = ${sysAdmin_id}`).then((rows) => {
+    await runQuery(`SELECT quality_name, mark FROM important_qualities_result join important_quality on important_qualities_result.quality_id = important_quality.id WHERE profession_id = ${sysAdmin_id}`).then((rows) => {
         rows.forEach((row) => {
             if (row["quality_name"] in Object.keys(tempSA)) {
-                tempSA[row["quality_name"]].push(row.value)
+                tempSA[row["quality_name"]].push(row.mark)
             } else {
-                tempSA[row["quality_name"]] = [row.value]
+                tempSA[row["quality_name"]] = [row.mark]
             }
         })
     })
@@ -267,6 +269,19 @@ async function reloadPulseStat(user_id) {
         })
 }
 
+async function getPVK(user_id, profession_id) {
+
+    await runQuery(`SELECT * FROM important_qualities_result WHERE user_id = ${user_id} AND profession_id = ${profession_id}`)
+        .then(rows => {
+            if (rows.length > 0) {
+                for (let row of rows) {
+                    console.log(row)
+                    pvk.push(row.quality_id)
+                }
+            }
+        })
+}
+
 app.post('/registration', urlEncodeParser, function(req, res) {
     if(!req.body) return res.sendStatus(400);
     console.log(req.body);
@@ -352,17 +367,26 @@ app.post('/add', urlEncodeParser, function(req, res) {
     if(!req.body) return res.sendStatus(400)
 
     let profession = Object.keys(req.body)[0]
+
     insertPVK(req.body, user_id)
         .then(() => {
             reloadPersonStat(user_id)
                 .then(() => {
-                    console.log(profession)
                     if (profession.startsWith('f')) {
-                        res.render("lab1/mark", {pvk: personFE, prof: 'f'})
+                        getPVK(user_id, 1)
+                            .finally(() => {
+                                res.render("lab1/mark", {lst: personFE, pvk: pvk, prof: 'f'})
+                            })
                     } else if (profession.startsWith('d')) {
-                        res.render("lab1/mark", {pvk: personDS, prof: 'd'})
+                        getPVK(user_id, 2)
+                            .finally(() => {
+                                res.render("lab1/mark", {lst: personDS, pvk: pvk, prof: 'd'})
+                            })
                     } else if (profession.startsWith('s')) {
-                        res.render("lab1/mark", {pvk: personSA, prof: 's'})
+                        getPVK(user_id, 3)
+                            .finally(() => {
+                                res.render("lab1/mark", {lst: personSA, pvk: pvk, prof: 's'})
+                            })
                     }
                 })
         })
@@ -370,6 +394,8 @@ app.post('/add', urlEncodeParser, function(req, res) {
 
 app.post('/mark', urlEncodeParser, function(req, res) {
     if (!req.body) return res.sendStatus(400)
+
+    console.log(req.body)
 
     saveMarks(req.body, user_id).then(() => {
         reloadPersonStat(user_id)

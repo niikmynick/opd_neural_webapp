@@ -113,6 +113,8 @@ let dataScience = []
 let frontEnd = []
 let sysAdmin = []
 
+let pvk = []
+
 module.exports = {
     frontend_id,
     sysAdmin_id,
@@ -134,5 +136,6 @@ module.exports = {
     correctTests,
     scoreTimeTests,
     percentageTests,
-    pulse
+    pulse,
+    pvk
 }
