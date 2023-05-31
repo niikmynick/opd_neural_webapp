@@ -168,7 +168,7 @@ async function sendUser(score) {
         method: "POST",
         body: JSON.stringify({
             user_name: getCookie("login"),
-            test_name: "tracking_with_persecution",
+            test_name: "persecution_tracking",
             score: score.toString()
         })
     });
