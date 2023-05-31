@@ -103,25 +103,77 @@ async function clearPersonStat(profession) {
 }
 
 async function reloadOverallStat() {
+
     dataScience = []
     frontEnd = []
     sysAdmin = []
 
+    let tempDS = {}
+    let tempFE = {}
+    let tempSA = {}
+
     await runQuery(`SELECT quality_name, value FROM important_qualities_result join important_quality on important_qualities_result.quality_id = important_quality.id WHERE profession_id = ${dataScientist_id}`).then((rows) => {
         rows.forEach((row) => {
-            dataScience.push([row["quality_name"], row.value])
+            if (row["quality_name"] in Object.keys(tempDS)) {
+                tempDS[row["quality_name"]].push(row.value)
+            } else {
+                tempDS[row["quality_name"]] = [row.value]
+            }
         })
     })
+
     await runQuery(`SELECT quality_name, value FROM important_qualities_result join important_quality on important_qualities_result.quality_id = important_quality.id WHERE profession_id = ${frontend_id}`).then((rows) => {
         rows.forEach((row) => {
-            frontEnd.push([row["quality_name"], row.value])
+            if (row["quality_name"] in Object.keys(tempFE)) {
+                tempFE[row["quality_name"]].push(row.value)
+            } else {
+                tempFE[row["quality_name"]] = [row.value]
+            }
         })
     })
+
     await runQuery(`SELECT quality_name, value FROM important_qualities_result join important_quality on important_qualities_result.quality_id = important_quality.id WHERE profession_id = ${sysAdmin_id}`).then((rows) => {
         rows.forEach((row) => {
-            sysAdmin.push([row["quality_name"], row.value])
+            if (row["quality_name"] in Object.keys(tempSA)) {
+                tempSA[row["quality_name"]].push(row.value)
+            } else {
+                tempSA[row["quality_name"]] = [row.value]
+            }
         })
     })
+
+
+    for (let i of Object.keys(tempDS)) {
+        let sum = 0
+        let count = 0
+        for (let j of tempDS[i]) {
+            count += 1
+            sum += j
+        }
+        dataScience.push([i, sum / count])
+    }
+
+    for (let i of Object.keys(tempFE)) {
+        let sum = 0
+        let count = 0
+        for (let j of tempFE[i]) {
+            count += 1
+            sum += j
+        }
+        frontEnd.push([i, sum / count])
+    }
+
+    for (let i of Object.keys(tempSA)) {
+        let sum = 0
+        let count = 0
+        for (let j of tempSA[i]) {
+            count += 1
+            sum += j
+        }
+        sysAdmin.push([i, sum / count])
+    }
+
+    console.log(frontEnd)
 
 // sorting lists by values
     dataScience.sort((a, b) => a[1] - b[1]).reverse()
