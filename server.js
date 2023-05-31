@@ -246,47 +246,53 @@ app.post('/login', urlEncodeParser, function(req, res) {
 
     runQuery(`SELECT password FROM user WHERE email = '${user_email}'`)
         .then(r => {
-            if (user_password === r[0]["password"]) {
-                console.log("Успешная авторизация")
-                authoriseFlag = true
+            try {
+                if (user_password === r[0]["password"]) {
+                    console.log("Успешная авторизация")
+                    authoriseFlag = true
 
-                runQuery(`SELECT id, name FROM user WHERE email = '${user_email}'`)
-                    .then(r => {
-                        user_name = r[0]["name"]
-                        res.cookie('login', user_name);
+                    runQuery(`SELECT id, name FROM user WHERE email = '${user_email}'`)
+                        .then(r => {
+                            user_name = r[0]["name"]
+                            res.cookie('login', user_name);
 
-                        user_id = r[0]["id"]
+                            user_id = r[0]["id"]
 
-                        reloadPersonStat(user_id)
-                            .then(() => {
-                                reloadTestStat(user_id)
-                                    .finally(() => {
-                                        reloadPulseStat(user_id)
-                                            .finally(() => {
-                                                res.render("account", {
-                                                    user_name: user_name,
-                                                    DS: personDS,
-                                                    FE: personFE,
-                                                    SA: personSA,
-                                                    timePercentTests: timePercentTests,
-                                                    dispersionTests: dispersionTests,
-                                                    manyArgsTests: manyArgsTests,
-                                                    scoreTests: scoreTests,
-                                                    correctIncorrectTests: correctIncorrectTests,
-                                                    correctArgTests: correctTests,
-                                                    scoreTimeTests: scoreTimeTests,
-                                                    percentageTests: percentageTests,
-                                                    pulse: pulse
+                            reloadPersonStat(user_id)
+                                .then(() => {
+                                    reloadTestStat(user_id)
+                                        .finally(() => {
+                                            reloadPulseStat(user_id)
+                                                .finally(() => {
+                                                    res.render("account", {
+                                                        user_name: user_name,
+                                                        DS: personDS,
+                                                        FE: personFE,
+                                                        SA: personSA,
+                                                        timePercentTests: timePercentTests,
+                                                        dispersionTests: dispersionTests,
+                                                        manyArgsTests: manyArgsTests,
+                                                        scoreTests: scoreTests,
+                                                        correctIncorrectTests: correctIncorrectTests,
+                                                        correctArgTests: correctTests,
+                                                        scoreTimeTests: scoreTimeTests,
+                                                        percentageTests: percentageTests,
+                                                        pulse: pulse
+                                                    })
                                                 })
-                                            })
-                                    })
-                            })
-                    })
+                                        })
+                                })
+                        })
 
-            } else {
-                console.log("Неверный пароль")
-                res.render('authorization/login');
+                } else {
+                    console.log("Неверный пароль")
+                    res.render('authorization/login');
+                }
+            } catch (e) {
+                console.log("Нет данного пользователя");
+                res.render('authorization/reg');
             }
+
         })
 })
 
