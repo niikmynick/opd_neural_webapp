@@ -116,18 +116,18 @@ function finish_test() {
         sdMinus[result] = Math.sqrt(dispersionMinus / (dispersionMinusCounter)).toFixed(3);
         sdPlus[result] = Math.sqrt(dispersionPlus / (dispersionPlusCounter)).toFixed(3);
         if (sd[result] === "NaN") {
-            sd[result] = 'Не выявлено';
+            sd[result] = 0;
         }
         if (sdMinus[result] === 'NaN') {
-            sdMinus[result] = 'Не выявлено';
+            sdMinus[result] = 0;
         }
         if (sdPlus[result] === 'NaN') {
-            sdPlus[result] = 'Не выявлено';
+            sdPlus[result] = 0;
         }
     }
 
     for (let elem in sd) {
-        if (sd[elem] !== 'Не выявлено') {
+        if (sd[elem] !== 0) {
             average.push(parseFloat(sd[elem]));
         }
     }
@@ -182,7 +182,6 @@ function finish_test() {
 }
 
 // Sends test results to server
-//TODO
 async function sendUser(sd, sdMinus, sdPlus, averageReduced) {
     const response = await fetch("/result", {
         method: "POST",
