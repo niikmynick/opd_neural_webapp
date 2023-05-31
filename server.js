@@ -94,13 +94,13 @@ async function reloadPersonStat(user_id, needToCheck = ["dataScience", "frontEnd
 async function clearPersonStat(profession) {
     if (profession === "frontend") {
         personFE = []
-        await runQuery(`DELETE FROM important_qualities_result WHERE user_id = ${user_id} AND profession_id = ${frontend_id}`).then(r => r)
-    } else if (profession === "sysAdmin") {
+        await runQuery(`DELETE FROM important_qualities_result WHERE user_id = ${user_id} AND profession_id = 1`).then(r => r)
+    } else if (profession === "sysadmin") {
         personSA = []
-        await runQuery(`DELETE FROM important_qualities_result WHERE user_id = ${user_id} AND profession_id = ${sysAdmin_id}`).then(r => r)
-    } else if (profession === "dataScientist") {
+        await runQuery(`DELETE FROM important_qualities_result WHERE user_id = ${user_id} AND profession_id = 2`).then(r => r)
+    } else if (profession === "datascience") {
         personDS = []
-        await runQuery(`DELETE FROM important_qualities_result WHERE user_id = ${user_id} AND profession_id = ${dataScientist_id}`).then(r => r)
+        await runQuery(`DELETE FROM important_qualities_result WHERE user_id = ${user_id} AND profession_id = 3`).then(r => r)
     }
 }
 
@@ -465,7 +465,7 @@ app.get('/:name', function(req, res) {
         case "frontend": {
             if (authoriseFlag) {
                 clearPersonStat("frontend").finally(() => {
-                    res.render(page, {FE: frontEnd});
+                    res.render(page);
                 })
             } else {
                 res.render('authorization/login');
@@ -475,7 +475,7 @@ app.get('/:name', function(req, res) {
         case "sysadmin": {
             if (authoriseFlag) {
                 clearPersonStat("sysadmin").finally(() => {
-                    res.render(page, {SA: sysAdmin});
+                    res.render(page);
                 })
             } else {
                 res.render('authorization/login');
@@ -485,7 +485,7 @@ app.get('/:name', function(req, res) {
         case "datascience": {
             if (authoriseFlag) {
                 clearPersonStat("datascience").finally(() => {
-                    res.render(page, {DS: dataScience});
+                    res.render(page);
                 })
             } else {
                 res.render('authorization/login');
@@ -534,6 +534,8 @@ app.get('/:name', function(req, res) {
             }
         } break;
 
+        case 'all_tests':
+        case 'pulse_start':
         case 'easy_aud_test':
         case 'easy_eye_test':
         case 'med_eye_test':
@@ -552,8 +554,9 @@ app.get('/:name', function(req, res) {
         case 'red_black_table':
         case 'verbal_memory': {
             if (authoriseFlag) {
-                after_pulse_load = page;
-                res.render("pulse_start")
+                // after_pulse_load = page;
+                // res.render("pulse_start")
+                res.render(page);
             } else {
                 res.render('authorization/login');
             }
@@ -644,9 +647,14 @@ app.post('/result', urlEncodeParser, function(req, res) {
 app.post('/pulse_start', urlEncodeParser, function(req, res) {
     if(!req.body) return res.sendStatus(400);
 
-    savePulse(user_id, 1,  req.body.pulse).then(() => {
-        res.render('all_tests')
-    })
+    try {
+        savePulse(user_id, 1,  req.body.pulse).then(() => {
+            res.render('all_tests')
+        })
+    } catch (e) {
+        res.render('authorization/login')
+    }
+
 });
 
 app.post('/pulse_end', urlEncodeParser, function(req, res) {
