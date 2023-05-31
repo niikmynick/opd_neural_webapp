@@ -52,7 +52,7 @@ async function saveMarks(lst, user_id) {
     for (let i of Object.keys(lst)) {
         if (i.startsWith('f')) {
             await runQuery(`UPDATE important_qualities_result SET mark = ${lst[i]} WHERE user_id = ${user_id} AND profession_id = ${frontend_id} AND quality_id = '${i.slice(1, i.length)}'`).then(r => r)
-        } else if (i.startsWith('a')) {
+        } else if (i.startsWith('s')) {
             await runQuery(`UPDATE important_qualities_result SET mark = ${lst[i]} WHERE user_id = ${user_id} AND profession_id = ${sysAdmin_id} AND quality_id = '${i.slice(1, i.length)}'`).then(r => r)
         } else if (i.startsWith('d')){
             await runQuery(`UPDATE important_qualities_result SET mark = ${lst[i]} WHERE user_id = ${user_id} AND profession_id = ${dataScientist_id} AND quality_id = '${i.slice(1, i.length)}'`).then(r => r)
