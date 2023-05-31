@@ -19,26 +19,18 @@
         </a>
     </div>
     <div class="tester" id="current">
-    </div>
-
-    <div class="tester" id="pulse_start" style="display: none">
-        <div class="choice">
         <form method="post" action="/pulse_start">
-            <div class="list_11">
-                <p class="text_title">Начало тестирования</p>
-                <p class="text1">Пожалуйста, проведите измерение своего пульса и введите значение в поле ниже:</p>
+            <div class="instruction text_instruction">Пожалуйста, проведите измерение своего пульса и введите значение в поле ниже:</div>
 
-                <div class="pulse_input">
-                    <input type="number" name="pulse" required placeholder="Введите значение пульса">
-                </div>
-
+            <div class="pulse_input">
+                <input type="number" name="pulse" required placeholder="Введите значение пульса">
             </div>
             <div class="list_button">
                 <button class="sent" onclick="">Далее</button>
             </div>
         </form>
-        </div>
     </div>
+
 
     <div class="tester" id="easy_aud_test" style="display: none">
         <div id='Instruction' class="instruction text_instruction">Этот тест считывает скорость реакции на звуковой сигнал. Ваша цель - нажать на круг как только прозвучит звуковой сигнал.</div>
@@ -728,7 +720,6 @@
 </div>
 <script>
     const testMatrix = [
-        ["pulse_start","style_test_1.css"],
         ["easy_aud_test","style_test_1.css"],
         ["easy_eye_test","style_test_1.css"],
         ["hard_eye_test","style_test_1.css"],
