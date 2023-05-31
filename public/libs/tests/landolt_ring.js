@@ -47,7 +47,7 @@ function start_test() {
     document.getElementById('Choosing_instruction').style.display = 'block';
     document.getElementById('Choosing_img').style.display = 'block';
     document.getElementById('Choosing_instruction').innerHTML = 'Нажмите все кольца вида: ';
-    document.getElementById('Choosing_img').innerHTML = `<img src=` + ringMap.get(randRing) + `"/public/img" class="cell_img">`;
+    document.getElementById('Choosing_img').innerHTML = `<img src="/public/img/`+ ringMap.get(randRing) + `" class="cell_img">`;
     document.getElementById('Start_button').style.display = 'none';
     document.getElementById('Finish_button').style.display = 'block';
     document.getElementById('bg').style.background = 'black';
