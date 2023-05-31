@@ -203,50 +203,50 @@ async function reloadTestStat(user_id) {
                         case 'hard_vision':
                         case 'audio_sum':
                         case 'vision_sum':
-                            timePercentTests[name]["time"] = rows[0]['time']
-                            timePercentTests[name]['percentage'] = rows[0]['percentage']
+                            timePercentTests[name]["time"] = rows[rows.length-1]['time']
+                            timePercentTests[name]['percentage'] = rows[rows.length-1]['percentage']
                             break
                         case 'easy_moving':
-                            dispersionTests[name]['dispersion'] = rows[0]['dispersion']
-                            dispersionTests[name]['negative_dispersion'] = rows[0]['negative_dispersion']
-                            dispersionTests[name]['positive_dispersion'] = rows[0]['positive_dispersion']
+                            dispersionTests[name]['dispersion'] = rows[rows.length-1]['dispersion']
+                            dispersionTests[name]['negative_dispersion'] = rows[rows.length-1]['negative_dispersion']
+                            dispersionTests[name]['positive_dispersion'] = rows[rows.length-1]['positive_dispersion']
                             break
                         case 'hard_moving':
-                            manyArgsTests[name]['slow_dispersion'] = rows[0]['slow_dispersion']
-                            manyArgsTests[name]['middle_dispersion'] = rows[0]['middle_dispersion']
-                            manyArgsTests[name]['fast_dispersion'] = rows[0]['fast_dispersion']
+                            manyArgsTests[name]['slow_dispersion'] = rows[rows.length-1]['slow_dispersion']
+                            manyArgsTests[name]['middle_dispersion'] = rows[rows.length-1]['middle_dispersion']
+                            manyArgsTests[name]['fast_dispersion'] = rows[rows.length-1]['fast_dispersion']
 
-                            manyArgsTests[name]['slow_negative_dispersion'] = rows[0]['slow_negative_dispersion']
-                            manyArgsTests[name]['middle_negative_dispersion'] = rows[0]['middle_negative_dispersion']
-                            manyArgsTests[name]['fast_negative_dispersion'] = rows[0]['fast_negative_dispersion']
+                            manyArgsTests[name]['slow_negative_dispersion'] = rows[rows.length-1]['slow_negative_dispersion']
+                            manyArgsTests[name]['middle_negative_dispersion'] = rows[rows.length-1]['middle_negative_dispersion']
+                            manyArgsTests[name]['fast_negative_dispersion'] = rows[rows.length-1]['fast_negative_dispersion']
 
-                            manyArgsTests[name]['slow_positive_dispersion'] = rows[0]['slow_positive_dispersion']
-                            manyArgsTests[name]['middle_positive_dispersion'] = rows[0]['middle_positive_dispersion']
-                            manyArgsTests[name]['fast_positive_dispersion'] = rows[0]['fast_positive_dispersion']
+                            manyArgsTests[name]['slow_positive_dispersion'] = rows[rows.length-1]['slow_positive_dispersion']
+                            manyArgsTests[name]['middle_positive_dispersion'] = rows[rows.length-1]['middle_positive_dispersion']
+                            manyArgsTests[name]['fast_positive_dispersion'] = rows[rows.length-1]['fast_positive_dispersion']
 
-                            manyArgsTests[name]['average_dispersion'] = rows[0]['average_dispersion']
+                            manyArgsTests[name]['average_dispersion'] = rows[rows.length-1]['average_dispersion']
 
                             break
                         case 'analog_tracking':
                         case 'persecution_tracking':
                         case 'visual_memory':
-                            scoreTests[name]['score'] = rows[0]['score']
+                            scoreTests[name]['score'] = rows[rows.length-1]['score']
                             break
                         case 'compass':
                         case 'landolt_ring':
-                            correctIncorrectTests[name]['correct'] = rows[0]['correct']
-                            correctIncorrectTests[name]['incorrect'] = rows[0]['incorrect']
+                            correctIncorrectTests[name]['correct'] = rows[rows.length-1]['correct']
+                            correctIncorrectTests[name]['incorrect'] = rows[rows.length-1]['incorrect']
                             break
                         case 'raven':
                         case 'voinarovsky':
-                            correctTests[name]['correct'] = rows[0]['correct']
+                            correctTests[name]['correct'] = rows[rows.length-1]['correct']
                             break
                         case 'red_n_black':
-                            scoreTimeTests[name]['score'] = rows[0]['score']
-                            scoreTimeTests[name]['time'] = rows[0]['time']
+                            scoreTimeTests[name]['score'] = rows[rows.length-1]['score']
+                            scoreTimeTests[name]['time'] = rows[rows.length-1]['time']
                             break
                         case 'verbal_memory':
-                            percentageTests[name]['percentage'] = rows[0]['percentage']
+                            percentageTests[name]['percentage'] = rows[rows.length-1]['percentage']
                             break
                     }
                 }

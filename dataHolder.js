@@ -69,6 +69,9 @@ let scoreTests = {
     },
     'persecution_tracking': {
         'score': null
+    },
+    'visual_memory': {
+        'score': null
     }
 }
 
