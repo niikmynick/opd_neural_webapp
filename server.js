@@ -300,11 +300,11 @@ app.post('/add', urlEncodeParser, function(req, res) {
                 .then(() => {
                     console.log(profession)
                     if (profession.startsWith('f')) {
-                        res.render("lab1/mark", {pvk: personFE})
+                        res.render("lab1/mark", {pvk: personFE, prof: 'f'})
                     } else if (profession.startsWith('d')) {
-                        res.render("lab1/mark", {pvk: personDS})
+                        res.render("lab1/mark", {pvk: personDS, prof: 'd'})
                     } else if (profession.startsWith('s')) {
-                        res.render("lab1/mark", {pvk: personSA})
+                        res.render("lab1/mark", {pvk: personSA, prof: 's'})
                     }
                 })
         })
