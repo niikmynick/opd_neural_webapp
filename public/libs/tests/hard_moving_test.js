@@ -1,5 +1,5 @@
 let iteration = 0;
-const NUMBER_OF_ITERATIONS = 30;
+const NUMBER_OF_ITERATIONS = 2;
 
 let interval;
 //Результаты

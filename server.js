@@ -628,7 +628,7 @@ app.post('/result', urlEncodeParser, function(req, res) {
                               ${obj.slow_positive_dispersion},
                                ${obj.middle_positive_dispersion},
                               ${obj.fast_positive_dispersion},
-                              ${obj.average_dispersion}`).then(r => r)
+                              ${obj.average_dispersion})`).then(r => r)
 
         } else if (['analog_tracking', 'persecution_tracking', 'visual_memory'].includes(test_name)) {
             // score
