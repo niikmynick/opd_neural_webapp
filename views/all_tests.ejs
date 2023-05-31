@@ -19,6 +19,20 @@
         </a>
     </div>
     <div class="tester" id="current">
+        <form method="post" action="/pulse_start">
+            <div class="list_11">
+                <p class="text_title">Начало тестирования</p>
+                <p class="text1">Пожалуйста, проведите измерение своего пульса и введите значение в поле ниже:</p>
+
+                <div class="pulse_input">
+                    <input type="number" name="pulse" required placeholder="Введите значение пульса">
+                </div>
+
+            </div>
+            <div class="list_button">
+                <button class="sent" onclick="">Далее</button>
+            </div>
+        </form>
     </div>
 
     <div class="tester" id="easy_aud_test" style="display: none">
