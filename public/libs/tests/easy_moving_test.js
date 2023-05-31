@@ -73,13 +73,13 @@ function finish_test() {
     sdPlus = Math.sqrt(dispersionPlus / (dispersionPlusCounter)).toFixed(3);
 
     if (sd === "NaN") {
-        sd = 'Не выявлено';
+        sd = 0;
     }
     if (sdMinus === 'NaN') {
-        sdMinus = 'Не выявлено';
+        sdMinus = 0;
     }
     if (sdPlus === 'NaN') {
-        sdPlus = 'Не выявлено';
+        sdPlus = 0;
     }
 
 

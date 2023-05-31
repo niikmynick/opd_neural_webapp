@@ -95,10 +95,10 @@ async function clearPersonStat(profession) {
     if (profession === "frontend") {
         personFE = []
         await runQuery(`DELETE FROM important_qualities_result WHERE user_id = ${user_id} AND profession_id = 1`).then(r => r)
-    } else if (profession === "sysadmin") {
+    } else if (profession === "sysAdmin") {
         personSA = []
         await runQuery(`DELETE FROM important_qualities_result WHERE user_id = ${user_id} AND profession_id = 2`).then(r => r)
-    } else if (profession === "datascience") {
+    } else if (profession === "dataScience") {
         personDS = []
         await runQuery(`DELETE FROM important_qualities_result WHERE user_id = ${user_id} AND profession_id = 3`).then(r => r)
     }
@@ -271,15 +271,17 @@ async function reloadPulseStat(user_id) {
 
 async function getPVK(user_id, profession_id) {
 
+    pvk = []
+
     await runQuery(`SELECT * FROM important_qualities_result WHERE user_id = ${user_id} AND profession_id = ${profession_id}`)
         .then(rows => {
             if (rows.length > 0) {
                 for (let row of rows) {
-                    console.log(row)
                     pvk.push(row.quality_id)
                 }
             }
         })
+
 }
 
 app.post('/registration', urlEncodeParser, function(req, res) {
@@ -328,9 +330,9 @@ app.post('/login', urlEncodeParser, function(req, res) {
                             reloadPersonStat(user_id)
                                 .then(() => {
                                     reloadTestStat(user_id)
-                                        .finally(() => {
+                                        .then(() => {
                                             reloadPulseStat(user_id)
-                                                .finally(() => {
+                                                .then(() => {
                                                     res.render("account", {
                                                         user_name: user_name,
                                                         DS: personDS,
@@ -374,17 +376,20 @@ app.post('/add', urlEncodeParser, function(req, res) {
                 .then(() => {
                     if (profession.startsWith('f')) {
                         getPVK(user_id, 1)
-                            .finally(() => {
+                            .then(() => {
                                 res.render("lab1/mark", {lst: personFE, pvk: pvk, prof: 'f'})
                             })
-                    } else if (profession.startsWith('d')) {
-                        getPVK(user_id, 2)
-                            .finally(() => {
+                    }
+
+                    if (profession.startsWith('d')) {
+                        getPVK(user_id, 3)
+                            .then(() => {
                                 res.render("lab1/mark", {lst: personDS, pvk: pvk, prof: 'd'})
                             })
-                    } else if (profession.startsWith('s')) {
-                        getPVK(user_id, 3)
-                            .finally(() => {
+                    }
+                    if (profession.startsWith('a')) {
+                        getPVK(user_id, 2)
+                            .then(() => {
                                 res.render("lab1/mark", {lst: personSA, pvk: pvk, prof: 's'})
                             })
                     }
@@ -403,9 +408,9 @@ app.post('/mark', urlEncodeParser, function(req, res) {
                 reloadTestStat(user_id)
                     .then(() => {
                         reloadPulseStat(user_id)
-                            .finally(() => {
+                            .then(() => {
                                 reloadPulseStat(user_id)
-                                    .finally(() => {
+                                    .then(() => {
                                         res.render("account", {
                                             user_name: user_name,
                                             DS: personDS,
@@ -444,27 +449,27 @@ app.get('/:name', function(req, res) {
 
         case 'stat': {
             reloadOverallStat()
-                .finally(() => {
+                .then(() => {
                     res.render(page, {dataScience: dataScience, frontEnd: frontEnd, sysAdmin: sysAdmin});
                 })
         } break;
 
         case 'desc_frontend': {
             reloadOverallStat()
-                .finally(() => {
+                .then(() => {
                     res.render(page, {frontEnd: frontEnd});
                 })
         } break;
 
         case 'mark': {
-            reloadPersonStat().finally(() => {
+            reloadPersonStat().then(() => {
                 res.render(page, {FE: personFE});
             })
         } break;
 
         case "frontend": {
             if (authoriseFlag) {
-                clearPersonStat("frontend").finally(() => {
+                clearPersonStat("frontend").then(() => {
                     res.render(page);
                 })
             } else {
@@ -474,7 +479,7 @@ app.get('/:name', function(req, res) {
 
         case "sysadmin": {
             if (authoriseFlag) {
-                clearPersonStat("sysadmin").finally(() => {
+                clearPersonStat("sysAdmin").then(() => {
                     res.render(page);
                 })
             } else {
@@ -484,7 +489,7 @@ app.get('/:name', function(req, res) {
 
         case "datascience": {
             if (authoriseFlag) {
-                clearPersonStat("datascience").finally(() => {
+                clearPersonStat("dataScience").then(() => {
                     res.render(page);
                 })
             } else {
@@ -493,23 +498,23 @@ app.get('/:name', function(req, res) {
         } break;
 
         case "desc_datascience": {
-            reloadOverallStat().finally(() => {
+            reloadOverallStat().then(() => {
                 res.render(page, {dataScience: dataScience});
             })
         } break;
 
         case "desc_sysadmin": {
-            reloadOverallStat(dataScience, frontEnd, sysAdmin).finally(() => {
+            reloadOverallStat(dataScience, frontEnd, sysAdmin).then(() => {
                 res.render(page, {sysAdmin: sysAdmin});
             })
         } break;
 
         case "login": {
             if (authoriseFlag) {
-                reloadPersonStat(user_id).finally(() => {
-                    reloadTestStat(user_id).finally(() => {
+                reloadPersonStat(user_id).then(() => {
+                    reloadTestStat(user_id).then(() => {
                         reloadPulseStat(user_id)
-                            .finally(() => {
+                            .then(() => {
                                 res.render("account", {
                                     user_name: user_name,
                                     DS: personDS,
