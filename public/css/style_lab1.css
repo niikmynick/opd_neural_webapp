@@ -44,7 +44,7 @@ a, u {
     height: 55px;
     color: #ffffff;
     font-size: 44px;
-    font-family: 'Montserrat',Arial,sans-serif;
+    font-family: Arial, serif;
     line-height: 1.25;
     font-weight: 700;
 }
@@ -84,7 +84,7 @@ a, u {
 .box_title {
     color: white;
     font-size: 20pt;
-    font-family: 'Montserrat',Arial,sans-serif;
+    font-family: Arial, serif;
 }
 .box_text {
     margin-left: 20px;
@@ -92,7 +92,7 @@ a, u {
     text-align: justify;
     padding-top: 130px;
     font-size: 12pt;
-    font-family: 'Montserrat',Arial,sans-serif;
+    font-family: Arial, serif;
     position: relative;
     color: white;
 }
@@ -173,7 +173,7 @@ a, u {
 }
 .text {
     color: white;
-    font-family: Roboto,Arial,sans-serif;
+    font-family: Arial, serif;
     font-size: 11pt;
     text-align: justify;
     line-height: 20px;
@@ -183,7 +183,7 @@ a, u {
 }
 .text1 {
     color: white;
-    font-family: Roboto,Arial,sans-serif;
+    font-family: Arial, serif;
     font-size: 11pt;
     text-align: justify;
     padding-left: 20px;
@@ -203,7 +203,7 @@ a, u {
     margin-top: 20px;
     position: relative;
     left: 29%;
-    font-family: 'docs-Roboto', Helvetica, Arial, sans-serif;
+    font-family: Arial, serif;
     font-size: 12pt;
     color: white;
     background-color: grey;
@@ -223,7 +223,7 @@ a, u {
     padding-left: 20px;
     margin-bottom: 12px;
     cursor: pointer;
-    font-family: Roboto,Arial,sans-serif;
+    font-family: Arial, serif;
     font-size: 11pt;
     user-select: none;
 }
@@ -299,7 +299,7 @@ td {
 .text_title {
     position: relative;
     font-size: 24pt;
-    font-family: 'docs-Roboto', Helvetica, Arial, sans-serif;
+    font-family: Arial, serif;
     letter-spacing: 0;
     padding-top: 20px;
     padding-left: 20px;
@@ -354,7 +354,7 @@ td {
 .text_popit {
     display: block;
     font-size: 20pt;
-    font-family: 'docs-Roboto', Helvetica, Arial, sans-serif;
+    font-family: Arial, serif;
     letter-spacing: 0;
     padding-top: 20px;
     padding-left: 20px;

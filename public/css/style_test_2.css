@@ -74,7 +74,7 @@ a, u {
     position: relative;
     color: white;
     font-size: 20pt;
-    font-family: 'Montserrat',Arial,sans-serif;
+    font-family: Arial, serif;
     text-align: center;
 }
 .choosing_instruction {
@@ -83,7 +83,7 @@ a, u {
     top: 1vh;
     color: white;
     font-size: 20pt;
-    font-family: 'Montserrat',Arial,sans-serif;
+    font-family: Arial, serif;
     text-align: center;
 }
 .choosing_instruction {
@@ -113,7 +113,7 @@ a, u {
     position: relative;
     color: white;
     font-size: 20pt;
-    font-family: 'Montserrat',Arial,sans-serif;
+    font-family: Arial, serif;
     text-align: center;
 }
 .start_button {
@@ -124,7 +124,7 @@ a, u {
     border: 2px solid #222222;
     border-radius: 10px;
     font-size: 24px;
-    font-family: 'Montserrat',Arial,sans-serif;
+    font-family: Arial, serif;
     transition-duration: 200ms;
     position: relative;
     top: 50vh;
@@ -155,7 +155,7 @@ a, u {
     position: relative;
     color: white;
     font-size: 20pt;
-    font-family: 'Montserrat',Arial,sans-serif;
+    font-family: Arial, serif;
     text-align: center;
 }
 .restart_button {
@@ -167,7 +167,7 @@ a, u {
     border: 2px solid #222222;
     border-radius: 10px;
     font-size: 24px;
-    font-family: 'Montserrat',Arial,sans-serif;
+    font-family: Arial, serif;
     text-align: center;
     transition-duration: 200ms;
     position: relative;
@@ -194,7 +194,7 @@ a, u {
     border: 2px solid #222222;
     border-radius: 10px;
     font-size: 32px;
-    font-family: 'Montserrat',Arial,sans-serif;
+    font-family: Arial, serif;
     transition-duration: 200ms;
     top: 50vh;
     left: 24vw;
@@ -213,7 +213,7 @@ a, u {
     position: relative;
     color: white;
     font-size: 20pt;
-    font-family: 'Montserrat',Arial,sans-serif;
+    font-family: Arial, serif;
     text-align: center;
 }
 
