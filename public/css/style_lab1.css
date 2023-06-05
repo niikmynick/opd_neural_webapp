@@ -1,5 +1,5 @@
 body {
-    margin: 0px;
+    margin: 0;
     background-color: black;
 }
 .top {
@@ -209,7 +209,7 @@ a, u {
     background-color: grey;
     width: 150px;
     height: 40px;
-    border: 0px;
+    border: 0;
     border-radius: 20px;
     padding: 10px 15px;
 }
@@ -321,7 +321,7 @@ td {
 
 .pulse_input {
     position: relative;
-    left: 20px;
+    left: 45px;
     width: 256px;
     padding-top: 20px;
 }

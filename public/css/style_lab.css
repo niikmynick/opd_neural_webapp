@@ -169,11 +169,6 @@ a, u {
     border-radius: 20px;
 }
 
-.list_black {
-    display: flex;
-    margin-top: 20px;
-    background-color: black;
-}
 .list {
     display: flex;
     margin-top: 20px;
@@ -182,7 +177,7 @@ a, u {
     margin-top: 15px;
     margin-left: 40px;
     width: 640px;
-    height: 305px;
+    height: auto;
     display: block;
     position: relative;
     z-index: 1;
@@ -204,7 +199,7 @@ a, u {
     margin-top: 15px;
     margin-left: 40px;
     width: 900px;
-    height: 1440px;
+    height: auto;
     display: block;
     position: relative;
     z-index: 1;
@@ -240,6 +235,7 @@ a, u {
 .table_1 {
     margin: 0 auto;
     margin-top: 20px;
+    margin-bottom: 20px;
     width: 600px;
     height: 160px;
 }

@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="/public/css/style_test_1.css" id="stylesheet">
-    <link href="/public/libs/itc-slider/itc-slider.css" rel="stylesheet">
+    <link href="/public/libs/itc-slider/itc-slider.css" rel="stylesheet" id="slidercss">
     <script src="/public/libs/itc-slider/itc-slider.js" defer></script>
     <title>Document</title>
 </head>
@@ -749,6 +749,7 @@
             current = testList.indexOf(sessionStorage.getItem('currentTest'));
         }
         document.getElementById('stylesheet').href = "/public/css/"+testMatrix[current][1];
+        document.getElementById('slidercss').href = "/public/libs/itc-slider/itc-slider.css";
         document.getElementById('testScript').src = '/public/libs/tests/'+testMatrix[current][0]+'.js';
         document.getElementById('current').innerHTML = document.getElementById(testMatrix[current][0]).innerHTML;
     }

@@ -194,7 +194,9 @@ async function reloadOverallStat() {
         sysAdmin.push([i, sum / count])
     }
 
-    console.log(frontEnd)
+    // console.log(frontEnd)
+    // console.log(sysAdmin)
+    // console.log(dataScience)
 
 // sorting lists by values
     dataScience.sort((a, b) => a[1] - b[1]).reverse()
