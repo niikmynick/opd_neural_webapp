@@ -292,6 +292,46 @@
                     </div>
                 </div>
             </div>
+
+            <div class="test_stat">
+                <p class="title_text">
+                    Предсказания по результатам тестов
+                </p>
+                <div class="list">
+                    <div class="list_3">
+                        <p class="text_title">Ваши ПВК</p>
+                        <table class="table_1">
+                            <% if (predictedSkills !== null) { %>
+                                <tr class="table">
+                                    <td>ПВК</td>
+                                    <td>Оценка</td>
+                                </tr>
+                                <% for(i of Object.keys(predictedSkills)) { %>
+                                    <% if (predictedSkills[i] >= 10) {%>
+                                        <tr>
+                                            <td class="td_1"><%= i %></td>
+                                            <td><%= predictedSkills[i] %></td>
+                                        </tr>
+                                    <% } %>
+                                <% } %>
+                            <% } else { %>
+                                <p class="text2">Вы еще не проходили тестирования</p>
+                            <% } %>
+                        </table>
+                    </div>
+
+                    <div class="list_3">
+                        <p class="text_title">Ваша профессия</p>
+                        <table class="table_1">
+                            <% if (predictedSkills !== null) { %>
+                                <p class="text2"><%= predictedProfession %></p>
+                            <% } else { %>
+                                <p class="text2">Вы еще не проходили тестирования</p>
+                            <% } %>
+                        </table>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </body>

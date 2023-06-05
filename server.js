@@ -31,9 +31,22 @@ let {
     scoreTimeTests,
     percentageTests,
     pulse,
-    pvk
+    pvk,
+    tempTests,
+    tempSkills,
+    tempProfession,
+    predictedSkills
 } = require("./dataHolder.js");
 
+const {
+    runModelTS,
+    startTS
+} = require("./tests_to_skills")
+
+const {
+    runModelSP,
+    startSP
+} = require("./skills_to_profession")
 
 const {
     pagesMap
@@ -56,9 +69,15 @@ app.use(cookieParser());
 app.use('/public', express.static('public'));
 app.set('view engine', 'ejs');
 
-app.listen(port, host, function (){
-    console.log('Server - http://' + host + ':' + port);
-})
+startTS()
+    .then(() => {
+        startSP()
+            .then(
+                app.listen(port, host, function (){
+                    console.log('Server - http://' + host + ':' + port);
+                })
+            )
+    })
 
 
 async function reloadPersonStat(user_id, needToCheck = ["dataScience", "frontEnd", "sysAdmin"]) {
@@ -284,6 +303,99 @@ async function getPVK(user_id, profession_id) {
 
 }
 
+function fillTempTests(user_id) {
+    tempTests = []
+
+    for (let test in timePercentTests) {
+        tempTests.push(timePercentTests[test].time)
+        tempTests.push(timePercentTests[test].percentage)
+    }
+
+    for (let test in dispersionTests) {
+        tempTests.push(dispersionTests[test].dispersion)
+        tempTests.push(dispersionTests[test].negative_dispersion)
+        tempTests.push(dispersionTests[test].positive_dispersion)
+    }
+
+
+    for (let test in manyArgsTests) {
+        tempTests.push(manyArgsTests[test].slow_dispersion)
+        tempTests.push(manyArgsTests[test].middle_dispersion)
+        tempTests.push(manyArgsTests[test].fast_dispersion)
+        tempTests.push(manyArgsTests[test].slow_negative_dispersion)
+        tempTests.push(manyArgsTests[test].middle_negative_dispersion)
+        tempTests.push(manyArgsTests[test].fast_negative_dispersion)
+        tempTests.push(manyArgsTests[test].slow_positive_dispersion)
+        tempTests.push(manyArgsTests[test].middle_positive_dispersion)
+        tempTests.push(manyArgsTests[test].fast_positive_dispersion)
+        tempTests.push(manyArgsTests[test].average_dispersion)
+    }
+
+
+    for (let test in scoreTests) {
+        tempTests.push(scoreTests[test].score)
+    }
+
+
+    for (let test in correctIncorrectTests) {
+        tempTests.push(correctIncorrectTests[test].correct)
+        tempTests.push(correctIncorrectTests[test].incorrect)
+    }
+
+
+    for (let test in correctTests) {
+        tempTests.push(correctTests[test].correct)
+    }
+
+
+    for (let test in scoreTimeTests) {
+        tempTests.push(scoreTimeTests[test].time)
+        tempTests.push(scoreTimeTests[test].score)
+    }
+
+
+    for (let test in percentageTests) {
+        tempTests.push(percentageTests[test].percentage)
+    }
+
+    console.log(tempTests)
+}
+
+async function matchSkills() {
+    tempSkills = []
+    predictedSkills = []
+
+    predictedSkills = await runModelTS(tempTests)
+
+    await runQuery('select * from important_quality')
+        .then((rows) => {
+            for (let i = 0; i < rows.length; i++) {
+                let name = rows[i]['quality_name']
+                if (predictedSkills[i] !== 0) {
+                    tempSkills[name] = parseInt(predictedSkills[i].toFixed(0))
+                }
+            }
+        })
+    console.log(tempSkills)
+}
+
+async function matchProfession() {
+    tempProfession = ''
+
+    let prediction = await runModelSP(predictedSkills)
+
+
+    if (prediction === 1) {
+        tempProfession = 'Frontend-разработчик'
+    } else if (prediction === 2) {
+        tempProfession = 'Системный администратор'
+    } else if (prediction === 3) {
+        tempProfession = 'Data Scientist'
+    } else {
+        tempProfession = 'Не удалось определить профессию'
+    }
+}
+
 app.post('/registration', urlEncodeParser, function(req, res) {
     if(!req.body) return res.sendStatus(400);
     console.log(req.body);
@@ -333,21 +445,30 @@ app.post('/login', urlEncodeParser, function(req, res) {
                                         .then(() => {
                                             reloadPulseStat(user_id)
                                                 .then(() => {
-                                                    res.render("account", {
-                                                        user_name: user_name,
-                                                        DS: personDS,
-                                                        FE: personFE,
-                                                        SA: personSA,
-                                                        timePercentTests: timePercentTests,
-                                                        dispersionTests: dispersionTests,
-                                                        manyArgsTests: manyArgsTests,
-                                                        scoreTests: scoreTests,
-                                                        correctIncorrectTests: correctIncorrectTests,
-                                                        correctArgTests: correctTests,
-                                                        scoreTimeTests: scoreTimeTests,
-                                                        percentageTests: percentageTests,
-                                                        pulse: pulse
-                                                    })
+                                                    fillTempTests()
+                                                    matchSkills()
+                                                        .then(() => {
+                                                            matchProfession()
+                                                                .then(() => {
+                                                                    res.render("account", {
+                                                                        user_name: user_name,
+                                                                        DS: personDS,
+                                                                        FE: personFE,
+                                                                        SA: personSA,
+                                                                        timePercentTests: timePercentTests,
+                                                                        dispersionTests: dispersionTests,
+                                                                        manyArgsTests: manyArgsTests,
+                                                                        scoreTests: scoreTests,
+                                                                        correctIncorrectTests: correctIncorrectTests,
+                                                                        correctArgTests: correctTests,
+                                                                        scoreTimeTests: scoreTimeTests,
+                                                                        percentageTests: percentageTests,
+                                                                        pulse: pulse,
+                                                                        predictedSkills: tempTests.includes(null) ? null : tempSkills,
+                                                                        predictedProfession: tempTests.includes(null) ? null : tempProfession
+                                                                    })
+                                                                })
+                                                        })
                                                 })
                                         })
                                 })
@@ -411,21 +532,30 @@ app.post('/mark', urlEncodeParser, function(req, res) {
                             .then(() => {
                                 reloadPulseStat(user_id)
                                     .then(() => {
-                                        res.render("account", {
-                                            user_name: user_name,
-                                            DS: personDS,
-                                            FE: personFE,
-                                            SA: personSA,
-                                            timePercentTests: timePercentTests,
-                                            dispersionTests: dispersionTests,
-                                            manyArgsTests: manyArgsTests,
-                                            scoreTests: scoreTests,
-                                            correctIncorrectTests: correctIncorrectTests,
-                                            correctArgTests: correctTests,
-                                            scoreTimeTests: scoreTimeTests,
-                                            percentageTests: percentageTests,
-                                            pulse: pulse
-                                        })
+                                        fillTempTests()
+                                        matchSkills()
+                                            .then(() => {
+                                                matchProfession()
+                                                    .then(() => {
+                                                        res.render("account", {
+                                                            user_name: user_name,
+                                                            DS: personDS,
+                                                            FE: personFE,
+                                                            SA: personSA,
+                                                            timePercentTests: timePercentTests,
+                                                            dispersionTests: dispersionTests,
+                                                            manyArgsTests: manyArgsTests,
+                                                            scoreTests: scoreTests,
+                                                            correctIncorrectTests: correctIncorrectTests,
+                                                            correctArgTests: correctTests,
+                                                            scoreTimeTests: scoreTimeTests,
+                                                            percentageTests: percentageTests,
+                                                            pulse: pulse,
+                                                            predictedSkills: tempTests.includes(null) ? null : tempSkills,
+                                                            predictedProfession: tempTests.includes(null) ? null : tempProfession
+                                                        })
+                                                    })
+                                            })
 
                                     })
                             })
@@ -515,21 +645,30 @@ app.get('/:name', function(req, res) {
                     reloadTestStat(user_id).then(() => {
                         reloadPulseStat(user_id)
                             .then(() => {
-                                res.render("account", {
-                                    user_name: user_name,
-                                    DS: personDS,
-                                    FE: personFE,
-                                    SA: personSA,
-                                    timePercentTests: timePercentTests,
-                                    dispersionTests: dispersionTests,
-                                    manyArgsTests: manyArgsTests,
-                                    scoreTests: scoreTests,
-                                    correctIncorrectTests: correctIncorrectTests,
-                                    correctArgTests: correctTests,
-                                    scoreTimeTests: scoreTimeTests,
-                                    percentageTests: percentageTests,
-                                    pulse: pulse
-                                })
+                                fillTempTests()
+                                matchSkills()
+                                    .then(() => {
+                                        matchProfession()
+                                            .then(() => {
+                                                res.render("account", {
+                                                    user_name: user_name,
+                                                    DS: personDS,
+                                                    FE: personFE,
+                                                    SA: personSA,
+                                                    timePercentTests: timePercentTests,
+                                                    dispersionTests: dispersionTests,
+                                                    manyArgsTests: manyArgsTests,
+                                                    scoreTests: scoreTests,
+                                                    correctIncorrectTests: correctIncorrectTests,
+                                                    correctArgTests: correctTests,
+                                                    scoreTimeTests: scoreTimeTests,
+                                                    percentageTests: percentageTests,
+                                                    pulse: pulse,
+                                                    predictedSkills: tempTests.includes(null) ? null : tempSkills,
+                                                    predictedProfession: tempTests.includes(null) ? null : tempProfession
+                                                })
+                                            })
+                                    })
                             })
                     })
                 })

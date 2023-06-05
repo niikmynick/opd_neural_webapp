@@ -118,6 +118,11 @@ let sysAdmin = []
 
 let pvk = []
 
+let tempTests = []
+let predictedSkills = []
+let tempSkills = {}
+let tempProfession
+
 module.exports = {
     frontend_id,
     sysAdmin_id,
@@ -140,5 +145,9 @@ module.exports = {
     scoreTimeTests,
     percentageTests,
     pulse,
-    pvk
+    pvk,
+    tempTests,
+    tempSkills,
+    tempProfession,
+    predictedSkills
 }

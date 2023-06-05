@@ -84,14 +84,31 @@ const outputArray = [
 const inputTensor = tf.tensor2d(inputArray);
 const outputTensor = tf.tensor2d(outputArray);
 
-(async () => {
-    // Train the model and make predictions
-    await trainModel(inputTensor, outputTensor);
+// Train the model and make predictions
+// trainModel(inputTensor, outputTensor);
 
+const startSP = async () => {
+    await trainModel(inputTensor, outputTensor);
+}
+
+const runModelSP = async (res) => {
     // Use the trained model to make a prediction for a specific person
-    const personSkills = [];
-    const input = tf.tensor2d([personSkills]);
+    const input = tf.tensor2d([res]);
     const prediction = model.predict(input);
 
     console.log('Predicted profession index:', prediction.arraySync());
-})();
+    return Math.round(prediction.arraySync()[0][0]);
+};
+
+// runModelSP([
+//     0, 0, 0, 0, 0, 0, 0, 0, 70, 0, 0, 40, 0, 0, 0, 0, 0, 0, 40, 0, 0, 0, 0, 0, 0, 50, 50, 40, 0, 0, 0, 0, 0, 30, 0, 0,
+//     0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 60, 0, 0, 0, 0, 60, 0, 0, 0, 50, 50, 70, 0, 60, 50, 0, 0, 60, 30, 0, 70, 0, 0, 0,
+//     0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 60, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+//     0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+//     0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+// ])
+
+module.exports = {
+    runModelSP,
+    startSP
+};

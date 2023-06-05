@@ -1,4 +1,5 @@
 const tf = require('@tensorflow/tfjs');
+const {mod} = require("@tensorflow/tfjs");
 
 // Normalize input data to the range of [0, 1]
 const normalize = (data) => {
@@ -118,16 +119,17 @@ const normalizedOutputArray = outputArray.map((arr) => normalizeOutput(arr));
 const inputTensor = tf.tensor2d(normalizedInputArray);
 const outputTensor = tf.tensor2d(normalizedOutputArray);
 
-const runModel = async () => {
-    // Train the model and make predictions
-    await trainModel(inputTensor, outputTensor);
+// Train the model and make predictions
+// trainModel(inputTensor, outputTensor);
 
+const startTS = async () => {
+    trainModel(inputTensor, outputTensor);
+}
+
+const runModelTS = async (res) => {
     // Use the trained model to make a prediction for a specific person
-    const personTestResults = [
-        0.474, 100, 0.432, 100, 0.891, 100, 2.556, 100, 1.859, 100, 2.496, 100, 0.068, 0.094, 0.017, 0.097, 0.038, 0.048,
-        0, 0, 0.046, 0.097, 0.031, 0.038, 0.061, 1584, 9690, 5, 15, 1, 8, 0, 60, 29, 126.255, 48, 20
-    ];
-    const normalizedPersonTestResults = normalize(personTestResults);
+    const normalizedPersonTestResults = normalize(res);
+
     const input = tf.tensor2d([normalizedPersonTestResults]);
     const prediction = model.predict(input);
 
@@ -135,6 +137,15 @@ const runModel = async () => {
     const predictedPercent = prediction.arraySync()[0].map((value) => value * 100);
 
     console.log('Predicted skill development percentages:', predictedPercent);
+    return predictedPercent
 };
 
-runModel();
+// runModel([
+//     0.474, 100, 0.432, 100, 0.891, 100, 2.556, 100, 1.859, 100, 2.496, 100, 0.068, 0.094, 0.017, 0.097, 0.038, 0.048,
+//     0, 0, 0.046, 0.097, 0.031, 0.038, 0.061, 1584, 9690, 5, 15, 1, 8, 0, 60, 29, 126.255, 48, 20
+// ]);
+
+module.exports = {
+    runModelTS,
+    startTS
+}
