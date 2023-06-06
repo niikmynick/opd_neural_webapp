@@ -10,17 +10,11 @@ const resultList = [];
 
 document.addEventListener('keydown', function(event) {
     if (iteration <= maxIteration && isDuringTest) {
-        switch (event.key) {
-            case "f":
+        switch (event.code) {
+            case "KeyF":
                 onAnswer(0);
                 break;
-            case "F":
-                onAnswer(0);
-                break;
-            case "j":
-                onAnswer(1);
-                break;
-            case "J":
+            case "KeyJ":
                 onAnswer(1);
                 break;
         }

@@ -14,7 +14,7 @@ const audio = new Audio("/public/audio/audiosignal.mp3");
 document.addEventListener('keydown', listener);
 
 function listener(event) {
-    if (event.key === " " && iteration <= maxIteration && isDuringTest) {
+    if (event.code === "Space" && iteration <= maxIteration && isDuringTest) {
         onAnswer();
     }
 }

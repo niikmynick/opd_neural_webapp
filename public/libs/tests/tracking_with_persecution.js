@@ -27,17 +27,11 @@ let score = 0;
 
 document.addEventListener('keydown', function(event) {
     if (isDuringTest) {
-        switch (event.key) {
-            case "a":
+        switch (event.code) {
+            case "KeyA":
                 moveLeft(crosshair, HORIZONTAL_USER_MOVE);
                 break;
-            case "A":
-                moveLeft(crosshair, HORIZONTAL_USER_MOVE);
-                break;
-            case "d":
-                moveRight(crosshair, HORIZONTAL_USER_MOVE);
-                break;
-            case "D":
+            case "KeyD":
                 moveRight(crosshair, HORIZONTAL_USER_MOVE);
                 break;
         }

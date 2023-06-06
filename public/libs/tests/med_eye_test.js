@@ -10,17 +10,17 @@ const resultList = [];
 
 document.addEventListener('keydown', function(event) {
     if (iteration <= maxIteration && isDuringTest) {
-        switch (event.key) {
-            case "1":
+        switch (event.code) {
+            case "Digit1":
                 onAnswer('Circle1');
                 break;
-            case "2":
+            case "Digit2":
                 onAnswer('Circle2');
                 break;
-            case "3":
+            case "Digit3":
                 onAnswer('Circle3');
                 break;
-            case "4":
+            case "Digit4":
                 onAnswer('Circle4');
                 break;
         }

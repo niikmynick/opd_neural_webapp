@@ -10,7 +10,7 @@ const resultList = [];
 
 //Keydown on space
 document.addEventListener('keydown', function(event) {
-    if (event.key === " " && iteration <= maxIteration && isDuringTest) {
+    if (event.code === "Space" && iteration <= maxIteration && isDuringTest) {
         onAnswer();
     }
 });
