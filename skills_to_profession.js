@@ -1,4 +1,4 @@
-const tf = require('@tensorflow/tfjs-node-gpu');
+const tf = require('@tensorflow/tfjs-node-gpu'); // If you find an error while installing this package on windows check this link https://github.com/nodejs/node-gyp#on-windows
 
 // Create a sequential neural network model
 const createModel = () => {
