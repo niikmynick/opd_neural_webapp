@@ -64,6 +64,7 @@ let urlEncodeParser = bodyParser.urlencoded({ extended: false });
 let app = express();
 const cookieManager = require('./public/libs/CookieManager.js');
 const cookieParser = require('cookie-parser');
+const encryptpwd = require("encrypt-with-password");
 app.use(cookieParser());
 
 app.use('/public', express.static('public'));
@@ -390,9 +391,9 @@ async function matchProfession() {
     if (prediction === 1) {
         tempProfession = 'Frontend-разработчик'
     } else if (prediction === 2) {
-        tempProfession = 'Системный администратор'
+        tempProfession = 'Системный Администратор'
     } else if (prediction === 3) {
-        tempProfession = 'Data Scientist'
+        tempProfession = 'Аналитик Данных'
     } else {
         tempProfession = 'Не удалось определить профессию'
     }
@@ -405,10 +406,13 @@ app.post('/registration', urlEncodeParser, function(req, res) {
     user_name = req.body.name;
     let user_email = req.body.email;
     let user_password = req.body.password;
-    //let isExpert = req.body.expert; TODO
     authoriseFlag = true;
 
-    registerUser(user_name, user_email, user_password)
+    const text = 'Hello, World!';
+
+    const encrypted = encryptpwd.encrypt(text, user_password); // ---> this is the encrypted (output) value
+
+    registerUser(user_name, user_email, encrypted)
         .then(() => {
             runQuery(`SELECT id FROM user WHERE email = '${user_email}'`)
                 .then(r => {
@@ -430,7 +434,9 @@ app.post('/login', urlEncodeParser, function(req, res) {
     runQuery(`SELECT password FROM user WHERE email = '${user_email}'`)
         .then(r => {
             try {
-                if (user_password === r[0]["password"]) {
+                const decrypted = encryptpwd.decrypt(r[0]["password"], user_password) // ---> this decrypts the encrypted value and yields the original text
+
+                if ("Hello, World!" === decrypted) {
                     console.log("Успешная авторизация")
                     authoriseFlag = true
 

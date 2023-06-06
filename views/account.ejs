@@ -322,13 +322,17 @@
 
                     <div class="list_3">
                         <p class="text_title">Ваша профессия</p>
-                        <table class="table_1">
-                            <% if (predictedSkills !== null) { %>
-                                <p class="text2"><%= predictedProfession %></p>
-                            <% } else { %>
-                                <p class="text2">Вы еще не проходили тестирования</p>
+                        <% if (predictedSkills !== null) { %>
+                            <% if (predictedProfession === "Frontend-разработчик") { %>
+                                <a class="text2_link" href="/desc_frontend"><%= predictedProfession %></a>
+                            <% } else if (predictedProfession === "Системный Администратор") { %>
+                                <a class="text2_link" href="/desc_sysadmin"><%= predictedProfession %></a>
+                            <% } else if (predictedProfession === "Аналитик Данных") { %>
+                                <a class="text2_link" href="/desc_datascience"><%= predictedProfession %></a>
                             <% } %>
-                        </table>
+                        <% } else { %>
+                            <p class="text2">Вы еще не проходили тестирования</p>
+                        <% } %>
                     </div>
                 </div>
             </div>
