@@ -1,5 +1,4 @@
-const tf = require('@tensorflow/tfjs');
-const {mod} = require("@tensorflow/tfjs");
+const tf = require('@tensorflow/tfjs-node-gpu');
 
 // Normalize input data to the range of [0, 1]
 const normalize = (data) => {
@@ -53,6 +52,11 @@ const trainModel = async (inputTensor, outputTensor) => {
 // Convert your input data and output data into tensors
 const inputArray = [
     // ... Your array of 37 numbers (test results) for each person ...
+    // Nikita
+    [
+        0.271, 100, 0.627, 80, 0.54, 100, 1.255, 100, 1.184, 100, 1.308, 100, 0.028, 0.042, 0.017, 0.01, 0.096, 0.118, 0.01,
+        0, 0.097, 0, 0.096, 0.083, 0.075, 2601, 29130, 6, 7, 3, 8, 0, 46, 29, 146.934, 41, 22.5
+    ],
     // Gleb
     [
         0.334, 100, 0.264, 100, 0.35, 100, 0.889, 100, 0.913, 100, 0.732, 100, 0.058, 0.058, 0, 0.011, 0.094, 0.053, 0,
@@ -76,6 +80,14 @@ const inputArray = [
 ];
 const outputArray = [
     // ... Your array of 168 numbers (skill development) for each person ...
+    // Nikita
+    [
+        0, 0, 0, 0, 0, 95, 0, 0, 0, 90, 0, 90, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 80, 0, 0, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 85, 0, 0, 0, 0, 0, 100, 0, 90, 0, 0, 0, 0, 85, 80, 0, 0, 0, 70, 0, 0, 75, 85, 0, 0, 80, 0, 70, 0, 0, 0,
+        0, 85, 0, 0, 0, 65, 0, 0, 0, 0, 75, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 95, 0, 65, 0, 0, 0, 85, 0,
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 80, 0, 0, 0, 0, 0, 90, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+    ],
     // Gleb
     [
         0, 0, 0, 0, 0, 0, 80, 0, 60, 60, 0, 80, 0, 0, 0, 0, 0, 0, 70, 0, 0, 0, 0, 0, 0, 0, 40, 0, 0, 0, 50, 0, 0, 40, 0,

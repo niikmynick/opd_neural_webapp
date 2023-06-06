@@ -1,4 +1,4 @@
-const tf = require('@tensorflow/tfjs');
+const tf = require('@tensorflow/tfjs-node-gpu');
 
 // Create a sequential neural network model
 const createModel = () => {
@@ -24,7 +24,7 @@ model.compile({ optimizer: 'adam', loss: 'meanSquaredError', metrics: 'accuracy'
 // Train the model with some example data (replace with your actual data)
 const trainModel = async (inputTensor, outputTensor) => {
     const batchSize = 32;
-    const epochs =100;
+    const epochs = 100;
 
     return await model.fit(inputTensor, outputTensor, {
         batchSize,
@@ -35,6 +35,14 @@ const trainModel = async (inputTensor, outputTensor) => {
 
 // Convert your input data and output data into tensors
 const inputArray = [
+    // Nikita
+    [
+        0, 0, 0, 0, 0, 95, 0, 0, 0, 90, 0, 90, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 80, 0, 0, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 85, 0, 0, 0, 0, 0, 100, 0, 90, 0, 0, 0, 0, 85, 80, 0, 0, 0, 70, 0, 0, 75, 85, 0, 0, 80, 0, 70, 0, 0, 0,
+        0, 85, 0, 0, 0, 65, 0, 0, 0, 0, 75, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 95, 0, 65, 0, 0, 0, 85, 0,
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 80, 0, 0, 0, 0, 0, 90, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+    ],
     // Gleb
     [
         0, 0, 0, 0, 0, 0, 80, 0, 60, 60, 0, 80, 0, 0, 0, 0, 0, 0, 70, 0, 0, 0, 0, 0, 0, 0, 40, 0, 0, 0, 50, 0, 0, 40, 0,
@@ -70,7 +78,10 @@ const inputArray = [
         0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
     ]
 ];
+
 const outputArray = [
+    // NIkita
+    [3],
     // Gleb
     [3],
     // Jacob
