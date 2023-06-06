@@ -324,12 +324,14 @@
                         <p class="text_title">Ваша профессия</p>
                         <% if (predictedSkills !== null) { %>
                             <% if (predictedProfession === "Frontend-разработчик") { %>
-                                <a class="text2_link" href="/desc_frontend"><%= predictedProfession %></a>
+                                <a class="text2" href="/desc_frontend"><%= predictedProfession %></a>
                             <% } else if (predictedProfession === "Системный Администратор") { %>
-                                <a class="text2_link" href="/desc_sysadmin"><%= predictedProfession %></a>
+                                <a class="text2" href="/desc_sysadmin"><%= predictedProfession %></a>
                             <% } else if (predictedProfession === "Аналитик Данных") { %>
-                                <a class="text2_link" href="/desc_datascience"><%= predictedProfession %></a>
-                            <% } %>
+                                <a class="text2" href="/desc_datascience"><%= predictedProfession %></a>
+                            <% } else { %>
+
+                                <% } %>
                         <% } else { %>
                             <p class="text2">Вы еще не проходили тестирования</p>
                         <% } %>

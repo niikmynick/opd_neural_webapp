@@ -1,4 +1,7 @@
-const tf = require('@tensorflow/tfjs-node-gpu');
+const tf = require('@tensorflow/tfjs-node-gpu'); // If you find an error while installing this package on windows check this link https://github.com/nodejs/node-gyp#on-windows
+// Also if you find "Could not load dynamic library 'cudart64_110.dll'; dlerror: cudart64_110.dll not found"
+// download the CUDA toolkit from this site https://developer.nvidia.com/cuda-downloads
+
 
 // Normalize input data to the range of [0, 1]
 const normalize = (data) => {
