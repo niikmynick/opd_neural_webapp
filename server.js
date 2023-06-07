@@ -612,7 +612,7 @@ app.get('/:name', function(req, res) {
         } break;
 
         case "frontend": {
-            if (req.cookies.login !== undefined) {
+            if (authoriseFlag) {
                 clearPersonStat("frontend").then(() => {
                     res.render(page);
                 })
@@ -622,7 +622,7 @@ app.get('/:name', function(req, res) {
         } break;
 
         case "sysadmin": {
-            if (req.cookies.login !== undefined) {
+            if (authoriseFlag) {
                 clearPersonStat("sysAdmin").then(() => {
                     res.render(page);
                 })
@@ -632,7 +632,7 @@ app.get('/:name', function(req, res) {
         } break;
 
         case "datascience": {
-            if (req.cookies.login !== undefined) {
+            if (authoriseFlag) {
                 clearPersonStat("dataScience").then(() => {
                     res.render(page);
                 })
@@ -654,7 +654,7 @@ app.get('/:name', function(req, res) {
         } break;
 
         case "login": {
-            if (req.cookies.login !== undefined) {
+            if (authoriseFlag) {
                 reloadPersonStat(user_id).then(() => {
                     reloadTestStat(user_id).then(() => {
                         reloadPulseStat(user_id)
@@ -711,7 +711,7 @@ app.get('/:name', function(req, res) {
         case 'voinarovsky_test':
         case 'red_black_table':
         case 'verbal_memory': {
-            if (req.cookies.login !== undefined) {
+            if (authoriseFlag) {
                 // after_pulse_load = page;
                 // res.render("pulse_start")
                 res.render(page);
