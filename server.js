@@ -75,7 +75,7 @@ startTS()
         startSP()
             .then(
                 app.listen(port, host, function (){
-                    console.log('Server - https://' + host + ':' + port);
+                    console.log('Server - http://' + host + ':' + port);
                 })
             )
     })
