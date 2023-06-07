@@ -40,12 +40,14 @@ let {
 
 const {
     runModelTS,
-    startTS
+    startTS,
+    createModelTS
 } = require("./tests_to_skills")
 
 const {
     runModelSP,
-    startSP
+    startSP,
+    createModelSP
 } = require("./skills_to_profession")
 
 const {
@@ -64,22 +66,22 @@ let urlEncodeParser = bodyParser.urlencoded({ extended: false });
 let app = express();
 const cookieManager = require('./public/libs/CookieManager.js');
 const cookieParser = require('cookie-parser');
-const encryptpwd = require("encrypt-with-password");
+const encrypt = require("encrypt-with-password");
 app.use(cookieParser());
 
 app.use('/public', express.static('public'));
 app.set('view engine', 'ejs');
 
-startTS()
-    .then(() => {
-        startSP()
-            .then(
-                app.listen(port, host, function (){
-                    console.log('Server - http://' + host + ':' + port);
-                })
-            )
-    })
+const modelTS = createModelTS()
+const modelSP = createModelSP()
 
+async function startServer() {
+    await modelTS.compile({ optimizer: 'adam', loss: 'meanSquaredError', metrics: 'accuracy' })
+    await modelSP.compile({ optimizer: 'adam', loss: 'meanSquaredError', metrics: 'accuracy' });
+
+    await startTS(modelTS)
+    await startSP(modelSP)
+}
 
 async function reloadPersonStat(user_id, needToCheck = ["dataScience", "frontEnd", "sysAdmin"]) {
 
@@ -368,7 +370,7 @@ async function matchSkills() {
     tempSkills = []
     predictedSkills = []
 
-    predictedSkills = await runModelTS(tempTests)
+    predictedSkills = await runModelTS(tempTests, modelTS)
 
     await runQuery('select * from important_quality')
         .then((rows) => {
@@ -385,7 +387,7 @@ async function matchSkills() {
 async function matchProfession() {
     tempProfession = ''
 
-    let prediction = await runModelSP(predictedSkills)
+    let prediction = await runModelSP(predictedSkills, modelSP)
 
 
     if (prediction === 1) {
@@ -399,6 +401,15 @@ async function matchProfession() {
     }
 }
 
+
+startServer()
+    .then(() => {
+        app.listen(port, host, function (){
+            console.log('Server - http://' + host + ':' + port);
+        })
+    })
+
+
 app.post('/registration', urlEncodeParser, function(req, res) {
     if(!req.body) return res.sendStatus(400);
     console.log(req.body);
@@ -410,7 +421,7 @@ app.post('/registration', urlEncodeParser, function(req, res) {
 
     const text = 'Hello, World!';
 
-    const encrypted = encryptpwd.encrypt(text, user_password); // ---> this is the encrypted (output) value
+    const encrypted = encrypt.encrypt(text, user_password); // ---> this is the encrypted (output) value
 
     registerUser(user_name, user_email, encrypted)
         .then(() => {
@@ -440,7 +451,7 @@ app.post('/login', urlEncodeParser, function(req, res) {
     runQuery(`SELECT password FROM user WHERE email = '${user_email}'`)
         .then(r => {
             try {
-                const decrypted = encryptpwd.decrypt(r[0]["password"], user_password) // ---> this decrypts the encrypted value and yields the original text
+                const decrypted = encrypt.decrypt(r[0]["password"], user_password) // ---> this decrypts the encrypted value and yields the original text
 
                 if ("Hello, World!" === decrypted) {
                     console.log("Успешная авторизация")
