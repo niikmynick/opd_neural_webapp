@@ -434,6 +434,12 @@ app.post('/registration', urlEncodeParser, function(req, res) {
         })
 })
 
+app.post('/logout', urlEncodeParser, function(req, res) {
+    if(!req.body) return res.sendStatus(400);
+    res.clearCookie('login');
+    res.render('/');
+})
+
 app.post('/login', urlEncodeParser, function(req, res) {
     if(!req.body) return res.sendStatus(400);
 
@@ -617,7 +623,7 @@ app.get('/:name', function(req, res) {
         } break;
 
         case "frontend": {
-            if (authoriseFlag) {
+            if (req.cookies.login !== undefined) {
                 clearPersonStat("frontend").then(() => {
                     res.render(page);
                 })
@@ -627,7 +633,7 @@ app.get('/:name', function(req, res) {
         } break;
 
         case "sysadmin": {
-            if (authoriseFlag) {
+            if (req.cookies.login !== undefined) {
                 clearPersonStat("sysAdmin").then(() => {
                     res.render(page);
                 })
@@ -637,7 +643,7 @@ app.get('/:name', function(req, res) {
         } break;
 
         case "datascience": {
-            if (authoriseFlag) {
+            if (req.cookies.login !== undefined) {
                 clearPersonStat("dataScience").then(() => {
                     res.render(page);
                 })
@@ -659,7 +665,7 @@ app.get('/:name', function(req, res) {
         } break;
 
         case "login": {
-            if (authoriseFlag) {
+            if (req.cookies.login !== undefined) {
                 reloadPersonStat(user_id).then(() => {
                     reloadTestStat(user_id).then(() => {
                         reloadPulseStat(user_id)
@@ -716,7 +722,7 @@ app.get('/:name', function(req, res) {
         case 'voinarovsky_test':
         case 'red_black_table':
         case 'verbal_memory': {
-            if (authoriseFlag) {
+            if (req.cookies.login !== undefined) {
                 // after_pulse_load = page;
                 // res.render("pulse_start")
                 res.render(page);
@@ -827,3 +833,7 @@ app.post('/pulse_end', urlEncodeParser, function(req, res) {
         res.render('main')
     })
 });
+
+// function authoriseFlag() {
+//
+// }
