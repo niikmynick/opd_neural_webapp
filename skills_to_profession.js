@@ -1,7 +1,7 @@
 const tf = require('@tensorflow/tfjs-node');
 
 // Create a sequential neural network model
-const createModel = () => {
+const createModelSP = () => {
     const model = tf.sequential();
 
     // Add an input layer with 168 input nodes (numbers)
@@ -18,18 +18,19 @@ const createModel = () => {
 }
 
 // Create and compile the model
-const model = createModel();
-model.compile({ optimizer: 'adam', loss: 'meanSquaredError', metrics: 'accuracy' });
+// const model = createModelSP();
+// model.compile({ optimizer: 'adam', loss: 'meanSquaredError', metrics: 'accuracy' });
 
 // Train the model with some example data (replace with your actual data)
-const trainModel = async (inputTensor, outputTensor) => {
+const trainModel = async (model, inputTensor, outputTensor) => {
     const batchSize = 32;
     const epochs = 100;
 
     return await model.fit(inputTensor, outputTensor, {
         batchSize,
         epochs,
-        shuffle: true
+        shuffle: true,
+        verbose: false
     });
 }
 
@@ -98,11 +99,14 @@ const outputTensor = tf.tensor2d(outputArray);
 // Train the model and make predictions
 // trainModel(inputTensor, outputTensor);
 
-const startSP = async () => {
-    await trainModel(inputTensor, outputTensor);
+const startSP = async (model) => {
+    console.log("### Start training 'skills to profession' model ...")
+    await trainModel(model, inputTensor, outputTensor);
+    console.log("Finished")
+    console.log("====================\n")
 }
 
-const runModelSP = async (res) => {
+const runModelSP = async (res, model) => {
     // Use the trained model to make a prediction for a specific person
     const input = tf.tensor2d([res]);
     const prediction = model.predict(input);
@@ -121,5 +125,6 @@ const runModelSP = async (res) => {
 
 module.exports = {
     runModelSP,
-    startSP
+    startSP,
+    createModelSP
 };

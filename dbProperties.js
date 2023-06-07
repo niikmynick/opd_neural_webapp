@@ -10,7 +10,7 @@ let db = new sqlite3.Database('./identifier.sqlite', (err) => {
     if (err) {
         console.error(err.message);
     }
-    console.log('Connected to the database.');
+    console.log('~~~ Connected to the database. ~~~');
 });
 
 function runQuery(query) {

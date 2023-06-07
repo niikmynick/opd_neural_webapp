@@ -16,7 +16,7 @@ const normalizeOutput = (data) => {
 };
 
 // Create a sequential neural network model with dropout layers
-const createModel = () => {
+const createModelTS = () => {
     const model = tf.sequential();
 
     // Add an input layer with 37 input nodes
@@ -36,11 +36,11 @@ const createModel = () => {
 };
 
 // Create and compile the modified model
-const model = createModel();
-model.compile({ optimizer: 'adam', loss: 'meanSquaredError', metrics: 'accuracy' });
+// const model = createModel();
+// model.compile({ optimizer: 'adam', loss: 'meanSquaredError', metrics: 'accuracy' });
 
 // Train the model with some example data (replace with your actual data)
-const trainModel = async (inputTensor, outputTensor) => {
+const trainModel = async (model, inputTensor, outputTensor) => {
     const batchSize = 32;
     const epochs = 200;
 
@@ -49,6 +49,7 @@ const trainModel = async (inputTensor, outputTensor) => {
         epochs,
         shuffle: true,
         validationSplit: 0.1,
+        verbose: false
     });
 };
 
@@ -137,11 +138,14 @@ const outputTensor = tf.tensor2d(normalizedOutputArray);
 // Train the model and make predictions
 // trainModel(inputTensor, outputTensor);
 
-const startTS = async () => {
-    trainModel(inputTensor, outputTensor);
+const startTS = async (model) => {
+    console.log("### Start training 'test to skills' model ...")
+    await trainModel(model, inputTensor, outputTensor);
+    console.log("Finished")
+    console.log("====================\n")
 }
 
-const runModelTS = async (res) => {
+const runModelTS = async (res, model) => {
     // Use the trained model to make a prediction for a specific person
     const normalizedPersonTestResults = normalize(res);
 
@@ -162,5 +166,6 @@ const runModelTS = async (res) => {
 
 module.exports = {
     runModelTS,
-    startTS
+    startTS,
+    createModelTS
 }
