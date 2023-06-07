@@ -112,3 +112,6 @@ a, u {
     padding-top: 10px;
     width: 110px;
 }
+body::-webkit-scrollbar {
+    width: 12px;               /* ширина всей полосы прокрутки */
+}

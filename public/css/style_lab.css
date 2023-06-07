@@ -275,3 +275,6 @@ input{
     width: 30px;
 }
 
+body::-webkit-scrollbar {
+    width: 12px;               /* ширина всей полосы прокрутки */
+}

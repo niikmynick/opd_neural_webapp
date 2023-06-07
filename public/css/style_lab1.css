@@ -162,8 +162,7 @@ a, u {
     border-radius: 20px;
     opacity: 0.3;
 }
-.list_button {
-}
+
 
 
 .expert {
@@ -201,8 +200,6 @@ a, u {
 }
 .sent {
     margin-top: 20px;
-    position: relative;
-    left: 29%;
     font-family: Arial, serif;
     font-size: 12pt;
     color: white;
@@ -215,6 +212,9 @@ a, u {
 }
 .sent:hover {
     background-image:url('https://static.tildacdn.com/tild3166-3564-4335-b831-333134626666/4_card_hover.svg');
+}
+.list_button {
+    text-align: center;
 }
 
 .container {
@@ -363,4 +363,7 @@ td {
 .pp {
     padding-top: 10px;
     text-align: center;
+}
+body::-webkit-scrollbar {
+    width: 12px;               /* ширина всей полосы прокрутки */
 }
